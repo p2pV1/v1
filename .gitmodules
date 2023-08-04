@@ -1,3 +1,0 @@
-[submodule "frontend/v1-front-end"]
-	path = frontend/v1-front-end
-	url = https://github.com/p2pV1/v1.git
