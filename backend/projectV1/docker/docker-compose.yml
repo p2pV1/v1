@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./projectV1/docker/Dockerfile
+    command: gunicorn --bind 0.0.0.0:8000 projectV1.wsgi:application
+    volumes:
+      - ./backend:/code
+    ports:
+      - "8000:8000"
