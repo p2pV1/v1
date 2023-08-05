@@ -161,3 +161,8 @@ cython_debug/
 
 # MacOS Stuff
 .DS_Store
+
+
+frontend/v1-frontend/node_modules
+frontend/v1-frontend/build
+frontend/v1-frontend/.env
