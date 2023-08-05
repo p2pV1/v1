@@ -9,9 +9,14 @@ COPY ./projectV1/requirements.txt .
 RUN pip install -r requirements.txt
 
 # Copy application code
-COPY ./projectV1/myapp /app/myapp
+COPY ./projectV1/ray_ai /app/ray_ai
+COPY ./projectV1/registration /app/registration
 COPY ./projectV1/projectV1 /app/projectV1
 COPY ./projectV1/manage.py /app
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
 
 # Migrate database
 RUN python manage.py migrate
