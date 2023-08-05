@@ -95,7 +95,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'pplend', 
         'USER': 'postgres', 
-        'PASSWORD': 'P2plend2468', 
+        'PASSWORD': 'P2plend2468cd', 
         'HOST': 'pplend.c56iuelp2eif.us-east-2.rds.amazonaws.com',
         'PORT': '5432',
     }
