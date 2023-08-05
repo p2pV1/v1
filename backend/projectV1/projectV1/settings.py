@@ -92,8 +92,12 @@ WSGI_APPLICATION = 'projectV1.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'pplend', 
+        'USER': 'postgres', 
+        'PASSWORD': 'P2plend2468', 
+        'HOST': 'pplend.c56iuelp2eif.us-east-2.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
 

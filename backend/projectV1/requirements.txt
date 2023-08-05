@@ -53,3 +53,4 @@ typing_extensions==4.7.1
 urllib3==2.0.3
 websocket-client==0.59.0
 Werkzeug==2.3.6
+psycopg2==2.9.7
