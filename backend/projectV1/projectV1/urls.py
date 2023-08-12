@@ -20,5 +20,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('registration/', include('registration.urls')),
     path('ray_ai/', include('ray_ai.urls')),
-    path('', views.home, name='home'),  # added this line
 ]
