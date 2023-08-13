@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.http import HttpResponse
 import jwt
-from models import User
+from .models import User
 
 CLIENT_ID = "app_6c25c96f26a7c560a77e5d9e00a2090a"
 CLIENT_SECRET = "sk_a9e8ea23c68d3324059a9d9ee48a6b1992ca8e62c923f9ff"
@@ -78,13 +78,13 @@ def callback(request):
         )
         
         sub = payload.get('sub')
-        username = payload.get('username')
+        email = payload.get('email')
 
-        if sub and username:
-            user, created = User.objects.get_or_create(username=username, defaults={'sub': sub})
+        if sub and email:
+            user, created = User.objects.get_or_create(email=email, defaults={'sub': sub})
 
             if not created:
-                user.username = username
+                user.email = email
                 user.save()
 
             userinfo_url = "https://id.worldcoin.org/userinfo"
@@ -122,26 +122,26 @@ def view_login(request):
 def login(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        username = data.get('username')
+        email = data.get('email')
         password = data.get('password')
 
         # Perform validation on the input data
-        if not username or not password:
+        if not email or not password:
             return JsonResponse({'error': 'Incomplete login data'}, status=400)
 
         mutation = '''
-        mutation($username: String!, $password: String!) {
-            userLogin(username: $username, password: $password) {
+        mutation($email: String!, $password: String!) {
+            userLogin(email: $email, password: $password) {
                 success
                 user {
-                    username
+                    email
                 }
                 message
             }
         }
         '''
         variables = {
-            'username': username,
+            'email': email,
             'password': password,
         }
         result = schema.execute(mutation, variable_values=variables)
@@ -153,11 +153,11 @@ def login(request):
             if response_data.get('success'):
                 user_data = response_data['user']
                 request.session['login'] = {
-                    'username': user_data['username']
+                    'email': user_data['email']
                 }
                 return JsonResponse({'message': 'Login successful', 'status': True}, status=200)
             else:
-                return JsonResponse({'message': 'Invalid username or password', 'status': False}, status=401)
+                return JsonResponse({'message': 'Invalid email or password', 'status': False}, status=401)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
@@ -173,20 +173,20 @@ def register(request):
         if not data:
             return JsonResponse({'error': 'No data provided'}, status=400)
 
-        username = data.get('username')
+        email = data.get('email')
         password = data.get('password')
         # Update 'phone_number' to 'phoneNumber' in the input data
         phone_number = data.get('phoneNumber')
 
         # Perform validation on the input data
-        if not username or not password or not phone_number:
+        if not email or not password or not phone_number:
             return JsonResponse({'error': 'Incomplete user data'}, status=400)
 
         mutation = '''
-        mutation($username: String!, $password: String!, $phoneNumber: String!) {
-            createUser(username: $username, password: $password, phoneNumber: $phoneNumber) {
+        mutation($email: String!, $password: String!, $phoneNumber: String!) {
+            createUser(email: $email, password: $password, phoneNumber: $phoneNumber) {
                 user {
-                    username
+                    email
                     phoneNumber
                 }
             }
@@ -197,7 +197,7 @@ def register(request):
         id = str(uuid.uuid4().int)
 
         variables = {
-            'username': username,
+            'email': email,
             'password': password,
             'phoneNumber': phone_number,
         }

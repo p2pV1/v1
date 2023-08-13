@@ -52,8 +52,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "graphene_django",
     'registration',
-    'ray_ai'
+    'ray_ai',
 ]
 
 MIDDLEWARE = [
