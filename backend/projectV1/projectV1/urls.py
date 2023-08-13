@@ -5,15 +5,12 @@ from . import views
 
 urlpatterns = [
 
-    path('', views.index, name='index'),
-
+    # Changed index path
+    path('', views.index, name='home'),
     path('admin/', admin.site.urls),
-    path('registration/', include('registration.urls')),
     path('ray_ai/', include('ray_ai.urls')),
 
 ]
-
-# views.py
 
 
 def index(request):

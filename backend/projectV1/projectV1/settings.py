@@ -5,7 +5,7 @@ from pathlib import Path
 
 IN_DOCKER = 'db' not in os.environ
 
-ray.init()
+ray.init(ignore_reinit_error=True)
 
 
 def teardown(signal, frame):
@@ -94,3 +94,9 @@ else:
 STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+APPEND_SLASH = True
+
+TEMPLATE_DIRS = [
+    os.path.join(BASE_DIR, 'ray_ai', 'templates'),
+]
