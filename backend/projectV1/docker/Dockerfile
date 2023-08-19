@@ -4,8 +4,8 @@ FROM python:3.8
 # Set working directory
 WORKDIR /app
 
-# Install psycopg2 dependencies
-RUN apt-get update && apt-get install -y libpq-dev gcc 
+# Install psycopg2 dependencies and PostgreSQL client tools
+RUN apt-get update && apt-get install -y libpq-dev gcc postgresql-client
 
 # Install packages
 RUN pip install psycopg2-binary
@@ -13,7 +13,7 @@ RUN pip install psycopg2-binary
 # Set env vars for DB connection
 ENV DB_HOST=everest.c56iuelp2eif.us-east-2.rds.amazonaws.com  
 ENV DB_PORT=5432
-ENV DB_NAME=everest
+ENV DB_NAME=user
 ENV DB_USER=p2plend
 ENV DB_PASSWORD=P2plend98765
 
