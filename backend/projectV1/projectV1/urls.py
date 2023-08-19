@@ -9,7 +9,7 @@ urlpatterns = [
     path('', views.index, name='home'),
     path('admin/', admin.site.urls),
     path('ray_ai/', include('ray_ai.urls')),
-
+    path('registration/', include('registration.urls')),
 ]
 
 
