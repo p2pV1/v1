@@ -18,3 +18,5 @@ services:
       - ./backend/db.sqlite3:/code/db.sqlite3 
     ports:
       - "8000:8000"
+
+      # test
