@@ -159,7 +159,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-<<<<<<< Updated upstream
 # MacOS Stuff
 .DS_Store
 
@@ -167,26 +166,3 @@ cython_debug/
 frontend/v1-frontend/node_modules
 frontend/v1-frontend/build
 frontend/v1-frontend/.env
-=======
-
-# dependencies
-/node_modules
-
-# testing
-/coverage
-
-# production
-/build
-
-# misc
-.DS_Store
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
->>>>>>> Stashed changes
