@@ -18,14 +18,14 @@ ENV DB_USER=p2plend
 ENV DB_PASSWORD=P2plend98765
 
 # Copy requirements and install
-COPY ./docker/projectV1/requirements.txt /requirements.txt  
+COPY ./projectV1/requirements.txt /requirements.txt  
 RUN pip install -r /requirements.txt
 
 # Copy app code  
-COPY ./docker/projectV1/ray_ai /app/ray_ai
-COPY ./docker/projectV1/projectV1 /app/projectV1
-COPY ./docker/projectV1/registration /app/registration
-COPY ./docker/projectV1/manage.py /app/manage.py
+COPY ./projectV1/ray_ai /app/ray_ai
+COPY ./projectV1/projectV1 /app/projectV1
+COPY ./projectV1/registration /app/registration
+COPY ./projectV1/manage.py /app
 
 # Migrate database
 RUN python /app/manage.py migrate
