@@ -4,8 +4,8 @@ FROM python:3.8
 # Set working directory
 WORKDIR /app
 
-# Install psycopg2 dependencies
-RUN apt-get update && apt-get install -y libpq-dev gcc 
+# Install psycopg2 dependencies and PostgreSQL client tools
+RUN apt-get update && apt-get install -y libpq-dev gcc postgresql-client
 
 <<<<<<< HEAD
 # Copy application code
@@ -18,7 +18,7 @@ RUN pip install psycopg2-binary
 # Set env vars for DB connection
 ENV DB_HOST=everest.c56iuelp2eif.us-east-2.rds.amazonaws.com  
 ENV DB_PORT=5432
-ENV DB_NAME=everest
+ENV DB_NAME=user
 ENV DB_USER=p2plend
 ENV DB_PASSWORD=P2plend98765
 
@@ -53,8 +53,12 @@ ENV STATIC_ROOT /vol/web/static
 EXPOSE 8000
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Launch app
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "projectV1.wsgi:application"]
 =======
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "projectV1.wsgi:application"]
 >>>>>>> 87f070c3a6e359c7da4c679961a28ecb7f3861fa
+=======
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "projectV1.wsgi:application"]
+>>>>>>> b2d9eebd634d9db6f0c7062b99d9d77f7edc572f
