@@ -4,8 +4,8 @@ FROM python:3.8
 # Set working directory
 WORKDIR /app
 
-# Install psycopg2 dependencies and PostgreSQL client tools
-RUN apt-get update && apt-get install -y libpq-dev gcc postgresql-client
+# Install psycopg2 dependencies
+RUN apt-get update && apt-get install -y libpq-dev gcc 
 
 # Install packages
 RUN pip install psycopg2-binary
@@ -13,19 +13,19 @@ RUN pip install psycopg2-binary
 # Set env vars for DB connection
 ENV DB_HOST=everest.c56iuelp2eif.us-east-2.rds.amazonaws.com  
 ENV DB_PORT=5432
-ENV DB_NAME=user
+ENV DB_NAME=everest
 ENV DB_USER=p2plend
 ENV DB_PASSWORD=P2plend98765
 
 # Copy requirements and install
-COPY ./projectV1/requirements.txt /requirements.txt  
+COPY ./docker/projectV1/requirements.txt /requirements.txt  
 RUN pip install -r /requirements.txt
 
 # Copy app code  
-COPY ./projectV1/ray_ai /app/ray_ai
-COPY ./projectV1/projectV1 /app/projectV1
-COPY ./projectV1/registration /app/registration
-COPY ./projectV1/manage.py /app
+COPY ./docker/projectV1/ray_ai /app/ray_ai
+COPY ./docker/projectV1/projectV1 /app/projectV1
+COPY ./docker/projectV1/registration /app/registration
+COPY ./docker/projectV1/manage.py /app/manage.py
 
 # Migrate database
 RUN python /app/manage.py migrate
