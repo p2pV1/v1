@@ -1,13 +1,13 @@
-<!-- actor.html -->
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ray Training Results</title>
+</head>
 <body>
-
-<p>Name: {{ name }}</p>
-<p>Age: {{ age }}</p>
-<h3>Best Configuration</h3>
-<p>Number of Estimators: {{ best_n_estimators }}</p>
-<p>Accuracy: {{ best_accuracy }}</p>
-
+    <h2>Ray Training Results</h2>
+    <p>Best n_estimators: {{ best_n_estimators }}</p>
+    <p>Best Accuracy: {{ best_accuracy }}</p>
 </body>
 </html>
