@@ -6,7 +6,8 @@ RUN groupadd -r appuser && useradd -r -g appuser -m -d /app appuser
 
 USER root
 COPY package*.json ./
-RUN npm ci
+RUN npm cache clean --force
+RUN npm install
 RUN npm install -g react-scripts
 RUN chown -R appuser:appuser /app
 RUN chown -R appuser:appuser /app/node_modules

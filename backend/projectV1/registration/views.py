@@ -1,6 +1,5 @@
 import base64
 import json
-from msilib import schema
 import uuid
 from django.conf import settings
 from django.shortcuts import render, redirect
@@ -45,7 +44,7 @@ def verify_jwt(request, token):
 def land_page(request):
     result = {
         'success' : True,
-        'message' : "User Registration Page",
+        'message' : "User Registration Page Test",
         'data' : None
     }
     return JsonResponse(result, status=200)
@@ -176,18 +175,17 @@ def register(request):
         email = data.get('email')
         password = data.get('password')
         # Update 'phone_number' to 'phoneNumber' in the input data
-        phone_number = data.get('phoneNumber')
 
         # Perform validation on the input data
-        if not email or not password or not phone_number:
+        if not email or not password:
             return JsonResponse({'error': 'Incomplete user data'}, status=400)
 
         mutation = '''
-        mutation($email: String!, $password: String!, $phoneNumber: String!) {
-            createUser(email: $email, password: $password, phoneNumber: $phoneNumber) {
+        mutation($email: String!, $password: String!) {
+            createUser(email: $email, password: $password) {
                 user {
                     email
-                    phoneNumber
+                    password
                 }
             }
         }
@@ -199,7 +197,6 @@ def register(request):
         variables = {
             'email': email,
             'password': password,
-            'phoneNumber': phone_number,
         }
 
         result = schema.execute(mutation, variable_values=variables)

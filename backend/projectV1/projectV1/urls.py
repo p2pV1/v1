@@ -10,10 +10,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('ray_ai/', include('ray_ai.urls')),
     path('registration/', include('registration.urls')),
-<<<<<<< HEAD
-
-=======
->>>>>>> 2f8bf19efaacaa0d2f9444e5de9e17b4548ac332
 ]
 
 
