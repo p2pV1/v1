@@ -10,12 +10,9 @@ RUN apt-get update && apt-get install -y libpq-dev gcc
 # Install packages
 RUN pip install psycopg2-binary
 
-# Set env vars for DB connection
-ENV DB_HOST=everest.c56iuelp2eif.us-east-2.rds.amazonaws.com  
-ENV DB_PORT=5432
-ENV DB_NAME=everest
-ENV DB_USER=p2plend
-ENV DB_PASSWORD=P2plend98765
+# Install pyarrow
+RUN pip install pyarrow
+
 
 # Copy requirements and install
 COPY ./projectV1/requirements.txt /requirements.txt  

@@ -19,16 +19,23 @@ def train_model(config):
 
     model = RandomForestClassifier(n_estimators=config["n_estimators"])
     model.fit(X_train, y_train)
-    return model.score(X_test, y_test)
+    return {"accuracy": model.score(X_test, y_test)}
 
 
 def ray_train_view(request):
+    # Initialize ray, ignoring if it's already been initialized.
+    ray.init(ignore_reinit_error=True)
+
     config = {
         "n_estimators": tune.grid_search([10, 25, 50, 75, 100])
     }
-    analysis = tune.run(train_model, config=config)
-    best_config = analysis.get_best_config(metric="mean_accuracy")
-    best_accuracy = analysis.get_best_result()["mean_accuracy"]
+    analysis = tune.run(train_model, config=config,
+                        metric="accuracy", mode="max")
+
+    # Fetching the best config and result using the specified metric and mode
+    best_trial = analysis.get_best_trial(metric="accuracy", mode="max")
+    best_config = best_trial.config
+    best_accuracy = best_trial.last_result["accuracy"]
 
     context = {
         'best_n_estimators': best_config["n_estimators"],
