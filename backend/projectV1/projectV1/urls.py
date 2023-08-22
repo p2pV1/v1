@@ -6,10 +6,11 @@ from . import views
 urlpatterns = [
 
     # Changed index path
-    path('', views.index, name='home'),
+    # path('', views.index, name='home'),
     path('admin/', admin.site.urls),
     path('ray_ai/', include('ray_ai.urls')),
     path('registration/', include('registration.urls')),
+    path('synthetic_data/', include('synthetic_data.urls')),
 ]
 
 

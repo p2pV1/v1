@@ -4,28 +4,19 @@ FROM python:3.8
 # Set working directory
 WORKDIR /app
 
-# Install psycopg2 dependencies
-RUN apt-get update && apt-get install -y libpq-dev gcc 
-
-# Install packages
-RUN pip install psycopg2-binary
-
-# Install pyarrow
-RUN pip install pyarrow
-
+# Install psycopg2 and pyarrow dependencies in one layer
+RUN apt-get update && apt-get install -y libpq-dev gcc && \
+    pip install psycopg2-binary pyarrow
 
 # Copy requirements and install
-COPY ./projectV1/requirements.txt /requirements.txt  
-RUN pip install -r /requirements.txt
+COPY ./projectV1/requirements.txt .
+RUN pip install -r requirements.txt
 
-# Copy app code  
-COPY ./projectV1/ray_ai /app/ray_ai
-COPY ./projectV1/projectV1 /app/projectV1
-COPY ./projectV1/registration /app/registration
-COPY ./projectV1/manage.py /app
+# Copy the entire app
+COPY ./projectV1 /app
 
-# Migrate database
-RUN python /app/manage.py migrate
+# Don't migrate here; remove this
+# RUN python /app/manage.py migrate
 
 # Collect static files
 RUN python /app/manage.py collectstatic --no-input
