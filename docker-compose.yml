@@ -16,7 +16,7 @@ services:
       dockerfile: ./projectV1/docker/Dockerfile
     volumes:
       - ./backend/db.sqlite3:/code/db.sqlite3 
+    env_file:
+      - .env
     ports:
       - "8000:8000"
-
-      # test
