@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import "./styles.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import studyImage from "./imgs/study.jpg";
+import mentorshipImage from "./imgs/mentor.png";
+import immigrationImage from "./imgs/immigration.jpg";
+import { NavBar } from "./NavBar";
+import { Welcome } from "./Welcome";
+import { NextPage } from "./NextPage";
+import { Activities } from "./Activities";
+import { Categories } from "./Categories";
+import { ActivityDetails } from "./ActivityDetails";
 
-function App() {
+export const categories = [
+  { id: 123, name: "Study", image: studyImage },
+  { id: 124, name: "Mentorship", image: mentorshipImage },
+  { id: 125, name: "Immigration", image: immigrationImage },
+];
+export const activities = [
+  { id: 123, name: "Art & Craft", image: studyImage },
+  { id: 124, name: "Gardening", image: mentorshipImage },
+  { id: 125, name: "Reading & Writing", image: immigrationImage },
+  { id: 123, name: "Fitness & Exercise", image: studyImage },
+  { id: 124, name: "Travel & Exploration", image: mentorshipImage },
+  { id: 125, name: "Music & Music instruments", image: immigrationImage },
+];
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Welcome />} />
+        <Route path="/category/:categoryId" element={<Activities />} />
+        <Route path="/activity/:activityId" element={<ActivityDetails />} />
+        <Route path="/next/:themeId" element={<NextPage />} />
+      </Routes>
+    </Router>
   );
 }
-
-export default App;
