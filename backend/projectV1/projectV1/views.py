@@ -1,5 +1,5 @@
 from django.http import HttpResponse
 
 
-def index(request):
+def create_synthetic_data(request):
     return HttpResponse('Hello World!!!')

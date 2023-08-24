@@ -1,5 +1,3 @@
-# urls.py
-
 from django.urls import path
 from . import views
 
@@ -10,13 +8,11 @@ logger = logging.getLogger(__name__)
 app_name = 'ray_ai'
 
 urlpatterns = [
+    # Uncomment the index view if you need it
+    # path('', views.index, name='index'),
 
-    #   path('', views.index, name='index'),
-
-    # Add this route to actor_view
-    path('actor/', views.actor_view, name='actor'),
-
+    # Change this to ray_train_view
+    path('actor/', views.ray_train_view, name='actor'),
 ]
-
 
 logger.info("URL patterns: %s", urlpatterns)

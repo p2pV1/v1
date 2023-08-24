@@ -5,61 +5,60 @@ from ray import tune
 from sklearn.datasets import load_iris
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-
-from .models import User, BestConfig
-
 import logging
 
 logger = logging.getLogger(__name__)
 
+# Note: No Django imports here.
+
 
 def train_model(config):
-    iris = load_iris()
-    X = iris.data
-    y = iris.target
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+    try:
+        iris = load_iris()
+        X = iris.data
+        y = iris.target
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=0.2)
 
-    model = RandomForestClassifier(n_estimators=config["n_estimators"])
-    model.fit(X_train, y_train)
-    return model.score(X_test, y_test)
-
-
-def ray_train(request):
-    config = {
-        "n_estimators": tune.grid_search([10, 25, 50, 75, 100])
-    }
-    analysis = tune.run(train_model, config=config)
-    best_config = analysis.get_best_config(metric="mean_accuracy")
-    # Save to database
-    BestConfig.objects.create(
-        n_estimators=best_config["n_estimators"], accuracy=analysis.get_best_result()["mean_accuracy"])
-    return JsonResponse({"best_config": best_config})
+        model = RandomForestClassifier(n_estimators=config["n_estimators"])
+        model.fit(X_train, y_train)
+        return {"accuracy": model.score(X_test, y_test)}
+    except Exception as e:
+        logger.error(f"Error during training: {e}")
+        return {"accuracy": 0.0}
 
 
-def actor_view(request):
-    best_config_obj = BestConfig.objects.last()
+def ray_train_view(request):
+    # Import within the function to avoid issues with Ray.
+    from .models import BestConfig
 
-    if not best_config_obj:
-        n_estimators_best = 'Not available'
-        accuracy_best = 'Not available'
-    else:
-        n_estimators_best = best_config_obj.n_estimators
-        accuracy_best = best_config_obj.accuracy
+    context = {}
+    try:
+        ray.init(ignore_reinit_error=True)
+        config = {
+            "n_estimators": tune.grid_search([10, 25, 50, 75, 100])
+        }
+        analysis = tune.run(train_model, config=config,
+                            metric="accuracy", mode="max")
+        best_trial = analysis.get_best_trial(metric="accuracy", mode="max")
+        best_config = best_trial.config
+        best_accuracy = best_trial.last_result["accuracy"]
 
-    user = User.remote("Alice", 30)
-    ref1 = user.get_name.remote()
-    ref2 = user.get_age.remote()
+        # Save to database here, inside Django's context.
+        best_config_db = BestConfig(
+            n_estimators=best_config["n_estimators"], accuracy=best_accuracy)
+        best_config_db.save()
 
-    name = ray.get(ref1)
-    age = ray.get(ref2)
-
-    context = {
-        'name': name,
-        'age': age,
-        'best_n_estimators': n_estimators_best,
-        'best_accuracy': accuracy_best
-    }
-    return render(request, 'ray_ai/actor.html', context)
+        context = {
+            'best_n_estimators': best_config["n_estimators"],
+            'best_accuracy': best_accuracy
+        }
+    except Exception as e:
+        logger.error(f"Error during ray_train_view: {e}")
+        context = {
+            'error': f"An error occurred: {e}"
+        }
+    return render(request, 'ray_ai/actors.html', context)
 
 
 def index(request):

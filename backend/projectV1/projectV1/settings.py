@@ -30,7 +30,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     "graphene_django",
+=======
+    'synthetic_data',
+>>>>>>> 9dd447aeee4cca43e392e9e0465a4e76f57036eb
     'registration',
     'ray_ai',
 ]
