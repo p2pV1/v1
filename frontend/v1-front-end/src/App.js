@@ -9,6 +9,8 @@ import { NextPage } from "./NextPage";
 import { Activities } from "./Activities";
 import { Categories } from "./Categories";
 import { ActivityDetails } from "./ActivityDetails";
+import Login from "./Login/Login";
+import Signup from "./Signup/Signup";
 
 export const categories = [
   { id: 123, name: "Study", image: studyImage },
@@ -28,10 +30,12 @@ export default function App() {
     <Router>
       <NavBar />
       <Routes>
-        <Route path="/" element={<Welcome />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        {/* <Route path="/" element={<Welcome />} />
         <Route path="/category/:categoryId" element={<Activities />} />
         <Route path="/activity/:activityId" element={<ActivityDetails />} />
-        <Route path="/next/:themeId" element={<NextPage />} />
+        <Route path="/next/:themeId" element={<NextPage />} /> */}
       </Routes>
     </Router>
   );
