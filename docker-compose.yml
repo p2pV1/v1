@@ -18,8 +18,4 @@ services:
     env_file:
       - .env
     ports:
-<<<<<<< HEAD
       - "8000:8000"
-=======
-      - "8000:8000"
->>>>>>> 9dd447aeee4cca43e392e9e0465a4e76f57036eb

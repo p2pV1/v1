@@ -1,5 +1,6 @@
 import base64
 import json
+from msilib import schema
 import uuid
 from django.conf import settings
 from django.shortcuts import render, redirect

@@ -20,6 +20,10 @@ SECRET_KEY = 'django-insecure-kg-kbz7^ve7!z@v0gmh9-nc^b9ek&ocn5b!h(%_s82^dczx@2a
 
 DEBUG = True
 
+CORS_ALLOWED_ORIGINS = [
+    "*",
+]
+
 ALLOWED_HOSTS = []
 
 
@@ -30,11 +34,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
-    "graphene_django",
-=======
     'synthetic_data',
->>>>>>> 9dd447aeee4cca43e392e9e0465a4e76f57036eb
+    'corsheaders',
     'registration',
     'ray_ai',
 ]
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
