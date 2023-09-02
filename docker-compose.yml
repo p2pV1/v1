@@ -10,7 +10,6 @@ services:
       - "3000:3000"
 
   backend:
-    shm_size: '1.23gb'
     build:
       context: ./backend
       dockerfile: ./projectV1/docker/Dockerfile

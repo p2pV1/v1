@@ -5,13 +5,46 @@ import { Link } from "react-router-dom";
 export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState(""); // If not needed, you can remove this line
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // signup logic, e.g. sending data to a server
-    console.log("Signup form submitted with:", email, password, phoneNumber);
+
+    const CSRF_TOKEN = getCookie("csrftoken"); // Define this function to get the CSRF token
+
+    const headers = {
+      "Content-Type": "application/json",
+      "X-CSRFToken": CSRF_TOKEN,
+    };
+
+    const formData = {
+      email,
+      password,
+      phoneNumber,
+    };
+
+    try {
+      const response = await fetch("http://localhost:8000/registration/register", {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        console.log("Signup successful!");
+      } else {
+        console.error("Signup failed");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
   };
+
+  // Function to get the CSRF token from cookies
+  function getCookie(name) {
+    const cookieValue = document.cookie.match(`(^|;)\\s*${name}\\s*=\\s*([^;]+)`);
+    return cookieValue ? cookieValue.pop() : "";
+  }
 
   return (
     <div className="signup-container">
