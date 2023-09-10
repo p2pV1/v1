@@ -13,10 +13,11 @@ export default function SignupPage() {
     const CSRF_TOKEN = getCookie("csrftoken"); // Define this function to get the CSRF token
 
     const headers = {
-      "Content-Type": "application/json",
+      'accept': 'application/json',
+      "content-type": "application/json",
       "X-CSRFToken": CSRF_TOKEN,
     };
-
+    console.log(CSRF_TOKEN);
     const formData = {
       email,
       password,
@@ -28,6 +29,7 @@ export default function SignupPage() {
         method: "POST",
         headers: headers,
         body: JSON.stringify(formData),
+        credentials: "same-origin",
       });
 
       if (response.ok) {

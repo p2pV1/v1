@@ -1,6 +1,7 @@
 import base64
 import json
-from msilib import schema
+from .schema import schema
+from django.views.decorators.csrf import csrf_exempt
 import uuid
 from django.conf import settings
 from django.shortcuts import render, redirect
@@ -166,6 +167,7 @@ def logout(request):
         request.session.pop('login')
     return JsonResponse({'status': True}, status=200)
 
+@csrf_exempt
 def register(request):
     if request.method == 'POST':
         data = json.loads(request.body)

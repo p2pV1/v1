@@ -10,11 +10,11 @@ class CreateUser(graphene.Mutation):
     class Arguments:
         email = graphene.String(required=True)
         password = graphene.String(required=True)
-        sub = graphene.String(required=True)
+        # sub = graphene.String(required=True)
     
     user = graphene.Field(UserType)
     
-    def mutate(self, info, email, password, sub):
+    def mutate(self, info, email, password, sub=None):
         user = UserModel(email=email, password=password, sub=sub)
         user.save()
         return CreateUser(user=user)
