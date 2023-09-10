@@ -11,6 +11,7 @@ urlpatterns = [
     path('ray_ai/', include('ray_ai.urls')),
     path('registration/', include('registration.urls')),
     path('synthetic_data/', include('synthetic_data.urls')),
+    path('audio/', include('audio_conference.urls')),
 ]
 
 

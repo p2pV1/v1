@@ -7,3 +7,6 @@ class User(models.Model):
     password = models.CharField(max_length=120)
     sub = models.CharField(max_length=120, null=True)
     verified_at = models.DateTimeField(null=True)
+
+    class meta:
+        db_table = 'User'
