@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import "./Login.css";
-import { Link } from "react-router-dom";
+import "../styles.css";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     //side effects e.g. check if user is logged in
@@ -15,8 +17,15 @@ export default function Login() {
     e.preventDefault();
     // login logic
 
+    const isLoginSuccessful = true; // Replace this with your actual authentication logic
+
     console.log("Login form submitted with:", email, password, rememberMe);
   };
+
+  if (isLoginSuccessful) {
+    navigate("/welcome");
+    setIsLogin(true);
+  }
 
   return (
     <div className="login-container">

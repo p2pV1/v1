@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Signup.css";
+import "../styles.css";
 import { Link } from "react-router-dom";
 
 export default function SignupPage() {
@@ -24,11 +24,14 @@ export default function SignupPage() {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/registration/register", {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "http://localhost:8000/registration/register",
+        {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (response.ok) {
         console.log("Signup successful!");
@@ -42,7 +45,9 @@ export default function SignupPage() {
 
   // Function to get the CSRF token from cookies
   function getCookie(name) {
-    const cookieValue = document.cookie.match(`(^|;)\\s*${name}\\s*=\\s*([^;]+)`);
+    const cookieValue = document.cookie.match(
+      `(^|;)\\s*${name}\\s*=\\s*([^;]+)`
+    );
     return cookieValue ? cookieValue.pop() : "";
   }
 

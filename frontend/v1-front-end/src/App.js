@@ -9,8 +9,9 @@ import { NextPage } from "./NextPage";
 import { Activities } from "./Activities";
 import { Categories } from "./Categories";
 import { ActivityDetails } from "./ActivityDetails";
-import Login from "./components/Login/Login";
-import Signup from "./components/Signup/Signup";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
+import AIOutput from "./components/AIOutput";
 
 export const categories = [
   { id: 123, name: "Study", image: studyImage },
@@ -37,9 +38,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        {/* <Route path="/welcome" element={<Welcome />} />
+        <Route path="/welcome" element={<Welcome />} />
         <Route path="/category/:categoryId" element={<Activities />} />
-        <Route path="/activity/:activityId" element={<ActivityDetails />} /> */}
+        <Route path="/activity/:activityId" element={<ActivityDetails />} />
         <Route path="/next/:themeId" element={<NextPage />} />
       </Routes>
     </Router>
