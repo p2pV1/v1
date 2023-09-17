@@ -4,7 +4,7 @@ import studyImage from "./assets/images/study.jpg";
 import mentorshipImage from "./assets/images/mentor.png";
 import immigrationImage from "./assets/images/immigration.jpg";
 import { NavBar } from "./NavBar";
-import { Welcome } from "./Welcome";
+import { Welcome } from "./components/Welcome";
 import { NextPage } from "./NextPage";
 import { Activities } from "./Activities";
 import { Categories } from "./Categories";

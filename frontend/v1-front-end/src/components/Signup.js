@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState(""); // If not needed, you can remove this line
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,7 +13,7 @@ export default function SignupPage() {
     const CSRF_TOKEN = getCookie("csrftoken"); // Define this function to get the CSRF token
 
     const headers = {
-      'accept': 'application/json',
+      accept: "application/json",
       "content-type": "application/json",
       "X-CSRFToken": CSRF_TOKEN,
     };
@@ -25,7 +25,6 @@ export default function SignupPage() {
     };
 
     try {
-<<<<<<< HEAD:frontend/v1-front-end/src/components/Signup.js
       const response = await fetch(
         "http://localhost:8000/registration/register",
         {
@@ -34,14 +33,6 @@ export default function SignupPage() {
           body: JSON.stringify(formData),
         }
       );
-=======
-      const response = await fetch("http://localhost:8000/registration/register", {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(formData),
-        credentials: "same-origin",
-      });
->>>>>>> b5323b17a2afb361c32d1804a0f33cee21646a37:frontend/v1-front-end/src/Signup/Signup.js
 
       if (response.ok) {
         console.log("Signup successful!");
