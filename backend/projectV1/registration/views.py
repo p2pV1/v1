@@ -8,12 +8,12 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.http import HttpResponse
 import jwt
-import bcrypt
+from django.contrib.auth.hashers import make_password
 from .models import User
 
 CLIENT_ID = "app_6c25c96f26a7c560a77e5d9e00a2090a"
 CLIENT_SECRET = "sk_a9e8ea23c68d3324059a9d9ee48a6b1992ca8e62c923f9ff"
-REDIRECT_URI = "http://localhost:5000/callback"
+REDIRECT_URI = "http://localhost:8000/callback"
 BASE_URL = "https://id.worldcoin.org"
 
 def verify_jwt(request, token):
@@ -117,7 +117,7 @@ def callback(request):
 def view_login(request):
     if 'login' in request.session:
         login_data = request.session['login']
-        return render(request, 'login.html', {'login_data': login_data})
+        return JsonResponse(login_data)
     else:
         return HttpResponse("No user logged in")
 
@@ -126,7 +126,7 @@ def login(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         email = data.get('email')
-        password = hash_password(data.get('password'))
+        password = data.get('password')
 
         # Perform validation on the input data
         if not email or not password:
@@ -155,9 +155,8 @@ def login(request):
             response_data = result.data['userLogin']
             if response_data.get('success'):
                 user_data = response_data['user']
-                request.session['login'] = {
-                    'email': user_data['email']
-                }
+                request.session['login'] = user_data
+                
                 return JsonResponse({'message': 'Login successful', 'status': True}, status=200)
             else:
                 return JsonResponse({'message': 'Invalid email or password', 'status': False}, status=401)
@@ -178,7 +177,7 @@ def register(request):
             return JsonResponse({'error': 'No data provided'}, status=400)
 
         email = data.get('email')
-        password = hash_password(data.get('password'))
+        password = data.get('password')
         # Update 'phone_number' to 'phoneNumber' in the input data
 
         # Perform validation on the input data
@@ -213,8 +212,3 @@ def register(request):
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
     
-def hash_password(password):
-    bytes = password.encode('utf-8')
-    salt = bcrypt.gensalt()
-    hash = str(bcrypt.hashpw(bytes, salt))
-    return hash
