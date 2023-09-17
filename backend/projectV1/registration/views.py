@@ -8,6 +8,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.http import HttpResponse
 import jwt
+import bcrypt
 from .models import User
 
 CLIENT_ID = "app_6c25c96f26a7c560a77e5d9e00a2090a"
@@ -104,7 +105,7 @@ def callback(request):
                 else:
                     return redirect("http://localhost:3000/greydashboard")
             else:
-                return JsonResponse({'message': 'User Logged In!', 'status': False}, status=401)
+                return JsonResponse({'message': 'User Logged In!', 'status': True}, status=401)
         else:
             return JsonResponse({'message': 'Invalid token', 'status': False}, status=401)
 
@@ -120,11 +121,12 @@ def view_login(request):
     else:
         return HttpResponse("No user logged in")
 
+@csrf_exempt
 def login(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         email = data.get('email')
-        password = data.get('password')
+        password = hash_password(data.get('password'))
 
         # Perform validation on the input data
         if not email or not password:
@@ -176,7 +178,7 @@ def register(request):
             return JsonResponse({'error': 'No data provided'}, status=400)
 
         email = data.get('email')
-        password = data.get('password')
+        password = hash_password(data.get('password'))
         # Update 'phone_number' to 'phoneNumber' in the input data
 
         # Perform validation on the input data
@@ -210,3 +212,9 @@ def register(request):
         return JsonResponse(result.data['createUser'])
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
+def hash_password(password):
+    bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hash = str(bcrypt.hashpw(bytes, salt))
+    return hash
