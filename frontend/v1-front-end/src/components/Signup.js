@@ -25,6 +25,7 @@ export default function SignupPage() {
     };
 
     try {
+<<<<<<< HEAD
       const response = await fetch(
         "http://localhost:8000/registration/register",
         {
@@ -33,6 +34,14 @@ export default function SignupPage() {
           body: JSON.stringify(formData),
         }
       );
+=======
+      const response = await fetch("http://localhost:8000/registration/register", {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(formData),
+        credentials: "same-origin",
+      });
+>>>>>>> 4bae44817e9c343917e84898ecbdedd1704b636b
 
       if (response.ok) {
         console.log("Signup successful!");

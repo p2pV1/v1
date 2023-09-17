@@ -1,24 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../styles.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    //side effects e.g. check if user is logged in
-  }, []);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // login logic
 
-    const isLoginSuccessful = true; // Replace this with your actual authentication logic
+    const CSRF_TOKEN = getCookie("csrftoken"); // Define this function to get the CSRF token
 
+<<<<<<< HEAD
     console.log("Login form submitted with:", email, password, rememberMe);
 
     if (isLoginSuccessful) {
@@ -26,6 +20,46 @@ export default function Login() {
       setIsLogin(true);
     }
   };
+=======
+    const headers = {
+      'accept': 'application/json',
+      "content-type": "application/json",
+      "X-CSRFToken": CSRF_TOKEN,
+    };
+
+    const formData = {
+      email,
+      password,
+      rememberMe,
+    };
+
+    try {
+      const response = await fetch("http://localhost:8000/registration/login", {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(formData),
+        credentials: "same-origin",
+      });
+
+      if (response.ok) {
+        console.log("Login successful!");
+        // Perform any necessary actions after successful login (e.g., redirect)
+      } else {
+        console.error("Login failed");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  };
+
+  // Function to get the CSRF token from cookies
+  function getCookie(name) {
+    const cookieValue = document.cookie.match(
+      `(^|;)\\s*${name}\\s*=\\s*([^;]+)`
+    );
+    return cookieValue ? cookieValue.pop() : "";
+  }
+>>>>>>> 4bae44817e9c343917e84898ecbdedd1704b636b
 
   return (
     <div className="login-container">

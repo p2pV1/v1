@@ -8,11 +8,12 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.http import HttpResponse
 import jwt
+from django.contrib.auth.hashers import make_password
 from .models import User
 
 CLIENT_ID = "app_6c25c96f26a7c560a77e5d9e00a2090a"
 CLIENT_SECRET = "sk_a9e8ea23c68d3324059a9d9ee48a6b1992ca8e62c923f9ff"
-REDIRECT_URI = "http://localhost:5000/callback"
+REDIRECT_URI = "http://localhost:8000/callback"
 BASE_URL = "https://id.worldcoin.org"
 
 def verify_jwt(request, token):
@@ -104,7 +105,7 @@ def callback(request):
                 else:
                     return redirect("http://localhost:3000/greydashboard")
             else:
-                return JsonResponse({'message': 'User Logged In!', 'status': False}, status=401)
+                return JsonResponse({'message': 'User Logged In!', 'status': True}, status=401)
         else:
             return JsonResponse({'message': 'Invalid token', 'status': False}, status=401)
 
@@ -116,10 +117,11 @@ def callback(request):
 def view_login(request):
     if 'login' in request.session:
         login_data = request.session['login']
-        return render(request, 'login.html', {'login_data': login_data})
+        return JsonResponse(login_data)
     else:
         return HttpResponse("No user logged in")
 
+@csrf_exempt
 def login(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -153,9 +155,8 @@ def login(request):
             response_data = result.data['userLogin']
             if response_data.get('success'):
                 user_data = response_data['user']
-                request.session['login'] = {
-                    'email': user_data['email']
-                }
+                request.session['login'] = user_data
+                
                 return JsonResponse({'message': 'Login successful', 'status': True}, status=200)
             else:
                 return JsonResponse({'message': 'Invalid email or password', 'status': False}, status=401)
@@ -210,3 +211,4 @@ def register(request):
         return JsonResponse(result.data['createUser'])
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+    

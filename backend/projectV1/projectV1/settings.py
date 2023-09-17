@@ -102,6 +102,14 @@ TEMPLATES = [
     },
 ]
 
+GRAPHENE = {
+    'SCHEMA': 'registration.schema.schema',  # Update with your schema location
+    'MIDDLEWARE': [
+        'graphene_django.debug.DjangoDebugMiddleware',  # Enable debugging
+    ],
+}
+
+
 WSGI_APPLICATION = 'projectV1.wsgi.application'
 
 # Database config

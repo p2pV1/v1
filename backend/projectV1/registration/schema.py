@@ -1,6 +1,6 @@
 import graphene
 from graphene_django.types import DjangoObjectType
-from .models import User as UserModel
+from django.contrib.auth.models import User as UserModel
 
 class UserType(DjangoObjectType):
     class Meta:
@@ -10,12 +10,12 @@ class CreateUser(graphene.Mutation):
     class Arguments:
         email = graphene.String(required=True)
         password = graphene.String(required=True)
-        # sub = graphene.String(required=True)
+        # sub = graphene.String(required=False)
     
     user = graphene.Field(UserType)
     
-    def mutate(self, info, email, password, sub=None):
-        user = UserModel(email=email, password=password, sub=sub)
+    def mutate(self, info, email, password):
+        user = UserModel(email=email, password=password, username=email)
         user.save()
         return CreateUser(user=user)
 
