@@ -25,23 +25,12 @@ export default function SignupPage() {
     };
 
     try {
-<<<<<<< HEAD:frontend/v1-front-end/src/components/Signup.js
-      const response = await fetch(
-        "http://localhost:8000/registration/register",
-        {
-          method: "POST",
-          headers: headers,
-          body: JSON.stringify(formData),
-        }
-      );
-=======
       const response = await fetch("http://localhost:8000/registration/register", {
         method: "POST",
         headers: headers,
         body: JSON.stringify(formData),
         credentials: "same-origin",
       });
->>>>>>> b5323b17a2afb361c32d1804a0f33cee21646a37:frontend/v1-front-end/src/Signup/Signup.js
 
       if (response.ok) {
         console.log("Signup successful!");

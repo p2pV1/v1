@@ -17,15 +17,15 @@ export default function Login() {
     e.preventDefault();
     // login logic
 
-    const isLoginSuccessful = true; // Replace this with your actual authentication logic
+    // const isLoginSuccessful = true; // Replace this with your actual authentication logic
 
     console.log("Login form submitted with:", email, password, rememberMe);
   };
 
-  if (isLoginSuccessful) {
-    navigate("/welcome");
-    setIsLogin(true);
-  }
+  // if (isLoginSuccessful) {
+  //   navigate("/welcome");
+  //   setIsLogin(true);
+  // }
 
   return (
     <div className="login-container">

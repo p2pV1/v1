@@ -10,7 +10,7 @@ class CreateUser(graphene.Mutation):
     class Arguments:
         email = graphene.String(required=True)
         password = graphene.String(required=True)
-        # sub = graphene.String(required=True)
+        sub = graphene.String(required=False)
     
     user = graphene.Field(UserType)
     

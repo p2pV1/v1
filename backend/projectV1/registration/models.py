@@ -8,5 +8,5 @@ class User(models.Model):
     sub = models.CharField(max_length=120, null=True)
     verified_at = models.DateTimeField(null=True)
 
-    class meta:
-        db_table = 'User'
+    class Meta:
+        db_table = 'users'
