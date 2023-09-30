@@ -10,7 +10,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const CSRF_TOKEN = getCookie("csrftoken"); // Define this function to get the CSRF token
+    const CSRF_TOKEN = getCookie("csrftoken");
 
     const headers = {
       'accept': 'application/json',
@@ -19,13 +19,13 @@ export default function Login() {
     };
 
     const formData = {
-      email,
-      password,
-      rememberMe,
+      username: email,
+      password: password,
+      rememberMe: rememberMe,
     };
 
     try {
-      const response = await fetch("http://localhost:8000/registration/login", {
+      const response = await fetch("http://localhost:8000/api/login", {
         method: "POST",
         headers: headers,
         body: JSON.stringify(formData),
@@ -33,6 +33,12 @@ export default function Login() {
       });
 
       if (response.ok) {
+        const responseData = await response.json();
+        const { token } = responseData.data;
+
+        // Set the token in a cookie
+        setCookie("auth_token", token, 7); // Expires in 7 days
+
         console.log("Login successful!");
         // Perform any necessary actions after successful login (e.g., redirect)
       } else {
@@ -42,6 +48,12 @@ export default function Login() {
       console.error("An error occurred:", error);
     }
   };
+
+  // Function to set a cookie
+  function setCookie(name, value, days) {
+    const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+    document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+  }
 
   // Function to get the CSRF token from cookies
   function getCookie(name) {
