@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'ray_ai',
     'audio_conference',
     'corsheaders',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -134,8 +135,6 @@ DATABASES = {
 # ...
 
 # Static files
-
-print("DATABASES Config: ", DATABASES)
 
 if IN_DOCKER:
     STATIC_ROOT = BASE_DIR / 'static'
