@@ -18,23 +18,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-kg-kbz7^ve7!z@v0gmh9-nc^b9ek&ocn5b!h(%_s82a^dczx@2a'
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+SESSION_COOKIE_AGE = 172800
+
 DEBUG = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://localhost:8000",
-    "https://localhost:8000",
-    "https://localhost:3000",
 ]
 
 # CORS_ALLOW_ALL_ORIGINS = True
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
-    "http://localhost:8000",
-    "https://localhost:8000",
-    "https://localhost:3000",
 ]
+
+CORS_ALLOW_CREDENTIALS = True
 
 ALLOWED_HOSTS = []
 
@@ -66,6 +66,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "rest_framework",
+    "knox",
     'synthetic_data',
     'registration',
     'ray_ai',
@@ -117,11 +119,11 @@ WSGI_APPLICATION = 'projectV1.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'everest',
-        'USER': 'p2plend',
-        'PASSWORD': 'P2plend98765',
-        'HOST': 'everest.c56iuelp2eif.us-east-2.rds.amazonaws.com',
-        'PORT': '5432',
+        'NAME': os.getenv('DB_NAME', 'default-db-name'),
+        'USER': os.getenv('DB_USER', 'default-user'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'default-password'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
 
@@ -132,6 +134,8 @@ DATABASES = {
 # ...
 
 # Static files
+
+print("DATABASES Config: ", DATABASES)
 
 if IN_DOCKER:
     STATIC_ROOT = BASE_DIR / 'static'
@@ -147,3 +151,6 @@ APPEND_SLASH = True
 TEMPLATE_DIRS = [
     os.path.join(BASE_DIR, 'ray_ai', 'templates'),
 ]
+
+REST_FRAMEWORK = {"DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",)}
+

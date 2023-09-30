@@ -1,21 +1,25 @@
 version: "3.8"
-
 services:
-
   frontend:
     build:
       context: ./frontend/v1-front-end
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-
+    networks:
+      - frontend-backend-network
   backend:
     build:
       context: ./backend
       dockerfile: ./projectV1/docker/Dockerfile
-    volumes:
-      - ./backend/db.sqlite3:/code/db.sqlite3 
     env_file:
       - .env
     ports:
       - "8000:8000"
+    depends_on:
+      - frontend
+    networks:
+      - frontend-backend-network
+networks:
+  frontend-backend-network:
+    driver: bridge
