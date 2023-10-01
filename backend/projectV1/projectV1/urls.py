@@ -12,6 +12,7 @@ urlpatterns = [
     path('registration/', include('registration.urls')),
     path('synthetic_data/', include('synthetic_data.urls')),
     path('audio/', include('audio_conference.urls')),
+    path("api/", include("api.urls")),
 ]
 
 

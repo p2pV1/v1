@@ -75,7 +75,7 @@ def callback(request):
     try:
         payload = jwt.decode(
             token['access_token'],
-            'your-secret-key',  # Replace with your actual secret key
+            settings.SECRET_KEY,  # Replace with your actual secret key
             algorithms=['HS256']
         )
         
@@ -156,8 +156,8 @@ def login(request):
             if response_data.get('success'):
                 user_data = response_data['user']
                 request.session['login'] = user_data
-                
-                return JsonResponse({'message': 'Login successful', 'status': True}, status=200)
+
+                return JsonResponse({'message': 'Login successful', 'status': True, 'data':request.session['login']}, status=200)
             else:
                 return JsonResponse({'message': 'Invalid email or password', 'status': False}, status=401)
     else:

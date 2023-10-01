@@ -61,3 +61,5 @@ graphene-django==3.1.5
 PyJWT==2.8.0
 pyarrow
 django-cors-headers==3.10.0
+djangorestframework==3.14.0
+django-rest-knox==4.2.0

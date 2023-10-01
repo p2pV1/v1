@@ -10,21 +10,27 @@ export default function SignupPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const CSRF_TOKEN = getCookie("csrftoken"); // Define this function to get the CSRF token
+    const CSRF_TOKEN = getCookie("csrftoken");
 
     const headers = {
       accept: "application/json",
       "content-type": "application/json",
       "X-CSRFToken": CSRF_TOKEN,
     };
-    console.log(CSRF_TOKEN);
+
     const formData = {
-      email,
-      password,
-      phoneNumber,
+      email: email || null,
+      password: password || null,
+      username: email,
+      profile: {
+        phone: phoneNumber || null,
+        sub: "1",
+        verified_at: "2023-09-29",
+      }
     };
 
     try {
+<<<<<<< HEAD
 <<<<<<< HEAD
       const response = await fetch(
         "http://localhost:8000/registration/register",
@@ -36,6 +42,9 @@ export default function SignupPage() {
       );
 =======
       const response = await fetch("http://localhost:8000/registration/register", {
+=======
+      const response = await fetch("http://localhost:8000/api/register", {
+>>>>>>> 488951ebfcb9a3e5b5b0f371993f867bbc858694
         method: "POST",
         headers: headers,
         body: JSON.stringify(formData),
@@ -44,6 +53,12 @@ export default function SignupPage() {
 >>>>>>> 4bae44817e9c343917e84898ecbdedd1704b636b
 
       if (response.ok) {
+        const responseData = await response.json();
+        const { token } = responseData.data; // Extract the token
+
+        // Set the token in a cookie
+        setCookie("auth_token", token, 7); // Expires in 7 days
+
         console.log("Signup successful!");
       } else {
         console.error("Signup failed");
@@ -52,6 +67,12 @@ export default function SignupPage() {
       console.error("An error occurred:", error);
     }
   };
+
+  // Function to set a cookie
+  function setCookie(name, value, days) {
+    const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+    document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+  }
 
   // Function to get the CSRF token from cookies
   function getCookie(name) {
