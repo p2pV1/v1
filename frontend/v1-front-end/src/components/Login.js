@@ -1,28 +1,20 @@
 import React, { useState } from "react";
 import "../styles.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const CSRF_TOKEN = getCookie("csrftoken");
 
-<<<<<<< HEAD
-    console.log("Login form submitted with:", email, password, rememberMe);
-
-    if (isLoginSuccessful) {
-      navigate("/welcome");
-      setIsLogin(true);
-    }
-  };
-=======
     const headers = {
-      'accept': 'application/json',
+      accept: "application/json",
       "content-type": "application/json",
       "X-CSRFToken": CSRF_TOKEN,
     };
@@ -49,6 +41,8 @@ export default function Login() {
         setCookie("auth_token", token, 7); // Expires in 7 days
 
         console.log("Login successful!");
+
+        navigate("/welcome");
         // Perform any necessary actions after successful login (e.g., redirect)
       } else {
         console.error("Login failed");
@@ -60,7 +54,9 @@ export default function Login() {
 
   // Function to set a cookie
   function setCookie(name, value, days) {
-    const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+    const expires = new Date(
+      Date.now() + days * 24 * 60 * 60 * 1000
+    ).toUTCString();
     document.cookie = `${name}=${value}; expires=${expires}; path=/`;
   }
 
@@ -71,7 +67,6 @@ export default function Login() {
     );
     return cookieValue ? cookieValue.pop() : "";
   }
->>>>>>> 4bae44817e9c343917e84898ecbdedd1704b636b
 
   return (
     <div className="login-container">
