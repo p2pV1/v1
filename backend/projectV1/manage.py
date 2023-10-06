@@ -2,13 +2,7 @@
 import os
 import sys
 
-if 'db' not in os.environ:
-    # Use SQLite for Docker build
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE',
-                          'projectV1.settings_sqlite')
-else:
-    # Use regular settings
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'projectV1.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'projectV1.settings')
 
 
 def main():

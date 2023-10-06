@@ -13,6 +13,7 @@ urlpatterns = [
     path('synthetic_data/', include('synthetic_data.urls')),
     path('audio/', include('audio_conference.urls')),
     path("api/", include("api.urls")),
+    path('openai/', include('openai_integration.urls')),
 ]
 
 
