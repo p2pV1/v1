@@ -7,8 +7,8 @@ class Profile(models.Model):
     verified_at = models.DateField(null=True, blank=True)
     phone = models.TextField(max_length=20, blank=True)
     sub = models.TextField(max_length=100, blank=True)
-    dob = models.DateField(null=True, blank=True)  # New field
-    name = models.CharField(max_length=100, null=True, blank=True)  # New field
+    dob = models.DateField(null=True, blank=True)
+    name = models.CharField(max_length=100, null=True, blank=True) 
 
     class Meta:
         db_table = 'profile'

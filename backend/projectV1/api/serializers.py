@@ -6,7 +6,10 @@ from registration.models import Profile
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ("phone", "sub", "verified_at")
+        fields = ("phone", "sub", "verified_at", "dob", "name")
+
+    # Set 'phone' field as required
+    phone = serializers.CharField(max_length=20, required=True)
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
