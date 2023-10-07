@@ -10,7 +10,7 @@ def require_authenticated_and_valid_token(view_func):
         response = authentication_middleware.process_request(request)
 
         # Check if the middleware returned a response indicating an unauthorized user
-        if response.status_code == 401:
+        if response and response.status_code == 401:
             return response  # Return the middleware's response
 
         # Continue to the view if the user is authenticated and has a valid token

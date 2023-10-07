@@ -1,5 +1,5 @@
 from django.utils.deprecation import MiddlewareMixin
-from knox.auth import AuthToken
+from knox.auth import TokenAuthentication
 from django.http import JsonResponse
 
 class AuthenticationMiddleware(MiddlewareMixin):
@@ -12,19 +12,27 @@ class AuthenticationMiddleware(MiddlewareMixin):
             # User is not authenticated, return a response with status 401 (Unauthorized)
             data = {
                 "status": False,
-                "message": "Unauthorized user",
-                "data": None,
+                "message": "Unauthorized user token not found",
+                "data": auth_token,
             }
             return JsonResponse(data, status=401)
         
-        try:
-            token = AuthToken.objects.get(token_key=auth_token)
-            request.user = token.user
-        except AuthToken.DoesNotExist:
-            # Token is invalid, return a response with status 401 (Unauthorized)
+        # Attach the token to the request header
+        request.META['HTTP_AUTHORIZATION'] = f"Token {auth_token}"
+
+        # Use knox's TokenAuthentication to validate the token
+        token_auth = TokenAuthentication()
+        user_auth_tuple = token_auth.authenticate(request)
+        
+        if user_auth_tuple:
+            request.user, auth_token = user_auth_tuple
+        else:
             data = {
                 "status": False,
                 "message": "Invalid token",
-                "data": None,
+                "data": auth_token,
             }
             return JsonResponse(data, status=401)
+
+        # If the token is valid and the user is set, just continue processing the request
+        return None
