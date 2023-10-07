@@ -1,9 +1,9 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.serializers import AuthTokenSerializer
+from .decorators import require_authenticated_and_valid_token as valid_token
 from .serializers import UserRegistrationSerializer
 from knox.auth import AuthToken
-
 
 @api_view(["GET"])
 def test(request):
@@ -22,28 +22,20 @@ def login_api(request):
     return Response(data, status=200)
 
 @api_view(["GET"])
+@valid_token
 def get_user_data(request):
     user = request.user
-
-    if user.is_authenticated:
-        data = {
-            "status": True,
-            "message": "Authenticated user info",
-            "data": {
-                "id": user.id,
-                "username": user.username,
-                "email": user.email,
-            },
-        }
-
-        return Response(data, status=200)
-
     data = {
-        "status": False,
-        "Message": "Restricted access unauthenticated user",
-        "data": None,
+        "status": True,
+        "message": "Authenticated user info",
+        "data": {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+        },
     }
-    return Response(data, status=400)
+
+    return Response(data, status=200)
 
 
 @api_view(["POST"])
