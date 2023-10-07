@@ -20,6 +20,8 @@ SECRET_KEY = 'django-insecure-kg-kbz7^ve7!z@v0gmh9-nc^b9ek&ocn5b!h(%_s82a^dczx@2
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', 'default_value_if_not_set')
+
 SESSION_COOKIE_AGE = 172800
 
 DEBUG = True
@@ -68,6 +70,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "rest_framework",
     "knox",
+    "graphene_django",
     'synthetic_data',
     'registration',
     'ray_ai',
