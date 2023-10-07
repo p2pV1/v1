@@ -21,7 +21,6 @@ def login_api(request):
     data = {"status": True, "message": "Login Successfull", "data": {"token": token}}
     return Response(data, status=200)
 
-
 @api_view(["GET"])
 def get_user_data(request):
     user = request.user
