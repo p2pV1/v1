@@ -10,7 +10,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    # ... your existing urlpatterns ...
     path('admin/', admin.site.urls),
     path('graphql/', GraphQLView.as_view(graphiql=True, schema=schema), name='graphql'),  
     path('ray_ai/', include('ray_ai.urls')),
