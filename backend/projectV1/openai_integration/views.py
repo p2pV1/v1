@@ -6,7 +6,10 @@ def openai_endpoint(request):
     keywords = request.GET.get('keywords', '').split(',')
     
     # Formulate a prompt for OpenAI
-    prompt = f"Based on the keywords {', '.join(keywords)}, categorize the user."
+    prompt = f"Using the keywords {', '.join(keywords)}, identify three primary categories that best represent the user's domain. List only the three categories, separated by commas."
+
+
+
 
     # Get the response from OpenAI
     category = generate_response(prompt)
