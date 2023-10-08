@@ -60,4 +60,11 @@ def registration_api(request):
         "message": "Registration Failed",
         "data": {"errors": errors},
     }
-    return Response(data, status=400)
+    
+    # Set cache-control headers to disable caching
+    response = Response(data, status=400)
+    response["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response["Pragma"] = "no-cache"
+    response["Expires"] = "0"
+
+    return response

@@ -35,6 +35,7 @@ export const activities = [
 
 export default function App() {
   const [userData, setUserData] = useState(null);
+  const [loadingUserData, setLoadingUserData] = useState(true);
 
   // Fetch user data when the app loads
   useEffect(() => {
@@ -54,9 +55,11 @@ export default function App() {
       })
       .then((data) => {
         setUserData(data.data);
+        setLoadingUserData(false); // Mark loading as complete
       })
       .catch((error) => {
         console.error('Error fetching user data:', error.message);
+        setLoadingUserData(false); // Mark loading as complete even in case of error
       });
   }, []);
 
@@ -66,8 +69,17 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        {/* Pass user data to Welcome component */}
-        <Route path="/welcome" element={<Welcome userData={userData} />} />
+        {/* Pass user data to Welcome component with loading indicator */}
+        <Route
+          path="/welcome"
+          element={
+            loadingUserData ? (
+              <p>Loading user data...</p>
+            ) : (
+              <Welcome userData={userData} />
+            )
+          }
+        />
         <Route path="/category/:categoryId" element={<Activities />} />
         <Route path="/activity/:activityId" element={<ActivityDetails />} />
         <Route path="/next/:themeId" element={<NextPage />} />

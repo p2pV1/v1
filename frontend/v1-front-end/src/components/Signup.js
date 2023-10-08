@@ -24,8 +24,6 @@ export default function SignupPage() {
       username: email,
       profile: {
         phone: phoneNumber || null,
-        sub: "1",
-        verified_at: "2023-09-29",
       },
     };
 
