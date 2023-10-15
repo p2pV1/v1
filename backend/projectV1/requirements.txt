@@ -64,3 +64,4 @@ django-cors-headers==3.10.0
 djangorestframework==3.14.0
 django-rest-knox==4.2.0
 openai
+pyjwt==2.8.0

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers, validators
 from registration.models import Profile
-
+from django.contrib.auth.hashers import check_password
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -61,3 +61,31 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             )
 
         return user
+
+class UserProfileUpdateSerializer(UserRegistrationSerializer):
+    class Meta(UserRegistrationSerializer.Meta):
+        fields = ("username", "email", "profile")
+        read_only_fields = ("username", "password")
+
+    def update(self, instance, validated_data):
+        profile_data = validated_data.pop("profile", {})
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        profile = instance.profile
+        for attr, value in profile_data.items():
+            setattr(profile, attr, value)
+        profile.save()
+
+        return instance
+    
+class PasswordChangeSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+    def validate_old_password(self, value):
+        user = self.context['request'].user
+        if not check_password(value, user.password):
+            raise serializers.ValidationError("Old password is incorrect")
+        return value
