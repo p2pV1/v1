@@ -66,3 +66,4 @@ django-rest-knox==4.2.0
 openai
 pdfminer.six
 pyresparser
+pyjwt==2.8.0
