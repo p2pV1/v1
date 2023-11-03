@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from .decorators import require_authenticated_and_valid_token as valid_token
 from .serializers import UserRegistrationSerializer
+from registration.models import Profile
 from knox.auth import AuthToken
 
 @api_view(["GET"])
@@ -25,6 +26,7 @@ def login_api(request):
 @valid_token
 def get_user_data(request):
     user = request.user
+    profile = Profile.objects.get(user=user)
     data = {
         "status": True,
         "message": "Authenticated user info",
@@ -32,6 +34,7 @@ def get_user_data(request):
             "id": user.id,
             "username": user.username,
             "email": user.email,
+            "phone": profile.phone,
         },
     }
 
@@ -60,7 +63,7 @@ def registration_api(request):
         "message": "Registration Failed",
         "data": {"errors": errors},
     }
-    
+
     # Set cache-control headers to disable caching
     response = Response(data, status=400)
     response["Cache-Control"] = "no-cache, no-store, must-revalidate"

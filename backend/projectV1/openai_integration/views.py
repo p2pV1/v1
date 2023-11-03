@@ -1,17 +1,16 @@
+# views.py
+
 from django.http import JsonResponse
-from .services import generate_response
+from .services import generate_keyword_list
 
 def openai_endpoint(request):
     # Get the list of keywords from the request
     keywords = request.GET.get('keywords', '').split(',')
     
-    # Formulate a prompt for OpenAI
-    prompt = f"Using the keywords {', '.join(keywords)}, identify three primary categories that best represent the user's domain. List only the three categories, separated by commas."
+    # Generate a list of keywords or categories
+    keyword_list = generate_keyword_list(keywords)
 
+    # Select the top three categories from the list
+    top_categories = keyword_list[:3]
 
-
-
-    # Get the response from OpenAI
-    category = generate_response(prompt)
-
-    return JsonResponse({'category': category})
+    return JsonResponse({'categories': top_categories})
