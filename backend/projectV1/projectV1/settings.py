@@ -72,6 +72,8 @@ INSTALLED_APPS = [
     "knox",
     "graphene_django",
     'synthetic_data',
+    'room',
+    'channels',
     'registration',
     'ray_ai',
     'audio_conference',

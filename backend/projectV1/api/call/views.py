@@ -40,6 +40,8 @@ def room_detail(request, slug):
         room = Room.objects.get(slug=slug, host=request.user)
         serializer = RoomSerializer(room, data=request.data, context={'request': request})
         if serializer.is_valid():
+            if room.host != request.user:
+                return Response({"status": False, "message": "Permission denied.", "data": None}, status=403)
             serializer.save()
             return Response({"status": True, "message": "Room updated.", "data": serializer.data})
         return Response({"status": False, "message": "Room update failed.", "data": serializer.errors}, status=400)
