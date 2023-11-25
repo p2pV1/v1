@@ -9,7 +9,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-kg-kbz7^ve7!z@v0gmh9-
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
-SESSION_COOKIE_AGE = 172800
+# SESSION_COOKIE_AGE = 172800
 
 DEBUG = True
 
@@ -17,18 +17,6 @@ IN_DOCKER = False
 
 # Update the backend and frontend URLs
 CORS_ALLOWED_ORIGINS = [
-<<<<<<< HEAD
-    "*",
-    # "http://localhost:3000",
-    # "http://127.0.0.1:3000"
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    "*",
-    # "http://localhost:3000",
-    # "http://127.0.0.1:3000"
-
-=======
     "http://localhost:3000",
     "https://frontend-service-rojjrgeqna-ue.a.run.app",  # Update this URL
     "https://backend-service-rojjrgeqna-ue.a.run.app",  # Update this URL
@@ -38,42 +26,31 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
     "https://frontend-service-rojjrgeqna-ue.a.run.app",  # Update this URL
     "https://backend-service-rojjrgeqna-ue.a.run.app",  # Update this URL
->>>>>>> fbcf68cb629503427a2b9d12ce6b3e7668f8b30f
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
-<<<<<<< HEAD
-ALLOWED_HOSTS = [
-    "*",
-    # 'localhost',
-    # '127.0.0.1'
-]
-=======
 ALLOWED_HOSTS = ['backend-service-rojjrgeqna-ue.a.run.app','backend', 'localhost', '127.0.0.1']
->>>>>>> fbcf68cb629503427a2b9d12ce6b3e7668f8b30f
 
 CORS_ALLOW_METHODS = [
-    "*",
-    # 'DELETE',
-    # 'GET',
-    # 'OPTIONS',
-    # 'PATCH',
-    # 'POST',
-    # 'PUT',
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
 ]
 
 CORS_ALLOW_HEADERS = [
-    "*",
-    # 'accept',
-    # 'accept-encoding',
-    # 'authorization',
-    # 'content-type',
-    # 'dnt',
-    # 'origin',
-    # 'user-agent',
-    # 'X-CSRFToken',
-    # 'x-requested-with',
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'X-CSRFToken',
+    'x-requested-with',
 ]
 
 INSTALLED_APPS = [
@@ -133,20 +110,8 @@ GRAPHENE = {
     ],
 }
 
-<<<<<<< HEAD
-
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
-}
-=======
 WSGI_APPLICATION = 'projectV1.wsgi.application'
 
->>>>>>> fbcf68cb629503427a2b9d12ce6b3e7668f8b30f
 # Database config
 
 DATABASES = {
