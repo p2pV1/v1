@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import studyImage from './assets/images/study.jpg';
 import mentorshipImage from './assets/images/mentor.png';
 import immigrationImage from './assets/images/immigration.jpg';
@@ -9,17 +9,17 @@ import { NextPage } from './NextPage';
 import { Activities } from './Activities';
 import { Categories } from './Categories';
 import { ActivityDetails } from './ActivityDetails';
-import Login from './components/Login';
-import Signup from './components/Signup';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 import AIOutput from './components/AIOutput';
+import LandingPage from './pages/LandingPage';
 
 export const categories = [
   { id: 123, name: 'Study', image: studyImage },
   {
     id: 124,
     name: 'Mentorship',
-    image:
-      'https://www.pexels.com/photo/photo-of-professor-mentoring-his-student-6325975/',
+    image: 'https://www.pexels.com/photo/photo-of-professor-mentoring-his-student-6325975/',
   },
   { id: 125, name: 'Immigration', image: immigrationImage },
 ];
@@ -37,39 +37,41 @@ export default function App() {
   const [userData, setUserData] = useState(null);
   const [loadingUserData, setLoadingUserData] = useState(true);
 
-  // Fetch user data when the app loads
+  // Access backend URL from environment variable
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
+
   useEffect(() => {
-    // Fetch user data using the token or cookie, if available
-    fetch('http://localhost:8000/api/user', {
+    // Fetch user data when the app loads
+    fetch(`${backendUrl}/api/user`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      credentials: 'include', // This will include cookies in the request
+      credentials: 'include',
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch user data');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setUserData(data.data);
-        setLoadingUserData(false); // Mark loading as complete
-      })
-      .catch((error) => {
-        console.error('Error fetching user data:', error.message);
-        setLoadingUserData(false); // Mark loading as complete even in case of error
-      });
-  }, []);
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Failed to fetch user data');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      setUserData(data.data);
+      setLoadingUserData(false);
+    })
+    .catch((error) => {
+      console.error('Error fetching user data:', error.message);
+      setLoadingUserData(false);
+    });
+  }, [backendUrl]); // Adding backendUrl as a dependency for useEffect
 
   return (
     <Router>
-      <NavBar userData={userData} /> {/* Pass user data to NavBar */}
+      {/* NavBar and other components */}
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        {/* Pass user data to Welcome component with loading indicator */}
+        <Route path="/" element={<LandingPage backendUrl={backendUrl} />} />
+        <Route path="/signup" element={<Signup backendUrl={backendUrl} />} />
+        <Route path="/login" element={<Login backendUrl={backendUrl} />} />
         <Route
           path="/welcome"
           element={

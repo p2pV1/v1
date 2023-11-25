@@ -26,9 +26,9 @@ export default function SignupPage() {
         phone: phoneNumber || null,
       },
     };
-
+    const backendApiUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:8080";
     try {
-      const response = await fetch("http://localhost:8000/api/register", {
+      const response = await fetch(`${backendApiUrl}/api/register`, {
         method: "POST",
         headers: headers,
         body: JSON.stringify(formData),

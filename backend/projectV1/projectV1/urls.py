@@ -7,12 +7,12 @@ from graphene_django.views import GraphQLView
 # Import necessary modules for serving static files during development
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('graphql/', GraphQLView.as_view(graphiql=True, schema=schema)),  
-    # path('graphql/chat/', GraphQLView.as_view(graphiql=True, schema=chat_schema)),  
-    path('ray_ai/', include('ray_ai.urls')),
+    path('graphql/', GraphQLView.as_view(graphiql=True, schema=schema), name='graphql'),  
+    
     path('registration/', include('registration.urls')),
     path('synthetic_data/', include('synthetic_data.urls')),
     path('audio/', include('audio_conference.urls')),
@@ -20,6 +20,7 @@ urlpatterns = [
     path("api/call/", include("api.call.urls")),
     path("api/room/", include("api.room.urls")),
     path('openai/', include('openai_integration.urls')),
+    path('favicon.ico', RedirectView.as_view(url='https://frontend-service-rojjrgeqna-ue.a.run.app/favicon.ico')),
 ]
 
 # Serve static files during development

@@ -13,7 +13,10 @@ from django.http import JsonResponse
 from datetime import datetime
 from django.conf import settings
 from django.utils.timezone import now
+import logging
 from .mail import verification_token, send_verification_email, send_password_email
+
+logger = logging.getLogger(__name__)
 
 @api_view(["GET"])
 def test(request):
@@ -29,7 +32,26 @@ def login_api(request):
     _, token = AuthToken.objects.create(user)
 
     data = {"status": True, "message": "Login Successfull", "data": {"token": token}}
-    return Response(data, status=200)
+     # Create response object
+    response = Response(data, status=200)
+
+    # Set the cookie with a duration of 7 days
+    # Ensure the Secure and SameSite attributes are set correctly
+    response.set_cookie(
+        'auth_token', 
+        token, 
+        httponly=True, 
+        secure=True, 
+        samesite='None', 
+        max_age=7*24*60*60, 
+        domain='frontend-service-rojjrgeqna-ue.a.run.app',
+        path='/'
+    )
+
+    logger.debug(f"Set-Cookie: auth_token={token}; Secure; HttpOnly; SameSite=None; Max-Age=604800; Domain=frontend-service-rojjrgeqna-ue.a.run.app; Path=/")
+
+    return response
+
 
 @api_view(["GET"])
 @valid_token

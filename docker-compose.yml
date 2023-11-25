@@ -10,12 +10,12 @@ services:
       - frontend-backend-network
   backend:
     build:
-      context: ./backend
-      dockerfile: ./projectV1/docker/Dockerfile
+      context: ./backend/projectV1
+      dockerfile: Dockerfile 
     env_file:
       - .env
     ports:
-      - "8000:8000"
+      - "8080:8080"
     depends_on:
       - frontend
     networks:

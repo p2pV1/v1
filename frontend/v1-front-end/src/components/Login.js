@@ -25,12 +25,14 @@ export default function Login() {
       rememberMe: rememberMe,
     };
 
+    const backendApiUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:8080";
+
     try {
-      const response = await fetch("http://localhost:8000/api/login", {
+      const response = await fetch(`${backendApiUrl}/api/login`, {
         method: "POST",
         headers: headers,
         body: JSON.stringify(formData),
-        credentials: "same-origin",
+        credentials: "include",
       });
 
       if (response.ok) {
@@ -57,7 +59,7 @@ export default function Login() {
     const expires = new Date(
       Date.now() + days * 24 * 60 * 60 * 1000
     ).toUTCString();
-    document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+    document.cookie = `${name}=${value}; expires=${expires}; path=/;Secure`;
   }
 
   // Function to get the CSRF token from cookies
