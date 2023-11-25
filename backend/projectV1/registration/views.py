@@ -13,7 +13,7 @@ from .models import User
 
 CLIENT_ID = "app_6c25c96f26a7c560a77e5d9e00a2090a"
 CLIENT_SECRET = "sk_a9e8ea23c68d3324059a9d9ee48a6b1992ca8e62c923f9ff"
-REDIRECT_URI = "http://localhost:8000/callback"
+REDIRECT_URI = "http://localhost:8080/callback"
 BASE_URL = "https://id.worldcoin.org"
 
 def verify_jwt(request, token):

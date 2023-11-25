@@ -7,13 +7,16 @@ from graphene_django.views import GraphQLView
 # Import necessary modules for serving static files during development
 from django.conf import settings
 from django.conf.urls.static import static
+<<<<<<< HEAD
 from api.room.consumers import ChatConsumer
+=======
+from django.views.generic.base import RedirectView
+>>>>>>> fbcf68cb629503427a2b9d12ce6b3e7668f8b30f
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('graphql/', GraphQLView.as_view(graphiql=True, schema=schema)),  
-    # path('graphql/chat/', GraphQLView.as_view(graphiql=True, schema=chat_schema)),  
-    path('ray_ai/', include('ray_ai.urls')),
+    path('graphql/', GraphQLView.as_view(graphiql=True, schema=schema), name='graphql'),  
+    
     path('registration/', include('registration.urls')),
     path('synthetic_data/', include('synthetic_data.urls')),
     path('audio/', include('audio_conference.urls')),
@@ -21,7 +24,11 @@ urlpatterns = [
     path("api/call/", include("api.call.urls")),
     path("api/room/", include("api.room.urls")),
     path('openai/', include('openai_integration.urls')),
+<<<<<<< HEAD
     path('ws/chat/<slug:slug>/', ChatConsumer.as_asgi()),
+=======
+    path('favicon.ico', RedirectView.as_view(url='https://frontend-service-rojjrgeqna-ue.a.run.app/favicon.ico')),
+>>>>>>> fbcf68cb629503427a2b9d12ce6b3e7668f8b30f
 ]
 
 # Serve static files during development

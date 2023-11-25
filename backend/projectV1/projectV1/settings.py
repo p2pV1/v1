@@ -1,32 +1,23 @@
 import os
 import signal
-import ray
 from pathlib import Path
-
-IN_DOCKER = 'db' not in os.environ
-
-ray.init(ignore_reinit_error=True)
-
-
-def teardown(signal, frame):
-    ray.shutdown()
-
-
-signal.signal(signal.SIGTERM, teardown)
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-kg-kbz7^ve7!z@v0gmh9-nc^b9ek&ocn5b!h(%_s82a^dczx@2a'
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-kg-kbz7^ve7!z@v0gmh9-nc^b9ek&ocn5b!h(%_s82a^dczx@2a')
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
-
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', 'default_value_if_not_set')
 
 SESSION_COOKIE_AGE = 172800
 
 DEBUG = True
 
+IN_DOCKER = False
+
+# Update the backend and frontend URLs
 CORS_ALLOWED_ORIGINS = [
+<<<<<<< HEAD
     "*",
     # "http://localhost:3000",
     # "http://127.0.0.1:3000"
@@ -37,15 +28,30 @@ CSRF_TRUSTED_ORIGINS = [
     # "http://localhost:3000",
     # "http://127.0.0.1:3000"
 
+=======
+    "http://localhost:3000",
+    "https://frontend-service-rojjrgeqna-ue.a.run.app",  # Update this URL
+    "https://backend-service-rojjrgeqna-ue.a.run.app",  # Update this URL
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+    "https://frontend-service-rojjrgeqna-ue.a.run.app",  # Update this URL
+    "https://backend-service-rojjrgeqna-ue.a.run.app",  # Update this URL
+>>>>>>> fbcf68cb629503427a2b9d12ce6b3e7668f8b30f
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
+<<<<<<< HEAD
 ALLOWED_HOSTS = [
     "*",
     # 'localhost',
     # '127.0.0.1'
 ]
+=======
+ALLOWED_HOSTS = ['backend-service-rojjrgeqna-ue.a.run.app','backend', 'localhost', '127.0.0.1']
+>>>>>>> fbcf68cb629503427a2b9d12ce6b3e7668f8b30f
 
 CORS_ALLOW_METHODS = [
     "*",
@@ -84,7 +90,6 @@ INSTALLED_APPS = [
     'room',
     'channels',
     'registration',
-    'ray_ai',
     'audio_conference',
     'corsheaders',
     'api',
@@ -128,6 +133,7 @@ GRAPHENE = {
     ],
 }
 
+<<<<<<< HEAD
 
 CHANNEL_LAYERS = {
     'default': {
@@ -137,18 +143,29 @@ CHANNEL_LAYERS = {
         },
     },
 }
+=======
+WSGI_APPLICATION = 'projectV1.wsgi.application'
+
+>>>>>>> fbcf68cb629503427a2b9d12ce6b3e7668f8b30f
 # Database config
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'default-db-name'),
-        'USER': os.getenv('DB_USER', 'default-user'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'default-password'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '5432'),
+        'NAME': 'everest',
+        'USER': 'p2plend',
+        'PASSWORD': 'P2plend98765',
+        'HOST': 'everest.c56iuelp2eif.us-east-2.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
+
+print("Database Configuration:")
+print(f"NAME: {DATABASES['default']['NAME']}")
+print(f"USER: {DATABASES['default']['USER']}")
+print(f"PASSWORD: {DATABASES['default']['PASSWORD']}")
+print(f"HOST: {DATABASES['default']['HOST']}")
+print(f"PORT: {DATABASES['default']['PORT']}")
 
 # Password validation
 # ...
@@ -180,4 +197,28 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'capstone0023@gmail.com'
-EMAIL_HOST_PASSWORD = 'rrft lujl hfez xkqr'
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='rrft lujl hfez xkqr')  # Update this line
+
+
+SESSION_COOKIE_DOMAIN = '.a.run.app'
+
+
+GOOGLE_CLOUD_STORAGE_SETTINGS = {
+    'GS_BUCKET_NAME': 'pplendbackend',  # Your bucket name
+    'GS_PROJECT_ID': 'pplendeverest',    # Your project ID
+    'GS_LOCATION': 'us',                # Your location
+    'GS_CREDENTIALS': {
+        "type": "service_account",
+        "project_id": "pplendeverest",
+        "private_key_id": "ba44de2ef8d5b7758f971d3f8d29739100b5d1a5",
+        "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCtYiYn8eYJHU9d\nRMyGXFKYiLEiQ7xc/7ZVPUh+ivnQbhn81gQnrRQADNnhbLV1/O4Wbt2VNF2O3tI2\nefh93uycuG+zY+A74XLaSDcmeID5K3DSAQgQimRGxC1nop1VI1+cstceLB8cRrPs\nxFyf8XrH8+J3nYZBXZfkvxGHWqpcKeVKOmYiW2x7KzhAvBnS05ld78zbMs7Sf6AQ\n4ltsfH9kAZQDx6KDY6BQitbk2w+h3GjjLP117byALbj0dUgWLZfgsQ6zU3nW5ZL/\n3DF8GTwohOb+lOY+StJF/rqsWO6p+xyKR0OT7eSZkMJyazW1tIMvN+DENvaWdTiA\n1IMKtFxxAgMBAAECggEACnxpDC7o0kHLyuYDjEJj+2t+8lsli/v/ehnDUJCVVGSo\nR96QsJlFivg8ACfGihIn5cLtk0hwD8PhnkpTppcszmX9hBxaU3zKflxHkO57obYz\nHqb8fCBGjsduwI8OPrfYNej/XMjfK820iYavBxGqyDzeLuJKcZnDEIz5YYCF/54D\n5FHAmhmy03SIDyDWaF89MNm5Np1ns9dFiWWyffoaz+TTYR+kgYRXu73CRXBnKtJr\nF0yGj056khmJticpLxEhaUgg7OwFoFuTkIbgLL4dtUqqzGrlDed7mT+c3RWEcGMA\nUlTMJd4u6/p8vckyX2hifTiRVofxaD3kUiZfuxnQvQKBgQDUDOUUrU2pwReI/9mU\nhFafdVrVm3RAgXlPC+J9agaPKL+JdyGcWsqRr0puQtTtYfarX/fNuWNKPDNFZQCp\nWfAsR+RsxScnhrmSuRyF2rDAQAa8aL7RGVSrMfP+rU70bOhDpQDoJHI+Bl1NSfPE\nPgSQe6OOXKmRtCnVzzKI9P+A1QKBgQDRUaMLUDrdLo9Q3ojkSpDVPP+juyHSx7Ix\nb5N9g75WzB64iAHuCREyO+cZTPdn/toM0scuQEP9HoxFY56JluzoSMnSAes++LDB\nieAsDl7xvoTH4kpljESGTyR4iDiJ4LSyXnCM9rxgRtIevOCwn1rI3lf/jZ/9GGDe\nJVL+UoNbLQKBgFbMOHDwR1v3B/UyFRPv361B0j6hdUJ6PPeYO8tuPOUYnt5b/0wK\n9eQQRn0/qfzJHrkjfUGeYwAeCDadk1m+0MqvWtcTFGXfhdKDJyO7UqI/EwLINWNN\n5RR2TBOxSSJP+frGbcqYMJMm88YRQVDQufmSQm6hi19yybUVLPBWqMdJAoGAc10j\nF2EokC7RHikIGYpfOKdd3ceNZLZbJ5PvHgY2KXBmnh2XsrGcoKsTO4aH9PEpDFg/\nHuackiz78mJtRjfAamVzliMonJREFub+fkmNWn8+f0vg5Qbh3YRQ/X1Wa+dEr+oM\n7iQuvoFJ3VcMH0w0pPCmX1qXCs8c1FKN401myCECgYBzCk0L4jBmcrwH92YwTQR5\nrUJC+Og1rkYrHKne0+4LmHZepx7clmn/P/eSakqjh60QHxLjm3cKHRZiTWH4yhdB\n1WDuqRH4RU9pHvPMaQR20SmE5k42MVsy+ZmDfVQJhC+o3WpSHpkIKkDuJfDU9rwV\niat4TOGCHlvtaz+TSY7LZQ==\n-----END PRIVATE KEY-----\n",
+        "client_email": "pplendbackendeverest@pplendeverest.iam.gserviceaccount.com",
+        "client_id": "109840666437703497715",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/pplendbackendeverest%40pplendeverest.iam.gserviceaccount.com",
+        "universe_domain": "googleapis.com"
+},
+
+}

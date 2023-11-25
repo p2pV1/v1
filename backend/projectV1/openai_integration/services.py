@@ -3,7 +3,7 @@
 import openai
 from django.conf import settings
 
-openai.api_key = settings.OPENAI_API_KEY
+
 
 def generate_response(prompt):
     response = openai.Completion.create(
