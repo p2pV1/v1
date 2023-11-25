@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "path-browserify": "^1.0.1",
+    "twin.macro": "^3.4.0"
+  },
+  "devDependencies": {
+    "querystring-es3": "^0.2.1",
+    "react-app-rewired": "^2.2.1"
+  }
+}
