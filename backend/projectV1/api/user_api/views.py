@@ -31,24 +31,26 @@ def login_api(request):
 
     _, token = AuthToken.objects.create(user)
 
+    
     data = {"status": True, "message": "Login Successfull", "data": {"token": token}}
-     # Create response object
+    #Create response object
     response = Response(data, status=200)
 
     # Set the cookie with a duration of 7 days
     # Ensure the Secure and SameSite attributes are set correctly
+
+    
     response.set_cookie(
         'auth_token', 
         token, 
         httponly=True, 
         secure=True, 
-        samesite='None', 
         max_age=7*24*60*60, 
-        domain='frontend-service-rojjrgeqna-ue.a.run.app',
-        path='/'
+        samesite='None', 
+        domain='.a.run.app'
     )
 
-    logger.debug(f"Set-Cookie: auth_token={token}; Secure; HttpOnly; SameSite=None; Max-Age=604800; Domain=frontend-service-rojjrgeqna-ue.a.run.app; Path=/")
+    logger.debug(f"Set-Cookie: auth_token={token}; Secure; HttpOnly; SameSite=None; Max-Age=604800; Domain=.a.run.app; Path=/")
 
     return response
 

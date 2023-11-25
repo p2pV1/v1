@@ -42,7 +42,14 @@ export default function App() {
 
   useEffect(() => {
     // Fetch user data when the app loads
-    fetch(`${backendUrl}/api/user`, {
+    console.log("Backend URL:", backendUrl);
+
+    // Construct the fetching URL and log it
+    const fetchUrl = `${backendUrl}/api/user`;
+    console.log("Fetching URL:", fetchUrl);
+
+    // Fetch user data when the app loads
+    fetch(fetchUrl, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
