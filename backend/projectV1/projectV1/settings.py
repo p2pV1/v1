@@ -27,38 +27,47 @@ SESSION_COOKIE_AGE = 172800
 DEBUG = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    "*",
+    # "http://localhost:3000",
+    # "http://127.0.0.1:3000"
 ]
 
-# CORS_ALLOW_ALL_ORIGINS = True
-
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000",
+    "*",
+    # "http://localhost:3000",
+    # "http://127.0.0.1:3000"
+
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "*",
+    # 'localhost',
+    # '127.0.0.1'
+]
 
 CORS_ALLOW_METHODS = [
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
+    "*",
+    # 'DELETE',
+    # 'GET',
+    # 'OPTIONS',
+    # 'PATCH',
+    # 'POST',
+    # 'PUT',
 ]
 
 CORS_ALLOW_HEADERS = [
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'X-CSRFToken',
-    'x-requested-with',
+    "*",
+    # 'accept',
+    # 'accept-encoding',
+    # 'authorization',
+    # 'content-type',
+    # 'dnt',
+    # 'origin',
+    # 'user-agent',
+    # 'X-CSRFToken',
+    # 'x-requested-with',
 ]
 
 INSTALLED_APPS = [
@@ -94,6 +103,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'projectV1.urls'
 
+ASGI_APPLICATION = 'projectV1.routing.application'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -118,8 +129,14 @@ GRAPHENE = {
 }
 
 
-WSGI_APPLICATION = 'projectV1.wsgi.application'
-
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 # Database config
 
 DATABASES = {

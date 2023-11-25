@@ -30,7 +30,7 @@ export default function Login() {
         method: "POST",
         headers: headers,
         body: JSON.stringify(formData),
-        credentials: "same-origin",
+        credentials: "include",
       });
 
       if (response.ok) {
@@ -38,7 +38,7 @@ export default function Login() {
         const { token } = responseData.data;
 
         // Set the token in a cookie
-        setCookie("auth_token", token, 7); // Expires in 7 days
+        // setCookie("auth_token", token, 7); // Expires in 7 days
 
         console.log("Login successful!");
 

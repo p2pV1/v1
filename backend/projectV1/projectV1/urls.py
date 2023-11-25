@@ -7,6 +7,7 @@ from graphene_django.views import GraphQLView
 # Import necessary modules for serving static files during development
 from django.conf import settings
 from django.conf.urls.static import static
+from api.room.consumers import ChatConsumer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -20,6 +21,7 @@ urlpatterns = [
     path("api/call/", include("api.call.urls")),
     path("api/room/", include("api.room.urls")),
     path('openai/', include('openai_integration.urls')),
+    path('ws/chat/<slug:slug>/', ChatConsumer.as_asgi()),
 ]
 
 # Serve static files during development
