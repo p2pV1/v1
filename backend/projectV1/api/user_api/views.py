@@ -6,6 +6,7 @@ from .serializers import UserRegistrationSerializer, PasswordChangeSerializer
 from knox.auth import AuthToken
 from registration.models import Token
 from django.contrib.auth.models import User
+from registration.models import Profile
 import jwt
 import random
 import string
@@ -28,9 +29,35 @@ def login_api(request):
 
     _, token = AuthToken.objects.create(user)
 
+    
     data = {"status": True, "message": "Login Successfull", "data": {"token": token}}
+    #Create response object
     response = Response(data, status=200)
-    response.set_cookie('auth_token', token, httponly=True, secure=True, samesite='None', max_age=7*24*60*60)
+
+    # Set the cookie with a duration of 7 days
+    # Ensure the Secure and SameSite attributes are set correctly
+
+    origin = request.META.get('HTTP_ORIGIN')
+    if origin and origin.startswith('http://localhost'):
+        response.set_cookie(
+            'auth_token', 
+            token, 
+            httponly=True, 
+            secure=True, 
+            max_age=7*24*60*60, 
+            # samesite='None', 
+            # domain='.a.run.app'
+        )
+    else:
+        response.set_cookie(
+            'auth_token', 
+            token, 
+            httponly=True, 
+            secure=True, 
+            max_age=7*24*60*60, 
+            samesite='None', 
+            domain='.a.run.app'
+        )
     return response
 
 @api_view(["GET"])

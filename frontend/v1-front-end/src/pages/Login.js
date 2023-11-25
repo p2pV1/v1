@@ -55,6 +55,10 @@ const SubmitButton = styled.button`
   }
 `;
 
+const logCookies = () => {
+  const allCookies = document.cookie;
+  console.log("All available cookies:", allCookies);
+};
 
 
 export default ({
@@ -97,12 +101,14 @@ export default ({
         headers: headers,
         body: JSON.stringify(formData),
         credentials: "include",
+
+
       });
 
       if (response.ok) {
         const responseData = await response.json();
         const { token } = responseData.data;
-        setCookie("auth_token", token, 7); // Expires in 7 days
+        // setCookie("auth_token", token, 7); // Expires in 7 days
         navigate("/welcome");
       } else {
         console.error("Login failed");
@@ -110,14 +116,16 @@ export default ({
     } catch (error) {
       console.error("An error occurred:", error);
     }
+
+    logCookies();
   };
 
-  function setCookie(name, value, days) {
-    const expires = new Date(
-      Date.now() + days * 24 * 60 * 60 * 1000
-    ).toUTCString();
-    document.cookie = `${name}=${value};expires=${expires};path=/;Secure;SameSite=None`;
-  }
+  // function setCookie(name, value, days) {
+  //   const expires = new Date(
+  //     Date.now() + days * 24 * 60 * 60 * 1000
+  //   ).toUTCString();
+  //   document.cookie = `${name}=${value};expires=${expires};path=/;Secure;SameSite=None`;
+  // }
 
   function getCookie(name) {
     const cookieValue = document.cookie.match(
