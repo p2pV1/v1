@@ -101,13 +101,12 @@ export default ({
         headers: headers,
         body: JSON.stringify(formData),
         credentials: "include",
-
-
       });
 
       if (response.ok) {
         const responseData = await response.json();
         const { token } = responseData.data;
+        localStorage.setItem('auth_token', token); // Storing token in local storage
         // setCookie("auth_token", token, 7); // Expires in 7 days
         navigate("/welcome");
       } else {

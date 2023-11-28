@@ -53,6 +53,7 @@ export default function App() {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Token ${localStorage.getItem('auth_token')}`
       },
       credentials: 'include',
     })
