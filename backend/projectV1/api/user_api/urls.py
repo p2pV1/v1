@@ -10,5 +10,7 @@ urlpatterns = [
     path('verify_email', views.verify_email),
     path('forgot_password', views.forgot_password),
     path('validate_token', views.validate_token),
-    path('update_password', views.update_password),
+    path('update_password', views.update_password), 
+    path('is_authenticated', views.is_authenticated), 
+    path('logout', views.logout), 
 ]
