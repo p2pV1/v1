@@ -45,8 +45,6 @@ def login_api(request):
             httponly=True, 
             secure=True, 
             max_age=7*24*60*60, 
-            # samesite='None', 
-            # domain='.a.run.app'
         )
     else:
         response.set_cookie(
@@ -56,7 +54,7 @@ def login_api(request):
             secure=True, 
             max_age=7*24*60*60, 
             samesite='None', 
-            domain='.a.run.app'
+            domain='backend-service-rojjrgeqna-ue.a.run.app'
         )
     return response
 

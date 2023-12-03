@@ -2,15 +2,20 @@ from django.contrib.auth.models import User
 from rest_framework import serializers, validators
 from registration.models import Profile
 from django.contrib.auth.hashers import check_password
+import re
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ("phone", "sub", "verified_at", "dob", "name")
 
-    # Set 'phone' field as required
     phone = serializers.CharField(max_length=20, required=True)
 
+    def validate_phone(self, value):
+        pattern = re.compile(r"\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}")
+        if not pattern.fullmatch(value):
+            raise serializers.ValidationError("Invalid Canadian phone number format")
+        return value
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
@@ -31,6 +36,12 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
                 ],
             },
         }
+
+    def validate_password(self, value):
+        pattern = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$')
+        if not pattern.fullmatch(value):
+            raise serializers.ValidationError("Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a symbol.")
+        return value
 
     def create(self, validated_data):
         profile_data = validated_data.pop("profile")
