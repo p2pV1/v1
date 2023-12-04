@@ -15,7 +15,7 @@ def verification_token(user):
     return token
 
 def send_verification_email(user, token):
-    verification_link = f"http://127.0.0.1:8000/verify-email?token={token}"
+    verification_link = f"http://127.0.0.1:8080/verify-email?token={token}"
     subject = "Verify your email"
     message = f"Click the link to verify your email: {verification_link}"
     from_email = "capstone0023@gmail.com"

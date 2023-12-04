@@ -16,6 +16,9 @@ from django.conf import settings
 from django.utils.timezone import now
 from .mail import verification_token, send_verification_email, send_password_email
 
+import logging
+logger = logging.getLogger(__name__)
+
 @api_view(["GET"])
 def test(request):
     data = {"status": True, "message": "Testing API", "data": None}
@@ -32,6 +35,14 @@ def login_api(request):
     
     data = {"status": True, "message": "Login Successfull", "data": {"token": token}}
     #Create response object
+
+    logger.info("Request Headers: %s", request.headers)
+
+    # Print some key headers   
+    logger.info("X-Forwarded-For: %s", request.headers.get('X-Forwarded-For'))
+    logger.info("X-Cloud-Trace-Context: %s", request.headers.get('X-Cloud-Trace-Context'))
+    logger.info("Host: %s", request.headers.get('Host'))
+
     response = Response(data, status=200)
 
     # Set the cookie with a duration of 7 days
@@ -45,8 +56,8 @@ def login_api(request):
             httponly=True, 
             secure=True, 
             max_age=7*24*60*60, 
-            # samesite='None', 
-            # domain='.a.run.app'
+            samesite='Lax', 
+            domain='localhost'
         )
     else:
         response.set_cookie(
@@ -56,8 +67,10 @@ def login_api(request):
             secure=True, 
             max_age=7*24*60*60, 
             samesite='None', 
-            domain='.a.run.app'
+            domain='backend-service-rojjrgeqna-ue.a.run.app'
         )
+
+        response["Access-Control-Allow-Credentials"] = "true"
     return response
 
 @api_view(["GET"])
