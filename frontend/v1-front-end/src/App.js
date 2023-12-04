@@ -10,7 +10,7 @@ import SignUp from './components/auth/signup';
 import SignIn from './components/auth/signin';
 
 import CreateRoom from "./components/chat/createroom";
-import ChatRoom from "./components/chat/chatroom";
+import ChatArea from "./components/chat/chatarea";
 import RoomDetails from "./components/chat/roomdetails";
 
 const client = new ApolloClient({
@@ -64,7 +64,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn backendUrl={backendUrl} setIsAuthenticated={setIsAuthenticated} onSignInSuccess={onSignInSuccess} />} />
           <Route path="/create-room" element={<CreateRoom backendUrl={backendUrl} />} />
-          <Route path="/chat-rooms" element={<ChatRoom backendUrl={backendUrl} />} />
+          <Route path="/chat-rooms" element={<ChatArea backendUrl={backendUrl} />} />
           <Route path="/rooms/:slug" element={<RoomDetails backendUrl={backendUrl} />} />
           <Route path="*" element={<p>Page Not Found</p>} />
         </Routes>
