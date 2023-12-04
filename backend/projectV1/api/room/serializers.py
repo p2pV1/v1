@@ -4,9 +4,11 @@ from django.utils import timezone
 from django.utils.text import slugify
 
 class RoomSerializer(serializers.ModelSerializer):
+    description = serializers.CharField(allow_blank=True, allow_null=True)
+
     class Meta:
         model = ChatRoom
-        fields = ('id', 'host', 'name', 'slug', 'private', 'created_at')
+        fields = ('id', 'host', 'name', 'slug', 'description', 'private', 'created_at')
         extra_kwargs = {'host': {'read_only': True}, 'slug': {'read_only': True}}
 
     def validate(self, data):

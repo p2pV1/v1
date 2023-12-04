@@ -91,6 +91,45 @@ def get_user_data(request):
 
     return Response(data, status=200)
 
+@api_view(["GET"])
+@valid_token
+def is_authenticated(request):
+    data = {
+        "status": True,
+        "message": "Authenticated user",
+        "data": None
+    }
+
+    return Response(data, status=200)
+
+@api_view(["POST"])
+@valid_token
+def logout(request):
+
+    data = {"status": True, "message": "Login Successfull", "data": {"token": token}}
+    #Create response object
+    response = Response(data, status=200)
+    origin = request.META.get('HTTP_ORIGIN')
+    if origin and origin.startswith('http://localhost'):
+        response.set_cookie(
+            'auth_token', 
+            None, 
+            httponly=True, 
+            secure=True, 
+            max_age=7*24*60*60, 
+        )
+    else:
+        response.set_cookie(
+            'auth_token', 
+            None, 
+            httponly=True, 
+            secure=True, 
+            max_age=7*24*60*60, 
+            samesite='None', 
+            domain='backend-service-rojjrgeqna-ue.a.run.app'
+        )
+    return response
+
 
 @api_view(["POST"])
 def registration_api(request):

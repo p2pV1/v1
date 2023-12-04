@@ -6,6 +6,7 @@ class ChatRoom(models.Model):
     participants = models.ManyToManyField(User, related_name='user_rooms')
     name = models.CharField(max_length=250)
     slug = models.CharField(max_length=250)
+    description = models.TextField(null=True, blank=True)
     private = models.BooleanField(default=False)
     created_at = models.DateTimeField(null=True, blank=True)
 

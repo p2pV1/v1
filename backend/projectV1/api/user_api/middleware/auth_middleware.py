@@ -39,9 +39,3 @@ class AuthenticationMiddleware(MiddlewareMixin):
         except Exception as e:
             logger.error(f"Error in AuthenticationMiddleware: {str(e)}")
             return JsonResponse({"status": False, "message": "Internal Server Error"}, status=500)
-
-    def __call__(self, request):
-        response = self.process_request(request)
-        if not response:
-            response = self.get_response(request)
-        return response
