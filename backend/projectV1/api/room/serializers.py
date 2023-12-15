@@ -2,6 +2,7 @@ from rest_framework import serializers
 from room.models import ChatRoom, Message
 from django.utils import timezone
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 
 class RoomSerializer(serializers.ModelSerializer):
     description = serializers.CharField(allow_blank=True, allow_null=True)
@@ -43,3 +44,8 @@ class MessageSerializer(serializers.ModelSerializer):
         if 'room' in self.context:
             validated_data['room'] = self.context['room']
         return super(MessageSerializer, self).create(validated_data)
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email']  # Include the fields you need

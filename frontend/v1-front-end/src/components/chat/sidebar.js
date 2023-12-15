@@ -19,7 +19,7 @@ const Sidebar = ({backendUrl}) => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await fetch(`${backendUrl}/api/room/rooms`  || "http://localhost:8080/api/room/rooms", {
+        const response = await fetch("http://localhost:8080/api/room/rooms", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -41,6 +41,7 @@ const Sidebar = ({backendUrl}) => {
     fetchRooms();
   }, []);
 
+  
   // Fetch room details from backend
   return (
     <aside className="w-64 bg-gray-800 h-screen overflow-auto">

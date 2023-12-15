@@ -1,76 +1,62 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import MessageArea from './messagearea';
 
 const RoomDetails = ({ backendUrl }) => {
+  console.log("userData" + userData + "backendURl" + backendUrl)
   const { slug } = useParams();
-  const [roomData, setRoomData] = useState({
-    name: "",
-    room_participants: [],
-    all_users: [],
-  });
-  const [newParticipantEmail, setNewParticipantEmail] = useState("");
+  const [roomData, setRoomData] = useState({ name: '', participants: [] });
+  const [userData, setUserData] = useState(null);
+  const [newParticipantEmail, setNewParticipantEmail] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchRoomDetails = async () => {
-    try {
-      const response = await fetch(`${backendUrl}/api/room/rooms/${slug}`, {
-        method: "GET",
-        credentials: "include",
-      });
+  const fetchUserData = () => {
+    fetch(`${backendUrl}/api/user`, {
+      method: 'GET',
+      credentials: 'include',
+    })
+    .then(response => {
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error('Failed to fetch user data');
       }
-      const data = await response.json();
-      setRoomData((prevData) => ({
-        ...prevData,
-        name: data.name,
-        room_participants: data.room_participants || [],
-      }));
-    } catch (error) {
-      console.error("Error fetching room details:", error);
-    }
+      return response.json();
+    })
+    .then(data => {
+      console.log("data here " + data)
+      setUserData(data.data);
+    })
+    .catch(error => {
+      console.error('Error fetching user data:', error);
+    });
   };
 
-  const fetchAllUsers = async () => {
+  const fetchRoomDetails = async () => {
+    setIsLoading(true);
     try {
-      const response = await fetch(`${backendUrl}/api/room/users/all/`, {
-        method: "GET",
-        credentials: "include",
+      const response = await fetch(`${backendUrl}/api/room/rooms/${slug}/participants/`, {
+        method: 'GET',
+        credentials: 'include',
       });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      setRoomData((prevData) => ({
-        ...prevData,
-        all_users: data.users || [],
-      }));
+      setRoomData({ name: data.name, participants: data.participants || [] });
     } catch (error) {
-      console.error("Error fetching all users:", error);
+      console.error('Error fetching room details:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchRoomDetails();
-    fetchAllUsers();
-  }, [backendUrl, slug]);
-
   const handleAddParticipant = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      console.log("Adding participant with slug:", slug, "and email:", newParticipantEmail);
       const response = await fetch(`${backendUrl}/api/room/rooms/participant/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          slug: slug,
-          email: newParticipantEmail,
-        }),
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ slug, email: newParticipantEmail }),
       });
 
       if (!response.ok) {
@@ -78,84 +64,63 @@ const RoomDetails = ({ backendUrl }) => {
       }
 
       await fetchRoomDetails();
-      setNewParticipantEmail(""); // Clear the input field after adding a participant
+      setNewParticipantEmail('');
     } catch (error) {
-      console.error("Error adding participant:", error);
+      console.error('Error adding participant:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h1 className="text-2xl font-semibold text-gray-800 mb-4">{roomData.name}</h1>
-      <p className="text-gray-600 text-sm mb-4">
-        Participants:{" "}
-        {roomData.room_participants.length > 0
-          ? roomData.room_participants.join(", ")
-          : "No participants"}
-      </p>
+  useEffect(() => {
+    fetchRoomDetails();
+    fetchUserData();
+  }, [slug]); // Removed the fetchParticipants dependency
 
-      <div className="mb-4">
-        <h2 className="text-lg font-semibold text-gray-800 mb-2">All Users</h2>
-        <table className="w-full border-collapse border border-gray-300 rounded-lg">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="border border-gray-300 py-2 px-4">Email</th>
-              <th className="border border-gray-300 py-2 px-4">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {roomData.all_users.length > 0 ? (
-              roomData.all_users.map((user) => (
-                <tr key={user} className="border-b border-gray-300">
-                  <td className="border border-gray-300 py-2 px-4">{user}</td>
-                  <td className="border border-gray-300 py-2 px-4">
-                    <button
-                      onClick={() => {
-                        setNewParticipantEmail(user);
-                        handleAddParticipant();
-                      }}
-                      className="bg-blue-500 text-white px-2 py-1 rounded-md"
-                      disabled={isLoading}
-                    >
-                      {isLoading ? "Adding..." : "Add"}
-                    </button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td className="border border-gray-300 py-2 px-4" colSpan="2">
-                  No users
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+  return (
+    <div className='bg-white rounded-lg shadow-md p-6'>
+      <h1 className='text-2xl font-semibold text-gray-800 mb-4'>{roomData.name}</h1>
+
+      <div className='mb-4'>
+        <h2 className='text-lg font-semibold text-gray-800 mb-2'>Participants</h2>
+        <ul>
+          {roomData.participants.length > 0 ? (
+            roomData.participants.map((participant, index) => (
+              <li key={index} className='text-gray-600 text-sm mb-2'>
+                {participant.username} ({participant.email})
+              </li>
+            ))
+          ) : (
+            <p className='text-gray-600 text-sm'>No participants</p>
+          )}
+        </ul>
       </div>
 
-      <div className="mb-4">
-        <h2 className="text-lg font-semibold text-gray-800 mb-2">Add Participant</h2>
-        <div className="flex items-center space-x-4">
+      <div className='mb-4'>
+        <h2 className='text-lg font-semibold text-gray-800 mb-2'>Add Participant</h2>
+        <div className='flex items-center space-x-4'>
           <input
-            type="email"
-            placeholder="Enter email"
+            type='email'
+            placeholder='Enter email'
             value={newParticipantEmail}
             onChange={(e) => setNewParticipantEmail(e.target.value)}
-            className="px-3 py-2 border rounded-lg w-1/2"
+            className='px-3 py-2 border rounded-lg w-1/2'
           />
           <button
             onClick={handleAddParticipant}
             disabled={isLoading}
             className={`bg-blue-500 text-white px-3 py-2 rounded-lg ${
-              isLoading ? "opacity-50 cursor-not-allowed" : ""
+              isLoading ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >
-            {isLoading ? "Adding..." : "Add"}
+            {isLoading ? 'Adding...' : 'Add'}
           </button>
         </div>
       </div>
+      {console.log(userData+"userdata here")}
+      {userData && (
+        <MessageArea backendUrl={backendUrl} userData={userData} />
+      )}
     </div>
   );
 };

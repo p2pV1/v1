@@ -20,7 +20,7 @@ const CreateRoom = ({backendUrl}) => {
   const [description, setDescription] = useState("");
   const [isPrivate, setIsPrivate] = useState("no");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const apiUrl = backendUrl || "http://localhost:8080";
+  const apiUrl = "localhost:8080";
   // Function to handle room creation (to be implemented)
   const createRoom = async (e) => {
     e.preventDefault();

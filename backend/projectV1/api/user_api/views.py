@@ -14,6 +14,7 @@ from django.http import JsonResponse
 from datetime import datetime
 from django.conf import settings
 from django.utils.timezone import now
+import logging
 from .mail import verification_token, send_verification_email, send_password_email
 
 import logging

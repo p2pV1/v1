@@ -2,17 +2,20 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 
+// Import your components here
 import Landing from './components/landing/Landing';
 import { Welcome } from './components/app/welcome';
 import { Categories } from './components/app/categories';
 import { Activities } from './components/app/activities';
 import SignUp from './components/auth/signup';
 import SignIn from './components/auth/signin';
+import ChatApp from './components/chat/chatapp';
+import CreateRoom from './components/chat/createroom';
+import RoomDetail from './components/chat/roomdetails';
+import MessageArea from './components/chat/messagearea';
 
-import CreateRoom from "./components/chat/createroom";
-import ChatArea from "./components/chat/chatarea";
-import RoomDetails from "./components/chat/roomdetails";
 
+// Apollo Client setup
 const client = new ApolloClient({
   uri: 'https://swapi-graphql.netlify.app/.netlify/functions/index',
   cache: new InMemoryCache(),
@@ -22,11 +25,9 @@ function App() {
   const [userData, setUserData] = useState(null);
   const [loadingUserData, setLoadingUserData] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const backendUrl = 'https://backend-service-rojjrgeqna-ue.a.run.app' || 'http://localhost:8080';
+  const backendUrl = 'http://localhost:8080' || 'https://backend-service-rojjrgeqna-ue.a.run.app';
 
-  // Define the handleSignInSuccess function here
-  const onSignInSuccess = () => {
-    console.log("in signin Succcess.")
+  const handleSignInSuccess = () => {
     setIsAuthenticated(true);
     fetchUserData();
   };
@@ -36,20 +37,20 @@ function App() {
       method: 'GET',
       credentials: 'include',
     })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch user data');
-        }
-        return response.json();
-      })
-      .then(data => {
-        setUserData(data.data);
-        setLoadingUserData(false);
-      })
-      .catch(error => {
-        console.error('Error fetching user data:', error);
-        setLoadingUserData(false);
-      });
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to fetch user data');
+      }
+      return response.json();
+    })
+    .then(data => {
+      setUserData(data.data);
+      setLoadingUserData(false);
+    })
+    .catch(error => {
+      console.error('Error fetching user data:', error);
+      setLoadingUserData(false);
+    });
   };
 
   return (
@@ -60,12 +61,13 @@ function App() {
           <Route path="/welcome" element={<Welcome userData={userData} />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/category/:categoryId" element={<Activities />} />
-          
+          <Route path="/chat" element={<ChatApp />} />
+          <Route path="/rooms" element={<ChatApp />} />
+          <Route path="/rooms/:slug" element={<RoomDetail backendUrl={backendUrl} userData={userData} />} />
+          <Route path="/rooms/:slug/chat" element={<MessageArea />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn backendUrl={backendUrl} setIsAuthenticated={setIsAuthenticated} onSignInSuccess={onSignInSuccess} />} />
-          <Route path="/create-room" element={<CreateRoom backendUrl={backendUrl} />} />
-          <Route path="/chat-rooms" element={<ChatArea backendUrl={backendUrl} />} />
-          <Route path="/rooms/:slug" element={<RoomDetails backendUrl={backendUrl} />} />
+          <Route path="/create-room" element={<CreateRoom userData={userData} />} />
+          <Route path="/signin" element={<SignIn backendUrl={backendUrl} setIsAuthenticated={setIsAuthenticated} onSignInSuccess={handleSignInSuccess} />} />
           <Route path="*" element={<p>Page Not Found</p>} />
         </Routes>
       </ApolloProvider>

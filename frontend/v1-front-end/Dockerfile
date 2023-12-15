@@ -33,7 +33,7 @@ RUN npm install -g serve
 COPY --from=build /app/build ./build
 
 # Expose the port that your application will run on
-EXPOSE 8080
+EXPOSE 3000
 
 # Start the static file server, listening on port 8080
-CMD ["serve", "-s", "build", "-l", "8080"]
+CMD ["serve", "-s", "build", "-l", "3000"]
