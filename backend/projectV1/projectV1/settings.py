@@ -85,7 +85,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'projectV1.urls'
 
-ASGI_APPLICATION = 'projectV1.routing.application'
+ASGI_APPLICATION = 'projectV1.asgi.application'
 
 TEMPLATES = [
     {
@@ -156,6 +156,15 @@ TEMPLATE_DIRS = [
 ]
 
 REST_FRAMEWORK = {"DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",)}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],  # Modify as per your Redis configuration
+        },
+    },
+}
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
