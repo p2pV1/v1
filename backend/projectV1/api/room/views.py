@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import permissions
 from room.models import ChatRoom, Message
-from .serializers import RoomSerializer, MessageSerializer
+from .serializers import RoomSerializer, MessageSerializer, UserSerializer
 from api.user_api.decorators import require_authenticated_and_valid_token as valid_token 
 from django.contrib.auth.models import User
 
@@ -136,3 +136,22 @@ def add_participant(request):
                 "message": "User ID is required to add a participant",
             }
             return Response(data, status=400)
+    
+@api_view(["GET"])
+@valid_token
+def room_participants(request, slug):
+    try:
+        room = ChatRoom.objects.get(slug=slug)
+    except ChatRoom.DoesNotExist:
+        return Response({
+            "status": False,
+            "message": "Room not found",
+        }, status=404)
+
+    participants = room.participants.all()
+    serializer = UserSerializer(participants, many=True)
+    return Response({
+        "status": True,
+        "message": "Participants retrieved successfully",
+        "participants": serializer.data
+    }, status=200)

@@ -2,28 +2,38 @@
 FROM node:16-buster as build
 WORKDIR /app
 
-RUN groupadd -r appuser && useradd -r -g appuser -m -d /app appuser
-
-USER root
+# Copy package.json and package-lock.json
 COPY package*.json ./
+
+# Clean npm cache and install dependencies
 RUN npm cache clean --force
 RUN npm install
+
+# Install react-scripts globally
 RUN npm install -g react-scripts
-RUN chown -R appuser:appuser /app
-RUN chown -R appuser:appuser /app/node_modules
 
+# Copy the source code
 COPY . .
-RUN chown -R appuser:appuser /app
 
-# run build as root
+# Build the application
 RUN npm run build
-
-# switch back to appuser for running the app
-USER appuser
 
 # Stage 2: Runtime
 FROM node:16-buster-slim
 WORKDIR /app
-COPY --from=build /app .
+
+# Set Node.js to production environment
+ENV NODE_ENV=production
+ENV NODE_OPTIONS=--max-old-space-size=4096
+
+# Install 'serve' for static file serving
+RUN npm install -g serve
+
+# Copy build directory from build stage
+COPY --from=build /app/build ./build
+
+# Expose the port that your application will run on
 EXPOSE 3000
-CMD ["npm", "start"]
+
+# Start the static file server, listening on port 8080
+CMD ["serve", "-s", "build", "-l", "3000"]

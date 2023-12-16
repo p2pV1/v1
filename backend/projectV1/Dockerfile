@@ -9,7 +9,9 @@ RUN apt-get update && apt-get install -y libpq-dev gcc && \
     pip install psycopg2-binary
 
 # Install other dependencies
-RUN pip install gunicorn
+RUN pip install gunicorn uvicorn
+
+RUN apt-get install -y redis-server
 
 # Copy requirements and install Python dependencies
 COPY ./requirements.txt .
@@ -30,7 +32,7 @@ ENV MEDIA_ROOT=/vol/web/media
 ENV STATIC_ROOT=/vol/web/static
 
 # Expose the port that your application will run on
-EXPOSE 8080
+EXPOSE 8080 6379
 
-# Set the entrypoint to run your application
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "projectV1.wsgi:application"]
+# Set the entrypoint to run your ASGI application with Uvicorn
+CMD ["uvicorn", "projectV1.asgi:application", "--host", "0.0.0.0", "--port", "8080"]

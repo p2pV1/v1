@@ -5,6 +5,10 @@ import logging
 
 # Setup logger for this module
 logger = logging.getLogger(__name__)
+import logging
+
+# Setup logger for this module
+logger = logging.getLogger(__name__)
 
 class AuthenticationMiddleware(MiddlewareMixin):
     def __init__(self, get_response):
@@ -14,6 +18,7 @@ class AuthenticationMiddleware(MiddlewareMixin):
         # Bypass middleware for public (unauthenticated) endpoints
         if request.path in ['/public/endpoint1', '/public/endpoint2']:
             return None
+
 
         try:
             auth_token = request.COOKIES.get('auth_token')
