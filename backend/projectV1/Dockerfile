@@ -11,7 +11,6 @@ RUN apt-get update && apt-get install -y libpq-dev gcc && \
 # Install other dependencies
 RUN pip install gunicorn uvicorn
 
-RUN apt-get install -y redis-server
 
 # Copy requirements and install Python dependencies
 COPY ./requirements.txt .
