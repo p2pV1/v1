@@ -137,9 +137,10 @@ def add_participant(request):
             }
             return Response(data, status=400)
     
-@api_view(["GET"])
+@api_view(["POST"])
 @valid_token
-def room_participants(request, slug):
+def room_participants(request):
+    slug = request.GET.get('slug')
     try:
         room = ChatRoom.objects.get(slug=slug)
     except ChatRoom.DoesNotExist:
@@ -148,10 +149,37 @@ def room_participants(request, slug):
             "message": "Room not found",
         }, status=404)
 
+    participant_count = request.GET.get('participant_count', 0)
+    try:
+        participant_count = int(participant_count)
+    except ValueError:
+        participant_count = 0
+
     participants = room.participants.all()
-    serializer = UserSerializer(participants, many=True)
+
+    start_index = participant_count
+    end_index = start_index + 10
+    selected_participants = participants[start_index:end_index]
+
+    serializer = UserSerializer(selected_participants, many=True)
+
     return Response({
         "status": True,
         "message": "Participants retrieved successfully",
         "participants": serializer.data
+    }, status=200)
+
+@api_view(["POST"])
+@valid_token
+def search_users_by_email(request):
+    email_query = request.GET.get('email', '')
+
+    matching_users = User.objects.filter(email__icontains=email_query)[:5]
+
+    serializer = UserSerializer(matching_users, many=True)
+
+    return Response({
+        "status": True,
+        "message": "Users retrieved successfully",
+        "users": serializer.data
     }, status=200)
