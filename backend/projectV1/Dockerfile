@@ -11,10 +11,14 @@ RUN apt-get update && apt-get install -y libpq-dev gcc && \
 # Install other dependencies
 RUN pip install gunicorn uvicorn
 
+RUN apt-get update && apt-get install -y redis-server
 
 # Copy requirements and install Python dependencies
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
+
+# Set environment variable for Django settings
+ENV DJANGO_SETTINGS_MODULE=projectV1.settings
 
 # Copy the entire app
 COPY . /app
