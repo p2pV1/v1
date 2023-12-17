@@ -20,6 +20,14 @@ services:
       - frontend
     networks:
       - frontend-backend-network
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - frontend-backend-network
+      
 networks:
   frontend-backend-network:
     driver: bridge
