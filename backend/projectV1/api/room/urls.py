@@ -6,5 +6,6 @@ urlpatterns = [
     path('rooms/<slug:slug>/', views.room_detail),
     path('rooms/<slug:slug>/messages/', views.message_list_create),
     path('roooms_participant/participant/', views.add_participant),
+    path('roooms_participant/find_participant/', views.search_users_by_email),
     path('rooms/<slug:slug>/participants/', views.room_participants, name='room-participants'),
 ]
