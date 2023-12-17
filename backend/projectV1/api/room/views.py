@@ -137,9 +137,10 @@ def add_participant(request):
             }
             return Response(data, status=400)
     
-@api_view(["GET"])
+@api_view(["POST"])
 @valid_token
-def room_participants(request, slug):
+def room_participants(request):
+    slug = request.GET.get('slug')
     try:
         room = ChatRoom.objects.get(slug=slug)
     except ChatRoom.DoesNotExist:
@@ -168,7 +169,7 @@ def room_participants(request, slug):
         "participants": serializer.data
     }, status=200)
 
-@api_view(["GET"])
+@api_view(["POST"])
 @valid_token
 def search_users_by_email(request):
     email_query = request.GET.get('email', '')
