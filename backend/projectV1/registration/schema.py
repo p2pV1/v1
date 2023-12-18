@@ -44,6 +44,9 @@ class ChatRoomType(DjangoObjectType):
         model = ChatRoom
         fields = ('id', 'host', 'participants', 'name', 'slug', 'private', 'created_at')
 
+    def resolve_participants_list(self, info):
+        return self.participants.all()
+    
 class MessageType(DjangoObjectType):
     class Meta:
         model = Message
