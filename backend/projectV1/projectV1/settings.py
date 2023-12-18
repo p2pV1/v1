@@ -3,6 +3,15 @@ import signal
 from pathlib import Path
 from decouple import config
 from decouple import config
+import logging
+
+# Configure logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+logger.addHandler(stream_handler)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -107,7 +116,7 @@ LOGGING = {
     },
 }
 
-
+logger.debug("DJANGO_SETTINGS_MODULE: %s", os.environ.get("DJANGO_SETTINGS_MODULE"))
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

@@ -137,7 +137,7 @@ def add_participant(request):
             }
             return Response(data, status=400)
     
-@api_view(["POST"])
+@api_view(["POST", "GET"])
 @valid_token
 def room_participants(request):
     slug = request.GET.get('slug')
