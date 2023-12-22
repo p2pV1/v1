@@ -54,7 +54,7 @@ const RoomDetails = ({ backendUrl }) => {
   const handleAddParticipant = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${backendUrl}/api/room/rooms/participant/`, {
+      const response = await fetch(`${backendUrl}/api/room/rooms_participant/participant/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
