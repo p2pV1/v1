@@ -70,7 +70,12 @@ const MessageArea = ({ backendUrl, userData }) => {
 
   const sendMessage = async () => {
     if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send(JSON.stringify({room: slug, user: userData.id, content: newMessage  }));
+      // Adjusted to send 'user' and 'message' as top-level keys
+      const messagePayload = {
+        user: userData.id,  // Ensure this is a valid and correctly set value
+        message: newMessage
+      };
+      socket.send(JSON.stringify(messagePayload));
       setNewMessage('');
     }
   };

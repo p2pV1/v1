@@ -12,6 +12,7 @@ import SignIn from './components/auth/signin';
 import ChatApp from './components/chat/chatapp';
 import CreateRoom from './components/chat/createroom';
 import RoomDetail from './components/chat/roomdetails';
+import Test from './components/chat/test';
 import MessageArea from './components/chat/messagearea';
 
 

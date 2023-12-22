@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import MessageArea from './messagearea';
 
 const RoomDetails = ({ backendUrl }) => {
-  console.log("userData" + userData + "backendURl" + backendUrl)
+ 
+
   const { slug } = useParams();
   const [roomData, setRoomData] = useState({ name: '', participants: [] });
   const [userData, setUserData] = useState(null);
@@ -31,6 +32,7 @@ const RoomDetails = ({ backendUrl }) => {
   };
 
   const fetchRoomDetails = async () => {
+    console.log("Hre in fetch")
     setIsLoading(true);
     try {
       const response = await fetch(`${backendUrl}/api/room/rooms/${slug}/participants/`, {
@@ -79,6 +81,7 @@ const RoomDetails = ({ backendUrl }) => {
 
   return (
     <div className='bg-white rounded-lg shadow-md p-6'>
+      {console.log("Here in the  room details.")}
       <h1 className='text-2xl font-semibold text-gray-800 mb-4'>{roomData.name}</h1>
 
       <div className='mb-4'>

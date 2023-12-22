@@ -5,6 +5,8 @@ from room.models import ChatRoom, Message
 from .serializers import RoomSerializer, MessageSerializer, UserSerializer
 from api.user_api.decorators import require_authenticated_and_valid_token as valid_token 
 from django.contrib.auth.models import User
+import logging
+logger = logging.getLogger(__name__)
 
 @api_view(["GET", "POST"])
 @valid_token
@@ -139,29 +141,42 @@ def add_participant(request):
     
 @api_view(["POST", "GET"])
 @valid_token
-def room_participants(request):
-    slug = request.GET.get('slug')
+def room_participants(request, slug):  # Accept slug as a parameter from the URL path
+    logger.info("Accessed the room_participants view")
+    logger.info(f"Received slug: {slug}")
+
     try:
         room = ChatRoom.objects.get(slug=slug)
+        logger.info(f"Room found: {room}")
     except ChatRoom.DoesNotExist:
+        logger.error(f"Room with slug {slug} not found")
         return Response({
             "status": False,
             "message": "Room not found",
         }, status=404)
 
     participant_count = request.GET.get('participant_count', 0)
+    logger.info(f"Received participant_count: {participant_count}")
     try:
         participant_count = int(participant_count)
     except ValueError:
+        logger.warning(f"Invalid participant_count received: {participant_count}")
         participant_count = 0
 
     participants = room.participants.all()
+    logger.info(f"Total participants: {participants.count()}")
 
     start_index = participant_count
     end_index = start_index + 10
     selected_participants = participants[start_index:end_index]
+    logger.info(f"Selected participants from index {start_index} to {end_index}")
 
-    serializer = UserSerializer(selected_participants, many=True)
+    try:
+        serializer = UserSerializer(selected_participants, many=True)
+        logger.info("Serialization successful")
+    except Exception as e:
+        logger.error(f"Serialization failed: {e}")
+        raise
 
     return Response({
         "status": True,
