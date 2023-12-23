@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../redux/user/userSlice";
+
 import Header from "../landing/ui/header";
 
-export default function SignIn({ backendUrl, setIsAuthenticated, onSignInSuccess }) {
-  console.log("Backend URL:", backendUrl);
+export default function SignIn({
+  backendUrl,
+  setIsAuthenticated,
+  onSignInSuccess,
+}) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-
- 
 
   // Validate email format
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -35,36 +41,51 @@ export default function SignIn({ backendUrl, setIsAuthenticated, onSignInSuccess
       setIsLoading(false);
       return;
     }
-
-    const headers = {
-      "Content-Type": "application/json",
-    };
-
-    const formData = { username: email, password: password };
-
-    try {
-      const response = await fetch(`${backendUrl}/api/login`, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(formData),
-        credentials: "include", // Required for cookies
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log("success from sign in component")
+    // Dispatch the loginUser thunk action
+    dispatch(loginUser({ email, password, backendUrl }))
+      .unwrap()
+      .then(() => {
+        console.log("success from sign in component");
         onSignInSuccess();
         navigate("/welcome");
-      } else {
-        setErrorMessage(data.message || "Login failed. Please try again.");
-      }
-    } catch (error) {
-      setErrorMessage("An error occurred during login. Please try again.");
-      console.error("Login error:", error);
-    }
+      })
+      .catch((error) => {
+        setErrorMessage(error || "Login failed. Please try again.");
+        console.error("Login error:", error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
 
-    setIsLoading(false);
+    // const headers = {
+    //   "Content-Type": "application/json",
+    // };
+
+    // const formData = { username: email, password: password };
+
+    // try {
+    //   const response = await fetch(`${backendUrl}/api/login`, {
+    //     method: "POST",
+    //     headers: headers,
+    //     body: JSON.stringify(formData),
+    //     credentials: "include", // Required for cookies
+    //   });
+
+    //   const data = await response.json();
+
+    //   if (response.ok) {
+    //     console.log("success from sign in component");
+    //     onSignInSuccess();
+    //     navigate("/welcome");
+    //   } else {
+    //     setErrorMessage(data.message || "Login failed. Please try again.");
+    //   }
+    // } catch (error) {
+    //   setErrorMessage("An error occurred during login. Please try again.");
+    //   console.error("Login error:", error);
+    // }
+
+    // setIsLoading(false);
   };
 
   return (
@@ -82,32 +103,72 @@ export default function SignIn({ backendUrl, setIsAuthenticated, onSignInSuccess
             <div className="max-w-sm mx-auto">
               {/* Display error message */}
               {errorMessage && (
-                <div className="mb-4 text-center text-red-500">{errorMessage}</div>
+                <div className="mb-4 text-center text-red-500">
+                  {errorMessage}
+                </div>
               )}
 
               {/* Login Form */}
               <form onSubmit={handleSubmit}>
                 <div className="flex flex-wrap -mx-3 mb-4">
                   <div className="w-full px-3">
-                    <label className="block text-gray-500 text-sm font-medium mb-1" htmlFor="email">Email</label>
-                    <input id="email" type="email" className="form-input w-full" placeholder="you@yourcompany.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <label
+                      className="block text-gray-500 text-sm font-medium mb-1"
+                      htmlFor="email"
+                    >
+                      Email
+                    </label>
+                    <input
+                      id="email"
+                      type="email"
+                      className="form-input w-full"
+                      placeholder="you@yourcompany.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
                   </div>
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-4">
                   <div className="w-full px-3">
-                    <label className="block text-gray-500 text-sm font-medium mb-1" htmlFor="password">Password</label>
-                    <input id="password" type="password" className="form-input w-full" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <label
+                      className="block text-gray-500 text-sm font-medium mb-1"
+                      htmlFor="password"
+                    >
+                      Password
+                    </label>
+                    <input
+                      id="password"
+                      type="password"
+                      className="form-input w-full"
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
                   </div>
                 </div>
                 <div className="flex justify-between items-center mb-6">
                   <label className="flex items-center">
-                    <input type="checkbox" className="form-checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
+                    <input
+                      type="checkbox"
+                      className="form-checkbox"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                    />
                     <span className="text-sm ml-2">Remember me</span>
                   </label>
-                  <Link to="/forgot-password" className="text-sm text-blue-600 hover:underline">Forgot password?</Link>
+                  <Link
+                    to="/forgot-password"
+                    className="text-sm text-blue-600 hover:underline"
+                  >
+                    Forgot password?
+                  </Link>
                 </div>
-                <button type="submit" className="btn btn-primary w-full" disabled={isLoading}>
-                  {isLoading ? 'Signing in...' : 'Sign in'}
+                <button
+                  type="submit"
+                  className="btn btn-primary w-full"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Signing in..." : "Sign in"}
                 </button>
               </form>
             </div>

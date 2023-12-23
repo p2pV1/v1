@@ -4,7 +4,7 @@ import { Categories } from "./categories";
 
 export function Welcome({ userData }) {
   return (
-    <main className="flex flex-col items-center bg-gradient min-h-screen">
+    <main className="flex flex-col items-center min-h-screen">
       {userData ? (
         <div className="mt-20">
           <div className="max-w-sm w-64 mx-auto bg-white  shadow-xl hover:shadow flex items-center justify-center rounded-lg">
