@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 const Header = () => {
   // Accessing the user data from the Redux store
   const userEmail = useSelector((state) => state.user.userEmail);
-  console.log("Logged in user email from Redux store:", userEmail);
 
   return (
     <header className="bg-gray-800 text-white fixed top-0 left-0 right-0 z-50">
