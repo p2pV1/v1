@@ -18,6 +18,8 @@ const CreateRoom = ({ backendUrl }) => {
   const [description, setDescription] = useState("");
   const [isPrivate, setIsPrivate] = useState("no");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarRefreshKey, setSidebarRefreshKey] = useState(0);
+
   const apiUrl = "http://localhost:8080";
   // Function to handle room creation (to be implemented)
   const createRoom = async (e) => {
@@ -40,8 +42,15 @@ const CreateRoom = ({ backendUrl }) => {
         credentials: "include",
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (response.ok) {
+        setSidebarRefreshKey((prev) => {
+          const newKey = prev + 1;
+          console.log("Updating sidebarRefreshKey to:", newKey);
+          return newKey;
+        });
+      }
+      else {
+        console.error("Error creating room:", error);
       }
 
       const data = await response.json();

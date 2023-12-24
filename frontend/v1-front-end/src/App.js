@@ -26,6 +26,7 @@ function App() {
   const [userData, setUserData] = useState(null);
   const [loadingUserData, setLoadingUserData] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [sidebarRefreshKey, setSidebarRefreshKey] = useState(0);
   const backendUrl = 'http://localhost:8080' || 'https://backend-service-rojjrgeqna-ue.a.run.app';
 
   const handleSignInSuccess = () => {
@@ -67,7 +68,7 @@ function App() {
           <Route path="/rooms/:slug" element={<RoomDetail backendUrl={backendUrl} userData={userData} />} />
           <Route path="/rooms/:slug/chat" element={<MessageArea />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/create-room" element={<CreateRoom userData={userData} />} />
+          <Route path="/create-room" element={<CreateRoom userData={userData} setSidebarRefreshKey={setSidebarRefreshKey}/>} />
           <Route path="/signin" element={<SignIn backendUrl={backendUrl} setIsAuthenticated={setIsAuthenticated} onSignInSuccess={handleSignInSuccess} />} />
           <Route path="*" element={<p>Page Not Found</p>} />
         </Routes>
