@@ -141,10 +141,7 @@ def add_participant(request):
     
 @api_view(["POST", "GET"])
 @valid_token
-def room_participants(request, slug):  # Accept slug as a parameter from the URL path
-    logger.info("Accessed the room_participants view")
-    logger.info(f"Received slug: {slug}")
-
+def room_participants(request, slug):
     try:
         room = ChatRoom.objects.get(slug=slug)
         logger.info(f"Room found: {room}")
@@ -167,7 +164,7 @@ def room_participants(request, slug):  # Accept slug as a parameter from the URL
     logger.info(f"Total participants: {participants.count()}")
 
     start_index = participant_count
-    end_index = start_index + 10
+    end_index = start_index + 100
     selected_participants = participants[start_index:end_index]
     logger.info(f"Selected participants from index {start_index} to {end_index}")
 

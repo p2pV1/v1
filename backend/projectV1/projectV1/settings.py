@@ -2,34 +2,31 @@ import os
 import signal
 from pathlib import Path
 from decouple import config
-from decouple import config
-import logging
+# import logging
 
 # Configure logging
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-stream_handler = logging.StreamHandler()
-stream_handler.setFormatter(formatter)
-logger.addHandler(stream_handler)
+# logger = logging.getLogger(__name__)
+# logger.setLevel(logging.DEBUG)
+# formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# stream_handler = logging.StreamHandler()
+# stream_handler.setFormatter(formatter)
+# logger.addHandler(stream_handler)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-kg-kbz7^ve7!z@v0gmh9-nc^b9ek&ocn5b!h(%_s82a^dczx@2a')
 
-
-
 # Use client-side (browser) cache for session management
-SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+# SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 # Configure a unique name for the session cookie
-SESSION_COOKIE_NAME = 'pplendeverest'
+# SESSION_COOKIE_NAME = 'pplendeverest'
 
 # Optionally, set the session cookie age (duration) in seconds
-SESSION_COOKIE_AGE = 86400  # Set to 1 day (86400 seconds)
+# SESSION_COOKIE_AGE = 86400  # Set to 1 day (86400 seconds)
 
 # Set SESSION_COOKIE_SECURE to True if using HTTPS in production
-SESSION_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
 
 # SESSION_COOKIE_AGE = 172800
 
@@ -42,12 +39,14 @@ CORS_ALLOW_ALL_ORIGINS = True
 # Update the backend and frontend URLs
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://localhost:8080",
     "https://frontend-service-rojjrgeqna-ue.a.run.app",  # Update this URL
     "https://backend-service-rojjrgeqna-ue.a.run.app",  # Update this URL
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
+    "http://localhost:8080",
     "https://frontend-service-rojjrgeqna-ue.a.run.app",  # Update this URL
     "https://backend-service-rojjrgeqna-ue.a.run.app",  # Update this URL
     "https://frontend-service-rojjrgeqna-ue.a.run.app",  # Update this URL
@@ -82,8 +81,8 @@ CORS_ALLOW_HEADERS = [
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "rest_framework",
@@ -99,24 +98,24 @@ INSTALLED_APPS = [
 ]
 
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        '': {  # root logger
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         '': {  # root logger
+#             'handlers': ['console'],
+#             'level': 'INFO',
+#             'propagate': True,
+#         },
+#     },
+# }
 
-logger.debug("DJANGO_SETTINGS_MODULE: %s", os.environ.get("DJANGO_SETTINGS_MODULE"))
+# logger.debug("DJANGO_SETTINGS_MODULE: %s", os.environ.get("DJANGO_SETTINGS_MODULE"))
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -168,7 +167,7 @@ CHANNEL_LAYERS = {
 }
 
 # Specify the ASGI application (required for channels)
-ASGI_APPLICATION = 'projectV1.asgi.application'
+# ASGI_APPLICATION = 'projectV1.asgi.application'
 # Database config
 
 DATABASES = {
@@ -183,12 +182,12 @@ DATABASES = {
 }
 
 
-print("Database Configuration:")
-print(f"NAME: {DATABASES['default']['NAME']}")
-print(f"USER: {DATABASES['default']['USER']}")
-print(f"PASSWORD: {DATABASES['default']['PASSWORD']}")
-print(f"HOST: {DATABASES['default']['HOST']}")
-print(f"PORT: {DATABASES['default']['PORT']}")
+# print("Database Configuration:")
+# print(f"NAME: {DATABASES['default']['NAME']}")
+# print(f"USER: {DATABASES['default']['USER']}")
+# print(f"PASSWORD: {DATABASES['default']['PASSWORD']}")
+# print(f"HOST: {DATABASES['default']['HOST']}")
+# print(f"PORT: {DATABASES['default']['PORT']}")
 
 # Password validation
 # ...
@@ -215,7 +214,6 @@ TEMPLATE_DIRS = [
 
 REST_FRAMEWORK = {"DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",)}
 
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -224,8 +222,8 @@ EMAIL_HOST_USER = 'capstone0023@gmail.com'
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='rrft lujl hfez xkqr')  # Update this line
 
 
-SESSION_COOKIE_DOMAIN = '.a.run.app'
-
+# SESSION_COOKIE_DOMAIN = '.a.run.app'
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 GOOGLE_CLOUD_STORAGE_SETTINGS = {
     'GS_BUCKET_NAME': 'pplendbackend',  # Your bucket name
