@@ -10,15 +10,17 @@ const Sidebar = ({ refreshKey }) => {
       const apiUrl = "http://localhost:8080/api/room/rooms"; // Explicitly defined API URL
 
       try {
-        const response = await fetch(apiUrl, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            // Include any other necessary headers, such as Authorization
-          },
-          credentials: "include", // Include credentials for cross-origin requests
-        });
-
+        const response = await fetch(
+          `${backendUrl || "http://localhost:8080"}/api/room/rooms`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              // Include any other headers you need, like Authorization
+            },
+            credentials: "include", // Include credentials for cross-origin requests
+          }
+        );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
