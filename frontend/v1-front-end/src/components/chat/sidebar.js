@@ -11,7 +11,7 @@ const Sidebar = ({ refreshKey }) => {
 
       try {
         const response = await fetch(
-          `${backendUrl || "http://localhost:8080"}/api/room/rooms`,
+          `${"http://localhost:8080"}/api/room/rooms`,
           {
             method: "GET",
             headers: {
