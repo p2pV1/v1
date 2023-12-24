@@ -162,7 +162,7 @@ cython_debug/
 .DS_Store
 
 
-frontend/v1-frontend/node_modules
-frontend/v1-frontend/build
-frontend/v1-frontend/.env
+frontend/v1-front-end/node_modules
+frontend/v1-front-end/build
+frontend/v1-front-end/.env
 node_modules
