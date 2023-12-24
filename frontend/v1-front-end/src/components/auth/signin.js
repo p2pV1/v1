@@ -13,6 +13,7 @@ export default function SignIn({
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // State for form inputs and loading/error states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
@@ -44,8 +45,8 @@ export default function SignIn({
     // Dispatch the loginUser thunk action
     dispatch(loginUser({ email, password, backendUrl }))
       .unwrap()
-      .then(() => {
-        console.log("success from sign in component");
+      .then((user) => {
+        console.log("login success from sign in component", user);
         onSignInSuccess();
         navigate("/welcome");
       })

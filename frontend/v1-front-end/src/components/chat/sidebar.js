@@ -11,27 +11,28 @@ import { Link } from "react-router-dom";
 // "rooms/(room slug)/messages/" post to post new messages to room, get to get all messages from room
 // "rooms/participant/" POST room slug, user email to add new participants to the room.
 
-const Sidebar = ({backendUrl}) => {
+const Sidebar = ({ backendUrl }) => {
   // Static list of public group chats for demonstration.
-  // In a real application, you would fetch this data from a backend service.
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/room/rooms", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            // Include any other headers you need, like Authorization
-          },
-          credentials: "include", // Include credentials for cross-origin requests
-        });
+        const response = await fetch(
+          `${backendUrl || "http://localhost:8080"}/api/room/rooms`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              // Include any other headers you need, like Authorization
+            },
+            credentials: "include", // Include credentials for cross-origin requests
+          }
+        );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log("get rooms:", data);
         setRooms(data);
       } catch (error) {
         console.error("Error fetching public chats:", error);
@@ -39,9 +40,8 @@ const Sidebar = ({backendUrl}) => {
     };
 
     fetchRooms();
-  }, []);
+  }, [backendUrl]);
 
-  
   // Fetch room details from backend
   return (
     <aside className="w-64 bg-gray-800 h-screen overflow-auto">

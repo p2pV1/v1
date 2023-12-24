@@ -19,8 +19,8 @@ export function Welcome({ userData }) {
               </div>
               {/* Profile Name */}
               <div className="font-bold text-xl mb-2">{userData.id}</div>
-              {/* Username */}
-              <p className="text-gray-700 text-base">{userData.username}!</p>
+              {/* User Name */}
+              <div className="font-bold text-xl mb-2">{userData.username}</div>
               {/* Location */}
               <p className="text-gray-600 text-sm">{userData.email}</p>
             </div>
