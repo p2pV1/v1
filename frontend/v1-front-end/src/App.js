@@ -35,7 +35,9 @@ function App() {
     setIsAuthenticated(true);
     fetchUserData();
   };
+   const checkAuth = () => {
 
+   }
   const fetchUserData = () => {
     fetch(`${backendUrl}/api/user`, {
       method: "GET",
@@ -61,7 +63,8 @@ function App() {
     <Router>
       <ApolloProvider client={client}>
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route path="/" element={<Landing />} /> 
+          
           <Route path="/welcome" element={<Welcome userData={userData} />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/category/:categoryId" element={<Activities />} />
