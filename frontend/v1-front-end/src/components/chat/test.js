@@ -1,6 +1,8 @@
-import React from 'react';
+import React from "react";
+import { useSelector } from "react-redux";
 
-const HelloWorld = ({backendUrl}) => {
+const HelloWorld = () => {
+  const backendUrl = useSelector((state) => state.backendUrl);
   return (
     <div>
       Hello World

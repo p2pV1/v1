@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/user/userSlice";
 
 import Header from "../landing/ui/header";
 
-export default function SignIn({
-  backendUrl,
-  setIsAuthenticated,
-  onSignInSuccess,
-}) {
+export default function SignIn({ setIsAuthenticated, onSignInSuccess }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const backendUrl = useSelector((state) => state.backendUrl);
 
   // State for form inputs and loading/error states
   const [email, setEmail] = useState("");
@@ -46,8 +44,8 @@ export default function SignIn({
     dispatch(loginUser({ email, password, backendUrl }))
       .unwrap()
       .then((user) => {
-        console.log("login success from sign in component", user);
         onSignInSuccess();
+        setIsAuthenticated(true);
         navigate("/welcome");
       })
       .catch((error) => {

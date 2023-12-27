@@ -15,6 +15,14 @@ import RoomDetail from "./components/chat/roomdetails";
 import Test from "./components/chat/test";
 import MessageArea from "./components/chat/messagearea";
 import Page404 from "./components/landing/ui/page404";
+import { AuthProvider } from "./hooks/useAuth";
+import ProtectedRoute from "./components/ProtectedRoute";
+import useConfigureBackend from "./hooks/useConfigureBackend";
+import { useSelector } from "react-redux";
+
+// import AppLayout from "./components/AppLayout";
+// import AppLayout from "./components/AppLayout";
+// import ProtectedRoute from "./components/ProtectedRoute";
 
 // Apollo Client setup
 const client = new ApolloClient({
@@ -23,13 +31,15 @@ const client = new ApolloClient({
 });
 
 function App() {
+  useConfigureBackend();
   const [userData, setUserData] = useState(null);
   const [loadingUserData, setLoadingUserData] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [sidebarRefreshKey, setSidebarRefreshKey] = useState(0);
-  const backendUrl =
-    "http://localhost:8080" ||
-    "https://backend-service-rojjrgeqna-ue.a.run.app";
+  // const backendUrl =
+  //   "http://localhost:8080" ||
+  //   "https://backend-service-rojjrgeqna-ue.a.run.app";
+  const backendUrl = useSelector((state) => state.backendUrl);
 
   const handleSignInSuccess = () => {
     setIsAuthenticated(true);
@@ -58,35 +68,45 @@ function App() {
   };
 
   return (
+    // <AuthProvider backendUrl={backendUrl}>
     <Router>
       <ApolloProvider client={client}>
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/welcome" element={<Welcome userData={userData} />} />
-          <Route path="/categories" element={<Categories />} />
-          <Route path="/category/:categoryId" element={<Activities />} />
-          <Route path="/chat" element={<ChatApp />} />
-          <Route path="/rooms" element={<ChatApp />} />
-          <Route
-            path="/rooms/:slug"
-            element={<RoomDetail backendUrl={backendUrl} userData={userData} />}
-          />
-          <Route path="/rooms/:slug/chat" element={<MessageArea />} />
+          {/* <Route
+              path="/welcome"
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            > */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="welcome" element={<Welcome userData={userData} />} />
+            <Route path="categories" element={<Categories />} />
+            <Route path="category/:categoryId" element={<Activities />} />
+            <Route path="chat" element={<ChatApp />} />
+            <Route path="rooms" element={<ChatApp />} />
+            <Route
+              path="rooms/:slug"
+              element={<RoomDetail userData={userData} />}
+            />
+            <Route path="rooms/:slug/chat" element={<MessageArea />} />
+            <Route
+              path="create-room"
+              element={
+                <CreateRoom
+                  userData={userData}
+                  setSidebarRefreshKey={setSidebarRefreshKey}
+                />
+              }
+            />
+          </Route>
           <Route path="/signup" element={<SignUp />} />
-          <Route
-            path="/create-room"
-            element={
-              <CreateRoom
-                userData={userData}
-                setSidebarRefreshKey={setSidebarRefreshKey}
-              />
-            }
-          />
           <Route
             path="/signin"
             element={
               <SignIn
-                backendUrl={backendUrl}
                 setIsAuthenticated={setIsAuthenticated}
                 onSignInSuccess={handleSignInSuccess}
               />
@@ -96,6 +116,7 @@ function App() {
         </Routes>
       </ApolloProvider>
     </Router>
+    // </AuthProvider>
   );
 }
 

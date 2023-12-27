@@ -1,6 +1,5 @@
 // ChatArea.jsx
 import React from "react";
-import Header from "./header2";
 import MessageArea from "./messagearea";
 import InputArea from "./inputarea";
 

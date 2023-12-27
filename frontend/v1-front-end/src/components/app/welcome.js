@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Categories } from "./categories";
+import Uploadfile from "./uploadfile";
 
 export function Welcome({ userData }) {
   return (
@@ -42,6 +43,10 @@ export function Welcome({ userData }) {
         </div>
         {/* <Categories /> */}
       </div>
+      {/* <Uploadfile /> */}
+      {/* <div>
+        <p>Drop file below</p>
+      </div> */}
     </main>
   );
 }
