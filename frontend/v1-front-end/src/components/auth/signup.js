@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function SignUp() {
-  const backendUrl = useSelector((state) => state.backendUrl);
+  const { backendUrl } = useSelector((state) => state.backendUrl);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");

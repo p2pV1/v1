@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import MessageArea from "./messagearea";
 
 const RoomDetails = () => {
-  const backendUrl = useSelector((state) => state.backendUrl);
+  const { backendUrl } = useSelector((state) => state.backendUrl);
 
   const { slug } = useParams();
   const [roomData, setRoomData] = useState({ name: "", participants: [] });

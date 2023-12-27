@@ -9,7 +9,7 @@ const MessageArea = ({ userData }) => {
   const [newMessage, setNewMessage] = useState("");
   const [socket, setSocket] = useState(null);
 
-  const backendUrl = useSelector((state) => state.backendUrl);
+  const { backendUrl } = useSelector((state) => state.backendUrl);
   useEffect(() => {
     setIsLoading(true);
     fetchMessages(); // Fetch initial messages

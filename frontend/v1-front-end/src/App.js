@@ -39,7 +39,9 @@ function App() {
   // const backendUrl =
   //   "http://localhost:8080" ||
   //   "https://backend-service-rojjrgeqna-ue.a.run.app";
-  const backendUrl = useSelector((state) => state.backendUrl);
+  // const backendUrl = useSelector((state) => state.backendUrl);
+  const { backendUrl } = useSelector((state) => state.backendUrl);
+  console.log("backendUrl from App", backendUrl);
 
   const handleSignInSuccess = () => {
     setIsAuthenticated(true);

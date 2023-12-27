@@ -9,7 +9,9 @@ export default function SignIn({ setIsAuthenticated, onSignInSuccess }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const backendUrl = useSelector((state) => state.backendUrl);
+  const { backendUrl } = useSelector((state) => state.backendUrl);
+
+  console.log("backendUrl", backendUrl);
 
   // State for form inputs and loading/error states
   const [email, setEmail] = useState("");

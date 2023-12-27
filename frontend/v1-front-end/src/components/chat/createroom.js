@@ -21,7 +21,7 @@ const CreateRoom = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarRefreshKey, setSidebarRefreshKey] = useState(0);
 
-  const backendUrl = useSelector((state) => state.backendUrl);
+  const { backendUrl } = useSelector((state) => state.backendUrl);
   // Function to handle room creation (to be implemented)
   const createRoom = async (e) => {
     e.preventDefault();

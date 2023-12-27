@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
-  const backendUrl = useSelector((state) => state.backendUrl);
+  const { backendUrl } = useSelector((state) => state.backendUrl);
   console.log("backendUrl", backendUrl);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -37,7 +37,7 @@ function AuthProvider({ children }) {
 
   //   return { isAuthenticated, isLoading, error, logout };
   return (
-    <AuthContext.Provider value={(isAuthenticated, isLoading, error, logout)}>
+    <AuthContext.Provider value={{ isAuthenticated, isLoading, error, logout }}>
       {children}
     </AuthContext.Provider>
   );

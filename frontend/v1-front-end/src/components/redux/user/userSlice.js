@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 
-const backendUrl = useSelector((state) => state.backendUrl);
+// const {backendUrl} = useSelector((state) => state.backendUrl);
 
 const initialState = {
   userEmail: null,
