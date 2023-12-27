@@ -4,7 +4,7 @@ from django.utils import timezone
 
 
 class Room(models.Model):
-    host = models.OneToOneField(User, on_delete=models.CASCADE)
+    host = models.ManyToManyField(User)
     title = models.CharField(max_length=200)
     slug = models.CharField(max_length=250)
     description = models.TextField(blank=True)

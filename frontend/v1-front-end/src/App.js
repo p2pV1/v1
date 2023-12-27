@@ -45,7 +45,7 @@ function App() {
     setIsAuthenticated(true);
     fetchUserData();
   };
-
+  const checkAuth = () => {};
   const fetchUserData = () => {
     fetch(`${backendUrl}/api/user`, {
       method: "GET",
@@ -73,36 +73,27 @@ function App() {
       <ApolloProvider client={client}>
         <Routes>
           <Route path="/" element={<Landing />} />
-          {/* <Route
-              path="/welcome"
-              element={
-                <ProtectedRoute>
-                  <AppLayout />
-                </ProtectedRoute>
-              }
-            > */}
-          <Route element={<ProtectedRoute />}>
-            <Route path="welcome" element={<Welcome userData={userData} />} />
-            <Route path="categories" element={<Categories />} />
-            <Route path="category/:categoryId" element={<Activities />} />
-            <Route path="chat" element={<ChatApp />} />
-            <Route path="rooms" element={<ChatApp />} />
-            <Route
-              path="rooms/:slug"
-              element={<RoomDetail userData={userData} />}
-            />
-            <Route path="rooms/:slug/chat" element={<MessageArea />} />
-            <Route
-              path="create-room"
-              element={
-                <CreateRoom
-                  userData={userData}
-                  setSidebarRefreshKey={setSidebarRefreshKey}
-                />
-              }
-            />
-          </Route>
+
+          <Route path="/welcome" element={<Welcome userData={userData} />} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/category/:categoryId" element={<Activities />} />
+          <Route path="/chat" element={<ChatApp />} />
+          <Route path="/rooms" element={<ChatApp />} />
+          <Route
+            path="/rooms/:slug"
+            element={<RoomDetail backendUrl={backendUrl} userData={userData} />}
+          />
+          <Route path="/rooms/:slug/chat" element={<MessageArea />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/create-room"
+            element={
+              <CreateRoom
+                userData={userData}
+                setSidebarRefreshKey={setSidebarRefreshKey}
+              />
+            }
+          />
           <Route
             path="/signin"
             element={
