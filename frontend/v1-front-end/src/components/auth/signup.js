@@ -2,8 +2,11 @@ import { useState } from "react";
 
 import Header from "../landing/ui/header";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-export default function SignUp({ backendUrl }) {
+export default function SignUp() {
+  const { backendUrl } = useSelector((state) => state.backendUrl);
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -49,7 +52,6 @@ export default function SignUp({ backendUrl }) {
         const responseData = await response.json();
         const { token } = responseData.data; // Extract the token
 
-       
         headers.Authorization = `Token ${token}`;
         console.log("Signup successful!");
         navigate("/welcome");

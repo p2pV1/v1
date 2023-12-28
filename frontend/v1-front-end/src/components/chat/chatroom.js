@@ -1,7 +1,7 @@
 // src/components/ChatRoom.js
 import React from "react";
 
-const ChatRoom = ({backendUrl}) => {
+const ChatRoom = () => {
   // This component will be used for chatting within a room
   return (
     <div className="p-4">

@@ -1,5 +1,4 @@
 import React from "react";
-import Sidebar from "./sidebar2";
 import ChatArea from "./chatarea";
 
 const ChatApp = () => {

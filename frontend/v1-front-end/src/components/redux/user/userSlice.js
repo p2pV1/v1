@@ -1,5 +1,8 @@
 // userSlice.js inside your features/user directory
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
+
+// const {backendUrl} = useSelector((state) => state.backendUrl);
 
 const initialState = {
   userEmail: null,
@@ -11,6 +14,7 @@ const initialState = {
 export const loginUser = createAsyncThunk(
   "user/login",
   async ({ email, password, backendUrl }, { rejectWithValue }) => {
+    console.log("backendUrl user slice", backendUrl);
     try {
       const response = await fetch(`${backendUrl}/api/login`, {
         method: "POST",

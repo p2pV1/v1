@@ -17,8 +17,8 @@ from django.utils.timezone import now
 import logging
 from .mail import verification_token, send_verification_email, send_password_email
 
-import logging
-logger = logging.getLogger(__name__)
+# import logging
+# logger = logging.getLogger(__name__)
 
 @api_view(["GET"])
 def test(request):
@@ -37,12 +37,12 @@ def login_api(request):
     data = {"status": True, "message": "Login Successfull", "data": {"token": token}}
     #Create response object
 
-    logger.info("Request Headers: %s", request.headers)
+    # logger.info("Request Headers: %s", request.headers)
 
-    # Print some key headers   
-    logger.info("X-Forwarded-For: %s", request.headers.get('X-Forwarded-For'))
-    logger.info("X-Cloud-Trace-Context: %s", request.headers.get('X-Cloud-Trace-Context'))
-    logger.info("Host: %s", request.headers.get('Host'))
+    # # Print some key headers   
+    # logger.info("X-Forwarded-For: %s", request.headers.get('X-Forwarded-For'))
+    # logger.info("X-Cloud-Trace-Context: %s", request.headers.get('X-Cloud-Trace-Context'))
+    # logger.info("Host: %s", request.headers.get('Host'))
 
     response = Response(data, status=200)
 
@@ -79,6 +79,7 @@ def login_api(request):
 def get_user_data(request):
     user = request.user
     profile = Profile.objects.get(user=user)
+    group_names = list(user.groups.values_list('name', flat=True))
     data = {
         "status": True,
         "message": "Authenticated user info",
@@ -87,6 +88,7 @@ def get_user_data(request):
             "username": user.username,
             "email": user.email,
             "phone": profile.phone,
+            "group": group_names,
         },
     }
 

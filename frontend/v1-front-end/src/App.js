@@ -14,6 +14,14 @@ import CreateRoom from "./components/chat/createroom";
 import RoomDetail from "./components/chat/roomdetails";
 import MessageArea from "./components/chat/messagearea";
 import Page404 from "./components/landing/ui/page404";
+import { AuthProvider } from "./hooks/useAuth";
+import ProtectedRoute from "./components/ProtectedRoute";
+import useConfigureBackend from "./hooks/useConfigureBackend";
+import { useSelector } from "react-redux";
+
+// import AppLayout from "./components/AppLayout";
+// import AppLayout from "./components/AppLayout";
+// import ProtectedRoute from "./components/ProtectedRoute";
 
 // Apollo Client setup
 const client = new ApolloClient({
@@ -22,21 +30,23 @@ const client = new ApolloClient({
 });
 
 function App() {
+  useConfigureBackend();
   const [userData, setUserData] = useState(null);
   const [loadingUserData, setLoadingUserData] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [sidebarRefreshKey, setSidebarRefreshKey] = useState(0);
-  const backendUrl =
-    "http://localhost:8080" ||
-    "https://backend-service-rojjrgeqna-ue.a.run.app";
+  // const backendUrl =
+  //   "http://localhost:8080" ||
+  //   "https://backend-service-rojjrgeqna-ue.a.run.app";
+  // const backendUrl = useSelector((state) => state.backendUrl);
+  const { backendUrl } = useSelector((state) => state.backendUrl);
+  console.log("backendUrl from App", backendUrl);
 
   const handleSignInSuccess = () => {
     setIsAuthenticated(true);
     fetchUserData();
   };
-   const checkAuth = () => {
-
-   }
+  const checkAuth = () => {};
   const fetchUserData = () => {
     fetch(`${backendUrl}/api/user`, {
       method: "GET",
@@ -59,11 +69,12 @@ function App() {
   };
 
   return (
+    // <AuthProvider backendUrl={backendUrl}>
     <Router>
       <ApolloProvider client={client}>
         <Routes>
-          <Route path="/" element={<Landing />} /> 
-          
+          <Route path="/" element={<Landing />} />
+
           <Route path="/welcome" element={<Welcome userData={userData} />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/category/:categoryId" element={<Activities />} />
@@ -88,7 +99,6 @@ function App() {
             path="/signin"
             element={
               <SignIn
-                backendUrl={backendUrl}
                 setIsAuthenticated={setIsAuthenticated}
                 onSignInSuccess={handleSignInSuccess}
               />
@@ -98,6 +108,7 @@ function App() {
         </Routes>
       </ApolloProvider>
     </Router>
+    // </AuthProvider>
   );
 }
 
