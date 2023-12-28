@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 // Import your components here
@@ -19,10 +24,7 @@ import { AuthProvider } from "./hooks/useAuth";
 import ProtectedRoute from "./components/ProtectedRoute";
 import useConfigureBackend from "./hooks/useConfigureBackend";
 import { useSelector } from "react-redux";
-
-// import AppLayout from "./components/AppLayout";
-// import AppLayout from "./components/AppLayout";
-// import ProtectedRoute from "./components/ProtectedRoute";
+import AppLayout from "./components/AppLayout";
 
 // Apollo Client setup
 const client = new ApolloClient({
@@ -70,46 +72,65 @@ function App() {
   };
 
   return (
-    // <AuthProvider backendUrl={backendUrl}>
-    <Router>
-      <ApolloProvider client={client}>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-
-          <Route path="/welcome" element={<Welcome userData={userData} />} />
-          <Route path="/categories" element={<Categories />} />
-          <Route path="/category/:categoryId" element={<Activities />} />
-          <Route path="/chat" element={<ChatApp />} />
-          <Route path="/rooms" element={<ChatApp />} />
-          <Route
-            path="/rooms/:slug"
-            element={<RoomDetail backendUrl={backendUrl} userData={userData} />}
-          />
-          <Route path="/rooms/:slug/chat" element={<MessageArea />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route
-            path="/create-room"
-            element={
-              <CreateRoom
-                userData={userData}
-                setSidebarRefreshKey={setSidebarRefreshKey}
+    <AuthProvider>
+      <Router>
+        <ApolloProvider client={client}>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            {/* Protect routes using ProtectedRoute */}
+            <Route
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route
+                index
+                path="/welcome"
+                element={<Navigate replace to="/welcome" />}
               />
-            }
-          />
-          <Route
-            path="/signin"
-            element={
-              <SignIn
-                setIsAuthenticated={setIsAuthenticated}
-                onSignInSuccess={handleSignInSuccess}
+              <Route
+                path="/welcome"
+                element={<Welcome userData={userData} />}
               />
-            }
-          />
-          <Route path="*" element={<Page404 />} />
-        </Routes>
-      </ApolloProvider>
-    </Router>
-    // </AuthProvider>
+              <Route path="/categories" element={<Categories />} />
+              <Route path="/category/:categoryId" element={<Activities />} />
+              <Route path="/chat" element={<ChatApp />} />
+              <Route path="/rooms" element={<ChatApp />} />
+              <Route
+                path="/rooms/:slug"
+                element={
+                  <RoomDetail backendUrl={backendUrl} userData={userData} />
+                }
+              />
+              <Route path="/rooms/:slug/chat" element={<MessageArea />} />
+              <Route
+                path="/create-room"
+                element={
+                  <CreateRoom
+                    userData={userData}
+                    setSidebarRefreshKey={setSidebarRefreshKey}
+                  />
+                }
+              />
+            </Route>
+            {/* Public routes */}
+            <Route path="/signup" element={<SignUp />} />
+            <Route
+              path="/signin"
+              element={
+                <SignIn
+                  setIsAuthenticated={setIsAuthenticated}
+                  onSignInSuccess={handleSignInSuccess}
+                />
+              }
+            />
+            <Route path="*" element={<Page404 />} />
+          </Routes>
+        </ApolloProvider>
+      </Router>
+    </AuthProvider>
   );
 }
 

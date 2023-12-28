@@ -11,8 +11,6 @@ export default function SignIn({ setIsAuthenticated, onSignInSuccess }) {
 
   const { backendUrl } = useSelector((state) => state.backendUrl);
 
-  console.log("backendUrl", backendUrl);
-
   // State for form inputs and loading/error states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

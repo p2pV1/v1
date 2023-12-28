@@ -1,14 +1,20 @@
-// ProtectedRoute.js
-import React from "react";
-import { Outlet, Route, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
-const ProtectedRoute = () => {
-  const { isAuthenticated, isLoading, error, logout } = useAuth();
-  console.log("isAuthenticated", isAuthenticated);
+const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
-  return isAuthenticated ? <Outlet /> : navigate("/signin");
+  console.log("isAuthenticated", isAuthenticated);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/signin");
+    }
+  }, [isAuthenticated, navigate]);
+
+  return isAuthenticated ? children : null;
 };
 
 export default ProtectedRoute;

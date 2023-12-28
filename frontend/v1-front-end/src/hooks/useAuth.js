@@ -6,29 +6,40 @@ const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   const { backendUrl } = useSelector((state) => state.backendUrl);
-  console.log("backendUrl", backendUrl);
+
+  console.log("backendUrl from AuthProvider", backendUrl);
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(`${backendUrl}/api/is_authenticated`)
+
+    fetch(`${backendUrl}/api/is_authenticated`, {
+      method: "GET",
+      credentials: "include",
+    })
       .then((res) => {
-        if (!res.ok) throw new Error("Authentication check failed");
-        console.log("res data: ", res.json());
+        console.log("Response status:", res.status);
+        if (!res.ok)
+          throw new Error(
+            `Authentication check failed with status ${res.status}`
+          );
         return res.json();
       })
       .then((data) => {
-        setIsAuthenticated(data.isAuthenticated);
+        console.log("auth data", data);
+        setIsAuthenticated(data.status);
         setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error checking auth:", error);
+        setIsAuthenticated(false);
         setError(error);
         setIsLoading(false);
       });
-  }, []);
+  }, [backendUrl]);
 
   const logout = () => {
     // Implement logout logic with your backend
