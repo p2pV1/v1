@@ -2,7 +2,6 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import { useSelector } from "react-redux";
 import { persistor } from "../store";
-import localStorage from "redux-persist/es/storage";
 
 const AuthContext = createContext();
 
@@ -45,7 +44,6 @@ function AuthProvider({ children }) {
 
   const logout = () => {
     persistor.purge();
-    localStorage.removeItem("persist:root");
     localStorage.removeItem("persist:root");
     setIsAuthenticated(false);
   };
