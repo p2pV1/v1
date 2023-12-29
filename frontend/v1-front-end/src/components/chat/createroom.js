@@ -4,14 +4,7 @@ import Sidebar from "./sidebar";
 import Header from "./header";
 import { useSelector } from "react-redux";
 
-// path('rooms/', views.room_list_create),
-//     path('rooms/<int:slug>/', views.room_detail),
-//     path('rooms/<slug:slug>/messages/', views.message_list_create),
-//     path('rooms/participant/', views.add_participant),
-// "rooms" -GET to get list of rooms/ POST to create new rooms
-// "rooms/(room slug)" to get the room details
-// "rooms/(room slug)/messages/" post to post new messages to room, get to get all messages from room
-// "rooms/participant/" POST room slug, user email to add new participants to the room.
+
 
 const CreateRoom = () => {
   // State hooks for room details
