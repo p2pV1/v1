@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import Spinner from "../components/landing/ui/fullpagespinner";
 
@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children }) => {
 
   if (isLoading) return <Spinner />;
 
-  if (!isAuthenticated) return null;
+  if (!isAuthenticated) return <Navigate to="/signin" replace />;
 
   return children;
 };
