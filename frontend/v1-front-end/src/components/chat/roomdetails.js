@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import MessageArea from "./messagearea";
+import { useSelector } from "react-redux";
 
 const RoomDetails = () => {
   const { backendUrl } = useSelector((state) => state.backendUrl);
