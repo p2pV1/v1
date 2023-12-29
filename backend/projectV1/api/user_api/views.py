@@ -95,15 +95,26 @@ def get_user_data(request):
     return Response(data, status=200)
 
 @api_view(["GET"])
-@valid_token
 def is_authenticated(request):
-    data = {
-        "status": True,
-        "message": "Authenticated user",
-        "data": None
-    }
+    # Assuming you have some way to validate the token, e.g., a decorator
+    if not request.user.is_authenticated:
+        return Response(
+            {
+                "status": False,
+                "message": "Unauthenticated - token invalid or not found",
+                "data": None
+            },
+            status=401  # Unauthorized
+        )
 
-    return Response(data, status=200)
+    return Response(
+        {
+            "status": True,
+            "message": "Authenticated user",
+            "data": None  # or include user data if needed
+        },
+        status=200
+    )
 
 @api_view(["POST"])
 @valid_token
