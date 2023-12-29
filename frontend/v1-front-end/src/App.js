@@ -48,7 +48,6 @@ function App() {
     setIsAuthenticated(true);
     fetchUserData();
   };
-  const checkAuth = () => {};
   const fetchUserData = () => {
     fetch(`${backendUrl}/api/user`, {
       method: "GET",
@@ -84,11 +83,7 @@ function App() {
                 </ProtectedRoute>
               }
             >
-              <Route
-                index
-                path="/welcome"
-                element={<Navigate replace to="/welcome" />}
-              />
+              {/* <Route index element={<Navigate replace to="/" />} /> */}
               <Route
                 path="/welcome"
                 element={<Welcome userData={userData} />}
