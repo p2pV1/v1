@@ -2,11 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Categories } from "./categories";
 import Uploadfile from "./uploadfile";
+import { useSelector } from "react-redux";
 
-export function Welcome({ userData }) {
+export function Welcome() {
+  const userEmail = useSelector((state) => state.user.userEmail);
   return (
     <main className="flex flex-col items-center min-h-screen">
-      {userData ? (
+      {userEmail ? (
         <div className="mt-20">
           <div className="max-w-sm w-64 mx-auto bg-white  shadow-xl hover:shadow flex items-center justify-center rounded-lg">
             <div className="px-6 py-4 text-center">
@@ -19,11 +21,11 @@ export function Welcome({ userData }) {
                 />
               </div>
               {/* Profile Name */}
-              <div className="font-bold text-xl mb-2">{userData.id}</div>
+              <div className="font-bold text-xl mb-2">X</div>
               {/* User Name */}
-              <div className="font-bold text-xl mb-2">{userData.username}</div>
+              <div className="font-bold text-xl mb-2">XXX</div>
               {/* Location */}
-              <p className="text-gray-600 text-sm">{userData.email}</p>
+              <p className="text-gray-600 text-sm">{userEmail}</p>
             </div>
           </div>
         </div>
