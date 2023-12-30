@@ -6,7 +6,7 @@ const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   // Retrieve the backendUrl from the Redux store
-  const backendUrl = useSelector((state) => state.backendUrl);
+  const { backendUrl }  = useSelector((state) => state.backendUrl);
   console.log("backendURl in auth" + backendUrl)
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);

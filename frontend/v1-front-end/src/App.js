@@ -8,13 +8,17 @@ import { AuthProvider } from "./hooks/useAuth";
 import useConfigureBackend from "./hooks/useConfigureBackend";
 import MainContent from "./MainContent"; // Import the new component
 
+const client = new ApolloClient({
+  uri: "https://swapi-graphql.netlify.app/.netlify/functions/index",
+  cache: new InMemoryCache(),
+});
 
 function App() {
   useConfigureBackend();
 
   return (
     <AuthProvider>
-      <ApolloProvider >
+      <ApolloProvider client={client}>
         <Router>
           <MainContent /> 
         </Router>

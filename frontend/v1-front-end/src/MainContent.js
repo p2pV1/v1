@@ -22,7 +22,7 @@ import SignUp from "./components/auth/signup";
 export default function MainContent() {
   const { isAuthenticated, isLoading, error } = useAuth();
   const { backendUrl } = useSelector((state) => state.backendUrl);
-  console.log("backend in Main Content " + backendUrl )
+
   // Handle loading and error states
   if (isLoading) {
     return <div>Loading...</div>;
