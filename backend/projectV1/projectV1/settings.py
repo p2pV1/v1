@@ -14,6 +14,8 @@ from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-kg-kbz7^ve7!z@v0gmh9-nc^b9ek&ocn5b!h(%_s82a^dczx@2a')
 
 # Use client-side (browser) cache for session management
@@ -39,6 +41,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 # Update the backend and frontend URLs
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://localhost:3000/",
     "http://localhost:8080",
     "https://frontend-service-rojjrgeqna-ue.a.run.app",  # Update this URL
     "https://backend-service-rojjrgeqna-ue.a.run.app",  # Update this URL
@@ -46,6 +49,7 @@ CORS_ALLOWED_ORIGINS = [
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
+    "http://localhost:3000/",
     "http://localhost:8080",
     "https://frontend-service-rojjrgeqna-ue.a.run.app",  # Update this URL
     "https://backend-service-rojjrgeqna-ue.a.run.app",  # Update this URL

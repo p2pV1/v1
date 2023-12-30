@@ -48,7 +48,10 @@ export default function MainContent() {
         <Route path="/category/:categoryId" element={<Activities />} />
         <Route path="/chat" element={<ChatApp />} />
         <Route path="/rooms" element={<ChatApp />} />
-        <Route path="/rooms/:slug" element={<RoomDetail backendUrl={backendUrl} />} />
+        <Route
+          path="/rooms/:slug"
+          element={<RoomDetail backendUrl={backendUrl} />}
+        />
         <Route path="/rooms/:slug/chat" element={<MessageArea />} />
         <Route path="/create-room" element={<CreateRoom />} />
       </Route>

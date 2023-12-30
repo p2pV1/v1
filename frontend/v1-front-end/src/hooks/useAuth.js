@@ -19,6 +19,9 @@ function AuthProvider({ children }) {
 
     fetch(`${backendUrl}/api/is_authenticated`, {
       method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
       credentials: "include",
     })
       .then((res) => {
@@ -56,6 +59,7 @@ function AuthProvider({ children }) {
   }, [backendUrl]); // Add backendUrl as a dependency
 
   const logout = () => {
+    alert("logout callled");
     persistor.purge();
     localStorage.removeItem("persist:root");
     setIsAuthenticated(false);
