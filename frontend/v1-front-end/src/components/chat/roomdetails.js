@@ -15,6 +15,9 @@ const RoomDetails = () => {
   const fetchUserData = () => {
     fetch(`${backendUrl}/api/user`, {
       method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
       credentials: "include",
     })
       .then((response) => {
