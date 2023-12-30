@@ -21,7 +21,6 @@ const MessageArea = ({ userData }) => {
       const ws = new WebSocket(wsUrl);
 
       ws.onopen = () => {
-        console.log("WebSocket connected");
         setIsLoading(false);
       };
 
