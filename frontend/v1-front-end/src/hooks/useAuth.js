@@ -59,7 +59,6 @@ function AuthProvider({ children }) {
   }, [backendUrl]); // Add backendUrl as a dependency
 
   const logout = () => {
-    alert("logout callled");
     persistor.purge();
     localStorage.removeItem("persist:root");
     setIsAuthenticated(false);

@@ -24,7 +24,7 @@ class AuthenticationMiddleware(MiddlewareMixin):
             auth_token = request.COOKIES.get('auth_token')
             if not auth_token:
                 logger.warning("Unauthorized access attempt - no token found")
-                return JsonResponse({"status": False, "message": "Unauthorized - token not found"}, status=401)
+                return JsonResponse({"status": False, "message": "Unauthorized - token not found","data": None}, status=401)
             
             # Attach the token to the request header
             request.META['HTTP_AUTHORIZATION'] = f"Token {auth_token}"
@@ -37,10 +37,10 @@ class AuthenticationMiddleware(MiddlewareMixin):
                 request.user, auth_token = user_auth_tuple
             else:
                 logger.warning("Invalid token used for authentication")
-                return JsonResponse({"status": False, "message": "Invalid token"}, status=401)
+                return JsonResponse({"status": False, "message": "Invalid token","data": None}, status=401)
 
             return None
 
         except Exception as e:
             logger.error(f"Error in AuthenticationMiddleware: {str(e)}")
-            return JsonResponse({"status": False, "message": "Internal Server Error"}, status=500)
+            return JsonResponse({"status": False, "message": "Internal Server Error","data": None}, status=500)
