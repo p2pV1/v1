@@ -35,7 +35,7 @@ export default function MainContent() {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
-      {/* Protect routes using ProtectedRoute */}
+     
       <Route
         element={
           <ProtectedRoute isAuthenticated={isAuthenticated}>
