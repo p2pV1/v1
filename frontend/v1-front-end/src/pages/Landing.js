@@ -1,4 +1,4 @@
-import Reveal from "./Reveal";
+import Reveal from "../components/landing/Reveal";
 
 // const Header = lazy(() => import("./ui/header"));
 // const Main = lazy(() => import("./ui/main"));
@@ -10,15 +10,15 @@ import Reveal from "./Reveal";
 // const Newsletter = lazy(() => import("./ui/newsletter"));
 // const Footer = lazy(() => import("./ui/footer"));
 
-import Header from "./ui/header";
-import Main from "./ui/main";
-import HeroSection from "./ui/hero";
-import FeaturesSection from "./ui/features";
-import ZigzagSection from "./ui/zigzag";
-import Faq from "./ui/faq";
-import TestimonialsSection from "./ui/testimonials";
-import Newsletter from "./ui/newsletter";
-import Footer from "./ui/footer";
+import Header from "../components/landing/ui/header";
+import Main from "../components/landing/ui/main";
+import HeroSection from "../components/landing/ui/hero";
+import FeaturesSection from "../components/landing/ui/features";
+import ZigzagSection from "../components/landing/ui/zigzag";
+import Faq from "../components/landing/ui/faq";
+import TestimonialsSection from "../components/landing/ui/testimonials";
+import Newsletter from "../components/landing/ui/newsletter";
+import Footer from "../components/landing/ui/footer";
 
 // ... import other sections
 

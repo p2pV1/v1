@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import Header from "../landing/ui/header";
+import Header from "../../components/landing/ui/header";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
