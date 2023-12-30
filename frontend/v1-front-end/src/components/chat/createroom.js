@@ -39,6 +39,8 @@ const CreateRoom = () => {
       if (response.ok) {
         setSidebarRefreshKey((prev) => {
           const newKey = prev + 1;
+          setName("");
+          setDescription("");
           console.log("Updating sidebarRefreshKey to:", newKey);
           return newKey;
         });
@@ -62,9 +64,8 @@ const CreateRoom = () => {
         {/* Hamburger Icon and Sidebar */}
         <div className={`relative md:hidden ${sidebarOpen ? "z-40" : "z-20"}`}>
           <button
-            className={`absolute p-4 text-purple-800 transform top-0 md:top-auto transition-all duration-300 ease-in-out ${
-              sidebarOpen ? "translate-x-64" : "translate-x-0"
-            }`}
+            className={`absolute p-4 text-purple-800 transform top-0 md:top-auto transition-all duration-300 ease-in-out ${sidebarOpen ? "translate-x-64" : "translate-x-0"
+              }`}
             onClick={() => setSidebarOpen(!sidebarOpen)}
           >
             <svg
@@ -85,11 +86,10 @@ const CreateRoom = () => {
           </button>
         </div>
         <div
-          className={`transform bg-gray-800 fixed overflow-auto ease-in-out transition-all duration-300 z-30 ${
-            sidebarOpen ? "translate-x-0 top-16" : "-translate-x-full top-0"
-          } md:relative md:translate-x-0 w-64 h-screen`}
+          className={`transform bg-gray-800 fixed overflow-auto ease-in-out transition-all duration-300 z-30 ${sidebarOpen ? "translate-x-0 top-16" : "-translate-x-full top-0"
+            } md:relative md:translate-x-0 w-64 h-screen`}
         >
-          <Sidebar backendUrl={backendUrl} />
+          <Sidebar refreshKey={sidebarRefreshKey} backendUrl={backendUrl} />
         </div>
         {/* Overlay for small screens when sidebar is open */}
         {sidebarOpen && (
