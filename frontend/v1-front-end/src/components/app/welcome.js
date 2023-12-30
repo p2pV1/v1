@@ -1,23 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Categories } from "./categories";
-import Uploadfile from "./uploadfile";
 import { useSelector } from "react-redux";
+
+import avatar from "../../assets/avatars/avatar_1_mainprofile.svg";
 
 export function Welcome() {
   const userEmail = useSelector((state) => state.user.userEmail);
   return (
-    <main className="flex flex-col items-center min-h-screen">
+    <main className="">
       {userEmail ? (
-        <div className="mt-20">
-          <div className="max-w-sm w-64 mx-auto bg-white  shadow-xl hover:shadow flex items-center justify-center rounded-lg">
+        <div className="mt-40">
+          <div className=" max-w-sm w-64 mx-auto bg-white  shadow-xl hover:shadow flex items-center justify-center rounded-lg">
             <div className="px-6 py-4 text-center">
               <div className="mb-4 border-b">
                 {/* Profile Image */}
                 <img
                   className="w-24 h-24 mx-auto rounded-full -mt-20 border-8 border-white"
-                  src="https://avatars.githubusercontent.com/u/67946056?v=4"
-                  alt="Profile"
+                  src={avatar}
+                  alt="Profile Image"
                 />
               </div>
               {/* Profile Name */}

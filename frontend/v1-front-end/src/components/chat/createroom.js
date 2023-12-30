@@ -4,8 +4,6 @@ import Sidebar from "./sidebar";
 import Header from "./header";
 import { useSelector } from "react-redux";
 
-
-
 const CreateRoom = () => {
   // State hooks for room details
   const [name, setName] = useState("");
@@ -56,8 +54,7 @@ const CreateRoom = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen ">
-      <Header />
+    <div className="flex flex-col min-h-screen">
       <div className="flex flex-1 pt-16">
         {/* Hamburger Icon and Sidebar */}
         <div className={`relative md:hidden ${sidebarOpen ? "z-40" : "z-20"}`}>

@@ -3,14 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { loginUser } from "../redux/user/userSlice";
-import { useAuth } from "../../hooks/useAuth"; // Ensure this path is correct
 
 import Header from "../landing/ui/header";
 
 export default function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated, setIsAuthenticated } = useAuth(); // Ensure useAuth is properly implemented
+
   const { backendUrl } = useSelector((state) => state.backendUrl);
 
   // State for form inputs and loading/error states
@@ -34,8 +33,8 @@ export default function SignIn() {
       return;
     }
 
-    if (password.length < 3) {
-      setErrorMessage("Password must be at least 3 characters long.");
+    if (password.length < 4) {
+      setErrorMessage("Password must be at least 4 characters long.");
       setIsLoading(false);
       return;
     }
@@ -43,14 +42,10 @@ export default function SignIn() {
     // Dispatch the loginUser thunk action
     dispatch(loginUser({ email, password, backendUrl }))
       .unwrap()
-      .then(() => {
-        if (typeof setIsAuthenticated === "function") {
-          setIsAuthenticated(true); // Ensure setIsAuthenticated is a function
-          navigate("/welcome");
-        } else {
-          console.error("setIsAuthenticated is not a function");
-          setErrorMessage("An unexpected error occurred. Please try again.");
-        }
+      .then((user) => {
+        onSignInSuccess();
+        setIsAuthenticated(true);
+        navigate("/welcome");
       })
       .catch((error) => {
         const message = error.message || "Login failed. Please try again.";
