@@ -5,19 +5,19 @@ import { useAuth } from "./hooks/useAuth";
 import { useSelector } from "react-redux";
 
 // Import your components here
-import Landing from "./components/landing/Landing";
-import { Welcome } from "./components/app/welcome";
-import { Categories } from "./components/app/categories";
-import { Activities } from "./components/app/activities";
-import ChatApp from "./components/chat/chatapp";
+import Landing from "./pages/Landing";
+import { Welcome } from "./pages/app/welcome";
+import { Categories } from "./pages/app/categories";
+import { Activities } from "./pages/app/activities";
+import ChatApp from "./pages/chat/chatapp";
 import CreateRoom from "./components/chat/createroom";
 import RoomDetail from "./components/chat/roomdetails";
 import MessageArea from "./components/chat/messagearea";
 import Page404 from "./components/landing/ui/page404";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AppLayout from "./components/AppLayout";
-import SignIn from "./components/auth/signin";
-import SignUp from "./components/auth/signup";
+import SignIn from "./pages/auth/signin";
+import SignUp from "./pages/auth/signup";
 
 export default function MainContent() {
   const { isAuthenticated, isLoading, error } = useAuth();

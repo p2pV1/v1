@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+<<<<<<< HEAD:frontend/v1-front-end/src/components/auth/signin.js
 
 import { loginUser } from "../redux/user/userSlice";
+=======
+import { loginUser } from "../../components/redux/user/userSlice";
+>>>>>>> 13ccd38fac2402f3499af4f9d9c8b347c8c1eba4:frontend/v1-front-end/src/pages/auth/signin.js
 import { useAuth } from "../../hooks/useAuth"; // Ensure this path is correct
 
-import Header from "../landing/ui/header";
+import Header from "../../components/landing/ui/header";
 
 export default function SignIn() {
   const dispatch = useDispatch();
