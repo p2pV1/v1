@@ -51,18 +51,22 @@ def login_api(request):
 
     origin = request.META.get('HTTP_ORIGIN')
 
-# Calculate the max age (7 days in seconds)
+    # Calculate the max age (7 days in seconds)
     max_age_seconds = 7 * 24 * 60 * 60
 
-# Define common cookie attributes
+    # Define common cookie attributes
     cookie_attributes = {
-        'httponly': True,
-        'secure': True,
         'samesite': 'Lax' if origin and origin.startswith('http://localhost') else 'None',
         'domain': 'localhost' if origin and origin.startswith('http://localhost') else 'backend-service-rojjrgeqna-ue.a.run.app',
         'path': '/',  # Specify the desired path for the cookie
         'max_age': max_age_seconds,
     }
+
+    # Conditionally set httponly and secure
+    if not (origin and origin.startswith('http://localhost')):
+        cookie_attributes['httponly'] = True
+        cookie_attributes['secure'] = True
+
 
     response.set_cookie('auth_token', token, **cookie_attributes)
 
@@ -91,18 +95,8 @@ def get_user_data(request):
     return Response(data, status=200)
 
 @api_view(["GET"])
+@valid_token
 def is_authenticated(request):
-    # Assuming you have some way to validate the token, e.g., a decorator
-    if not request.user.is_authenticated:
-        return Response(
-            {
-                "status": False,
-                "message": "Unauthenticated - token invalid or not found",
-                "data": None
-            },
-            status=401  # Unauthorized
-        )
-
     return Response(
         {
             "status": True,

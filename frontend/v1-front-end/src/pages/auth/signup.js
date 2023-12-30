@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import Header from "../landing/ui/header";
+import Header from "../../components/landing/ui/header";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -133,7 +133,7 @@ export default function SignUp() {
                       id="firstName"
                       type="text"
                       className="py-3 px-4 placeholder-gray-400 w-full text-gray-700 rounded-sm bg-transparent border border-gray-700 focus:border-gray-500"
-                      placeholder="John"
+                      placeholder="Enter your first name"
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
                     />
@@ -151,7 +151,7 @@ export default function SignUp() {
                       id="lastName"
                       type="text"
                       className="py-3 px-4 placeholder-gray-400 w-full text-gray-700 rounded-sm bg-transparent border border-gray-700 focus:border-gray-500"
-                      placeholder="Doe"
+                      placeholder="Enter your last name"
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
                     />
@@ -169,7 +169,7 @@ export default function SignUp() {
                       id="email"
                       type="email"
                       className="py-3 px-4 placeholder-gray-400 w-full text-gray-700 rounded-sm bg-transparent border border-gray-700 focus:border-gray-500"
-                      placeholder="you@yourcompany.com"
+                      placeholder="Enter your email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -187,7 +187,7 @@ export default function SignUp() {
                       id="password"
                       type="password"
                       className="py-3 px-4 placeholder-gray-400 w-full text-gray-700 rounded-sm bg-transparent border border-gray-700 focus:border-gray-500"
-                      placeholder="Password (at least 10 characters)"
+                      placeholder="Enter your password (at least 10 characters)"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
@@ -205,7 +205,7 @@ export default function SignUp() {
                       id="phone-number"
                       type="tel"
                       className="py-3 px-4 placeholder-gray-400 w-full text-gray-700 rounded-sm bg-transparent border border-gray-700 focus:border-gray-500"
-                      placeholder="Phone Number (+1 234 567 8900)"
+                      placeholder="Enter your phone Number (+1 234 567 8900)"
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
                       required

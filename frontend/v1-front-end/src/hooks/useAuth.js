@@ -20,6 +20,9 @@ function AuthProvider({ children }) {
 
     fetch(`${backendUrl}/api/is_authenticated`, {
       method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
       credentials: "include",
     })
       .then((res) => {
