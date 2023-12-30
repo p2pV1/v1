@@ -101,7 +101,7 @@ def is_authenticated(request):
         {
             "status": True,
             "message": "Authenticated user",
-            "data": request.user  # or include user data if needed
+            "data": None  # or include user data if needed
         },
         status=200
     )
