@@ -8,6 +8,8 @@ function AuthProvider({ children }) {
   // Retrieve the backendUrl from the Redux store
   const { backendUrl } = useSelector((state) => state.backendUrl);
 
+  console.log("backendUrl useAuth " + backendUrl);
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
