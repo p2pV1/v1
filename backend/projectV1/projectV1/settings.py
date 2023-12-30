@@ -19,7 +19,7 @@ SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-kg-kbz7^ve7!z@v0gmh9-nc^b9ek&ocn5b!h(%_s82a^dczx@2a')
 
 # Use client-side (browser) cache for session management
-# SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 # Configure a unique name for the session cookie
 # SESSION_COOKIE_NAME = 'pplendeverest'
@@ -30,7 +30,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-kg-kbz7^ve7!z@v0gmh9-
 # Set SESSION_COOKIE_SECURE to True if using HTTPS in production
 # SESSION_COOKIE_SECURE = True
 
-# SESSION_COOKIE_AGE = 172800
+# SESSION_COOKIE_AGE = 172800``
 
 DEBUG = True
 
