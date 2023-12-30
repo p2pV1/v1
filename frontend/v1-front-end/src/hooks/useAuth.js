@@ -1,20 +1,20 @@
-// useAuth.js
-import { useState, useEffect, createContext, useContext } from "react";
+import { useState, useEffect, createContext, useContext, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { persistor } from "../store";
 
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
-  const { backendUrl } = useSelector((state) => state.backendUrl);
-
-  console.log("backendUrl from AuthProvider", backendUrl);
+  // Retrieve the backendUrl from the Redux store
+  const backendUrl = useSelector((state) => state.backendUrl);
+  console.log("backendURl in auth" + backendUrl)
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    let isMounted = true; // Flag to track mounted state
     setIsLoading(true);
 
     fetch(`${backendUrl}/api/is_authenticated`, {
@@ -22,35 +22,57 @@ function AuthProvider({ children }) {
       credentials: "include",
     })
       .then((res) => {
-        console.log("Response status:", res.status);
-        if (!res.ok)
-          throw new Error(
-            `Authentication check failed with status ${res.status}`
-          );
-        return res.json();
+        if (!isMounted) return; // Prevent update if component was unmounted
+        if (res.status === 401) {
+          setIsAuthenticated(false);
+          setError(null);
+        } else if (!res.ok) {
+          throw new Error(`Authentication check failed with status ${res.status}`);
+        } else {
+          return res.json();
+        }
       })
       .then((data) => {
-        console.log("auth data", data);
-        setIsAuthenticated(data.status);
-        setIsLoading(false);
+        if (!isMounted) return;
+        if (data) {
+          setIsAuthenticated(data.status);
+        }
       })
       .catch((error) => {
-        console.error("Error checking auth:", error);
+        if (!isMounted) return;
+        console.error("Error during authentication check:", error);
         setIsAuthenticated(false);
-        setError(error);
+        setError(error.message || "An error occurred during authentication.");
+      })
+      .finally(() => {
+        if (!isMounted) return;
         setIsLoading(false);
       });
-  }, [backendUrl]);
+
+    // Cleanup function to set isMounted to false when the component unmounts
+    return () => {
+      isMounted = false;
+    };
+  }, [backendUrl]); // Add backendUrl as a dependency
 
   const logout = () => {
     persistor.purge();
     localStorage.removeItem("persist:root");
     setIsAuthenticated(false);
+    setError(null);
   };
 
-  //   return { isAuthenticated, isLoading, error, logout };
+  // Memoize the context value to prevent unnecessary re-renders
+  const contextValue = useMemo(() => ({
+    isAuthenticated,
+    setIsAuthenticated,
+    isLoading,
+    error,
+    logout,
+  }), [isAuthenticated, isLoading, error]);
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, isLoading, error, logout }}>
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );

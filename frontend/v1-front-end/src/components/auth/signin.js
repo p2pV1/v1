@@ -2,89 +2,59 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/user/userSlice";
+import { useAuth } from "../../hooks/useAuth"; // Ensure this path is correct
 
 import Header from "../landing/ui/header";
 
-export default function SignIn({ setIsAuthenticated, onSignInSuccess }) {
+export default function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const { isAuthenticated, setIsAuthenticated } = useAuth(); // Ensure useAuth is properly implemented
   const { backendUrl } = useSelector((state) => state.backendUrl);
 
-  // State for form inputs and loading/error states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Validate email format
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Clear previous error messages
     setErrorMessage("");
     setIsLoading(true);
 
-    // Basic validation
     if (!validateEmail(email)) {
       setErrorMessage("Invalid email format.");
       setIsLoading(false);
       return;
     }
 
-    if (password.length < 2) {
-      setErrorMessage("Password must be at least 10 characters long.");
+    if (password.length < 3) {
+      setErrorMessage("Password must be at least 3 characters long.");
       setIsLoading(false);
       return;
     }
-    // Dispatch the loginUser thunk action
+
     dispatch(loginUser({ email, password, backendUrl }))
       .unwrap()
-      .then((user) => {
-        onSignInSuccess();
-        setIsAuthenticated(true);
-        navigate("/welcome");
+      .then(() => {
+        if (typeof setIsAuthenticated === 'function') {
+          setIsAuthenticated(true); // Ensure setIsAuthenticated is a function
+          navigate("/welcome");
+        } else {
+          console.error("setIsAuthenticated is not a function");
+          setErrorMessage("An unexpected error occurred. Please try again.");
+        }
       })
       .catch((error) => {
-        setErrorMessage(error || "Login failed. Please try again.");
-        console.error("Login error:", error);
+        const message = error.message || "Login failed. Please try again.";
+        setErrorMessage(message);
       })
       .finally(() => {
         setIsLoading(false);
       });
-
-    // const headers = {
-    //   "Content-Type": "application/json",
-    // };
-
-    // const formData = { username: email, password: password };
-
-    // try {
-    //   const response = await fetch(`${backendUrl}/api/login`, {
-    //     method: "POST",
-    //     headers: headers,
-    //     body: JSON.stringify(formData),
-    //     credentials: "include", // Required for cookies
-    //   });
-
-    //   const data = await response.json();
-
-    //   if (response.ok) {
-    //     console.log("success from sign in component");
-    //     onSignInSuccess();
-    //     navigate("/welcome");
-    //   } else {
-    //     setErrorMessage(data.message || "Login failed. Please try again.");
-    //   }
-    // } catch (error) {
-    //   setErrorMessage("An error occurred during login. Please try again.");
-    //   console.error("Login error:", error);
-    // }
-
-    // setIsLoading(false);
   };
 
   return (
@@ -100,14 +70,12 @@ export default function SignIn({ setIsAuthenticated, onSignInSuccess }) {
             </div>
 
             <div className="max-w-sm mx-auto">
-              {/* Display error message */}
               {errorMessage && (
                 <div className="mb-4 text-center text-red-500">
                   {errorMessage}
                 </div>
               )}
 
-              {/* Login Form */}
               <form onSubmit={handleSubmit}>
                 <div className="flex flex-wrap -mx-3 mb-4">
                   <div className="w-full px-3">
