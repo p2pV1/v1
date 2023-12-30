@@ -50,28 +50,28 @@ def login_api(request):
     # Ensure the Secure and SameSite attributes are set correctly
 
     origin = request.META.get('HTTP_ORIGIN')
-    if origin and origin.startswith('http://localhost'):
-        response.set_cookie(
-            'auth_token', 
-            token, 
-            httponly=True, 
-            secure=True, 
-            max_age=7*24*60*60, 
-            samesite='Lax', 
-            domain='localhost'
-        )
-    else:
-        response.set_cookie(
-            'auth_token', 
-            token, 
-            httponly=True, 
-            secure=True, 
-            max_age=7*24*60*60, 
-            samesite='None', 
-            domain='backend-service-rojjrgeqna-ue.a.run.app'
-        )
 
-        response["Access-Control-Allow-Credentials"] = "true"
+    # Calculate the max age (7 days in seconds)
+    max_age_seconds = 7 * 24 * 60 * 60
+
+    # Define common cookie attributes
+    cookie_attributes = {
+        'samesite': 'Lax' if origin and origin.startswith('http://localhost') else 'None',
+        'domain': 'localhost' if origin and origin.startswith('http://localhost') else 'backend-service-rojjrgeqna-ue.a.run.app',
+        'path': '/',  # Specify the desired path for the cookie
+        'max_age': max_age_seconds,
+    }
+
+    # Conditionally set httponly and secure
+    if not (origin and origin.startswith('http://localhost')):
+        cookie_attributes['httponly'] = True
+        cookie_attributes['secure'] = True
+
+
+    response.set_cookie('auth_token', token, **cookie_attributes)
+
+    response["Access-Control-Allow-Credentials"] = "true"
+
     return response
 
 @api_view(["GET"])
