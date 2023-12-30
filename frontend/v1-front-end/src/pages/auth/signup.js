@@ -1,13 +1,8 @@
 import { useState } from "react";
-<<<<<<< HEAD:frontend/v1-front-end/src/components/auth/signup.js
-=======
 
 import Header from "../../components/landing/ui/header";
->>>>>>> 13ccd38fac2402f3499af4f9d9c8b347c8c1eba4:frontend/v1-front-end/src/pages/auth/signup.js
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-
-import Header from "../landing/ui/header";
 
 export default function SignUp() {
   const { backendUrl } = useSelector((state) => state.backendUrl);
