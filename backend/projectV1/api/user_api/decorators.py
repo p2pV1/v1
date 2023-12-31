@@ -49,4 +49,3 @@ def require_authenticated_and_valid_token(view_func):
             )
 
     return _wrapped_view
-
