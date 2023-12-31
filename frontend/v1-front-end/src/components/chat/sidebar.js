@@ -2,25 +2,27 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+
 const Sidebar = ({ refreshKey }) => {
   const [rooms, setRooms] = useState([]);
-
+  // Use the useSelector hook to access the backendURL from the Redux store
+  const { backendUrl } = useSelector((state) => state.backendUrl);
+  console.log("backendUrl for sidebar" + backendUrl);
   useEffect(() => {
     const fetchRooms = async () => {
-      const apiUrl = "http://localhost:8080/api/room/rooms"; // Explicitly defined API URL
+      // Use the backendURL from Redux instead of a hardcoded value
+      const apiUrl = `${backendUrl}/api/room/rooms`;
 
       try {
-        const response = await fetch(
-          `${"http://localhost:8080"}/api/room/rooms`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              // Include any other headers you need, like Authorization
-            },
-            credentials: "include", // Include credentials for cross-origin requests
-          }
-        );
+        const response = await fetch(apiUrl, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // Include any other headers you need, like Authorization
+          },
+          credentials: "include", // Include credentials for cross-origin requests
+        });
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -33,9 +35,8 @@ const Sidebar = ({ refreshKey }) => {
       }
     };
 
-    // Call fetchRooms when the component mounts and when refreshKey changes
     fetchRooms();
-  }, [refreshKey]); // Depend on refreshKey
+  }, [refreshKey, backendUrl]); // Depend on refreshKey
 
   return (
     <aside className="w-64 bg-gray-800 h-screen overflow-auto">
