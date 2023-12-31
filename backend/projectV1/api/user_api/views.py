@@ -110,7 +110,7 @@ def is_authenticated(request):
 @valid_token
 def logout(request):
     token = request.GET.get('token')
-    data = {"status": True, "message": "Login Successfull", "data": {"token": token}}
+    data = {"status": True, "message": "Logout Successful", "data": {"token": token}}
     #Create response object
     response = Response(data, status=200)
     origin = request.META.get('HTTP_ORIGIN')
