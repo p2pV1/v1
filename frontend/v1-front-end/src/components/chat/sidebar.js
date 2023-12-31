@@ -8,7 +8,7 @@ const Sidebar = ({ refreshKey }) => {
   const [rooms, setRooms] = useState([]);
   // Use the useSelector hook to access the backendURL from the Redux store
   const { backendUrl } = useSelector((state) => state.backendUrl);
-  console.log("backendUrl for sidebar" + backendUrl);
+
   useEffect(() => {
     const fetchRooms = async () => {
       // Use the backendURL from Redux instead of a hardcoded value

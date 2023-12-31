@@ -36,9 +36,7 @@ export default function SignUp() {
       },
     };
 
-    const apiUrl = backendUrl
-      ? `${backendUrl}/api/register`
-      : "http://localhost:8080/api/register";
+    const apiUrl = `${backendUrl}/api/register`;
 
     try {
       const response = await fetch(apiUrl, {
