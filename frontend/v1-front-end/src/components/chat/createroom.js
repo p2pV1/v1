@@ -39,7 +39,6 @@ const CreateRoom = () => {
           const newKey = prev + 1;
           setName("");
           setDescription("");
-          console.log("Updating sidebarRefreshKey to:", newKey);
           return newKey;
         });
       } else {
@@ -47,7 +46,6 @@ const CreateRoom = () => {
       }
 
       const data = await response.json();
-      console.log("Room created:", data);
       // Handle response or redirect the user to the created room page
     } catch (error) {
       console.error("Error creating room:", error);
@@ -61,8 +59,9 @@ const CreateRoom = () => {
         {/* Hamburger Icon and Sidebar */}
         <div className={`relative md:hidden ${sidebarOpen ? "z-40" : "z-20"}`}>
           <button
-            className={`absolute p-4 text-purple-800 transform top-0 md:top-auto transition-all duration-300 ease-in-out ${sidebarOpen ? "translate-x-64" : "translate-x-0"
-              }`}
+            className={`absolute p-4 text-purple-800 transform top-0 md:top-auto transition-all duration-300 ease-in-out ${
+              sidebarOpen ? "translate-x-64" : "translate-x-0"
+            }`}
             onClick={() => setSidebarOpen(!sidebarOpen)}
           >
             <svg
@@ -83,8 +82,9 @@ const CreateRoom = () => {
           </button>
         </div>
         <div
-          className={`transform bg-gray-800 fixed overflow-auto ease-in-out transition-all duration-300 z-30 ${sidebarOpen ? "translate-x-0 top-16" : "-translate-x-full top-0"
-            } md:relative md:translate-x-0 w-64 h-screen`}
+          className={`transform bg-gray-800 fixed overflow-auto ease-in-out transition-all duration-300 z-30 ${
+            sidebarOpen ? "translate-x-0 top-16" : "-translate-x-full top-0"
+          } md:relative md:translate-x-0 w-64 h-screen`}
         >
           <Sidebar refreshKey={sidebarRefreshKey} backendUrl={backendUrl} />
         </div>

@@ -95,7 +95,6 @@ def get_user_data(request):
     return Response(data, status=200)
 
 @api_view(["GET"])
-@valid_token
 def is_authenticated(request):
     return Response(
         {

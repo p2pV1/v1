@@ -46,7 +46,6 @@ function AuthProvider({ children }) {
       })
       .catch((error) => {
         if (!isMounted) return;
-        console.error("Error during authentication check:", error);
         setIsAuthenticated(false);
         setError(error.message || "An error occurred during authentication.");
       })
@@ -62,7 +61,6 @@ function AuthProvider({ children }) {
   }, [backendUrl]); // Add backendUrl as a dependency
 
   const logout = () => {
-    alert("logout callled");
     setIsLoading(true); // Indicate the start of a logout process
 
     // Call the backend logout endpoint
@@ -86,7 +84,6 @@ function AuthProvider({ children }) {
         setError(null);
       })
       .catch((error) => {
-        console.error("Logout failed:", error);
         setError(error.message || "Failed to log out properly.");
       })
       .finally(() => {
