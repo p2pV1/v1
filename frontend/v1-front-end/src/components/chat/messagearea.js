@@ -16,10 +16,11 @@ const MessageArea = ({ userData }) => {
 
     // Initialize WebSocket connection if not already connected
     if (!socket) {
-      const protocol = backendUrl.startsWith("https") ? "wss" : "ws";
-      const wsUrl = `${protocol}://${"localhost:8080"}/ws/room/${slug}/`;
-      const ws = new WebSocket(wsUrl);
+      const parsedUrl = new URL(backendUrl);
+      const protocol = parsedUrl.protocol === "https:" ? "wss" : "ws";
+      const wsUrl = `${protocol}://${parsedUrl.host}/ws/room/${slug}/`;
 
+      const ws = new WebSocket(wsUrl);
       ws.onopen = () => {
         setIsLoading(false);
       };
