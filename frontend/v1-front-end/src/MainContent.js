@@ -9,6 +9,8 @@ import Landing from "./pages/Landing";
 import { Welcome } from "./pages/app/welcome";
 import { Categories } from "./pages/app/categories";
 import { Activities } from "./pages/app/activities";
+import { Navigate } from "react-router-dom";
+
 import ChatApp from "./pages/chat/chatapp";
 import CreateRoom from "./components/chat/createroom";
 import RoomDetail from "./components/chat/roomdetails";
@@ -23,6 +25,15 @@ export default function MainContent() {
   const { isAuthenticated, isLoading, error } = useAuth();
   const { backendUrl } = useSelector((state) => state.backendUrl);
 
+  const RedirectIfAuthenticated = ({ isAuthenticated, children }) => {
+    if (isAuthenticated) {
+      // Redirect them to the /welcome page if they are authenticated
+      return <Navigate to="/welcome" replace />;
+    }
+
+    return children; // Otherwise, render the children components normally
+  };
+
   // Handle loading and error states
   if (isLoading) {
     return <div>Loading...</div>;
@@ -35,7 +46,7 @@ export default function MainContent() {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
-     
+
       <Route
         element={
           <ProtectedRoute isAuthenticated={isAuthenticated}>
@@ -56,8 +67,22 @@ export default function MainContent() {
         <Route path="/create-room" element={<CreateRoom />} />
       </Route>
       {/* Public routes */}
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/signin" element={<SignIn />} />
+      <Route
+        path="/signup"
+        element={
+          <RedirectIfAuthenticated isAuthenticated={isAuthenticated}>
+            <SignUp />
+          </RedirectIfAuthenticated>
+        }
+      />
+      <Route
+        path="/signin"
+        element={
+          <RedirectIfAuthenticated isAuthenticated={isAuthenticated}>
+            <SignIn />
+          </RedirectIfAuthenticated>
+        }
+      />
       <Route path="*" element={<Page404 />} />
     </Routes>
   );

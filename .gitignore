@@ -59,7 +59,7 @@ cover/
 *.log
 local_settings.py
 
-
+.vscode
 # Flask stuff:
 instance/
 .webassets-cache
